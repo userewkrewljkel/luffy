@@ -6,6 +6,6 @@
 window.LUFFY_CONFIG = {
   version: "3.8.1",
   beta: true,
-  downloadUrl: "",
+  downloadUrl: "https://github.com/userewkrewljkel/luffy/releases/download/3.8.1/LUFFY-v3.8.1.exe",
   donationUrl: ""
 };
