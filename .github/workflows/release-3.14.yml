@@ -1,0 +1,49 @@
+name: Release LUFFY 3.14 beta
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/release-3.14.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-3.14
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.ref == 'refs/heads/main'
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Build portable Windows executable
+        shell: pwsh
+        run: |
+          [xml]$project = Get-Content app/LufsTaskbarMeter.csproj
+          if ($project.Project.PropertyGroup.Version -ne '3.14.0') { throw 'Unexpected source version' }
+          dotnet publish app/LufsTaskbarMeter.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o artifacts/release
+          if ($LASTEXITCODE -ne 0) { throw 'Publish failed' }
+          $exe = 'artifacts/release/LUFFY-v3.14.exe'
+          if (!(Test-Path $exe)) { throw 'Executable missing' }
+          $hash = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  LUFFY-v3.14.exe" | Set-Content artifacts/release/SHA256SUMS.txt -Encoding ascii
+      - name: Upload draft and publish beta
+        shell: pwsh
+        run: |
+          gh release create 3.14 artifacts/release/LUFFY-v3.14.exe artifacts/release/SHA256SUMS.txt --draft --prerelease --target $env:GITHUB_SHA --title 'LUFFY v3.14 Beta' --notes-file docs/releases/3.14.md
+          if ($LASTEXITCODE -ne 0) { throw 'Release creation failed; existing releases are never overwritten' }
+          gh release edit 3.14 --draft=false --prerelease
+          if ($LASTEXITCODE -ne 0) { throw 'Publishing failed; inspect the draft release' }
