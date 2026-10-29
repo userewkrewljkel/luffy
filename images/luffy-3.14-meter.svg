@@ -1,15 +1,36 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="760" height="240" viewBox="0 0 760 240" role="img" aria-labelledby="title desc">
-  <title id="title">LUFFY 3.14 meter illustration</title>
-  <desc id="desc">A red screen-edge warning surrounds the compact meter when True Peak exceeds the selected limit. Example readings and controls.</desc>
-  <rect x="3" y="3" width="754" height="234" rx="2" fill="none" stroke="#f16d64" stroke-width="3"/>
-  <rect x="20" y="73" width="720" height="94" rx="12" fill="#23252a" stroke="#484b52"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="520" viewBox="0 0 760 520" role="img" aria-labelledby="title desc">
+  <title id="title">LUFFY True Peak warning around an entire monitor</title>
+  <desc id="desc">A desktop monitor with a stand shows an audio workspace and a small LUFFY meter at the bottom. The red warning follows all four edges of the whole display, outside the application windows.</desc>
+  <!-- Physical monitor and stand distinguish the display from an app window. -->
+  <path d="M346 448H414L426 488H334Z" fill="#303237" stroke="#4a4c51"/>
+  <rect x="264" y="487" width="232" height="12" rx="5" fill="#3c3e43"/>
+  <rect x="20" y="18" width="720" height="434" rx="13" fill="#25272b" stroke="#55585e" stroke-width="2"/>
+  <rect x="35" y="33" width="690" height="394" fill="#111316"/>
+  <circle cx="380" cy="439" r="2" fill="#72777e"/>
+  <!-- A generic audio workspace sits well inside the display edges. -->
   <g font-family="Segoe UI,Arial,sans-serif">
-    <text x="21" y="35" fill="#f49d96" font-size="16">True Peak warning</text>
-    <text x="380" y="100" text-anchor="middle" fill="#aeb4bf" font-size="14">LUFFY v3.14</text>
-    <g fill="#46494f"><rect x="43" y="119" width="5" height="27"/><rect x="52" y="119" width="5" height="27"/></g>
-    <g fill="#bfd8ad"><rect x="43" y="123" width="5" height="23"/><rect x="52" y="130" width="5" height="16"/></g>
-    <g font-size="24" font-weight="600"><text x="77" y="141" fill="#bfd8ad">I −13.8</text><text x="205" y="141" fill="#e6e7e5">S −18.7</text><text x="341" y="141" fill="#f49d96">TP −0.4</text><text x="481" y="141" fill="#e6e7e5">1:58</text></g>
-    <g fill="#e6e7e5"><rect x="576" y="121" width="4" height="20"/><rect x="585" y="121" width="4" height="20"/></g>
-    <text x="618" y="144" fill="#e6e7e5" font-size="30">↻</text><text x="683" y="141" fill="#e6e7e5" font-size="27">⚙</text>
+    <rect x="77" y="72" width="606" height="256" rx="4" fill="#24272d" stroke="#42464e"/>
+    <path d="M81 72H679Q683 72 683 76V101H77V76Q77 72 81 72" fill="#30343b"/>
+    <text x="94" y="91" fill="#b9bdc5" font-size="13">Audio workspace</text>
+    <path d="M649 82l8 8m0-8-8 8" stroke="#8e949d"/>
+    <rect x="78" y="102" width="107" height="225" fill="#202329"/>
+    <g fill="#969ca6" font-size="11"><text x="94" y="144">Track 1</text><text x="94" y="208">Track 2</text><text x="94" y="272">Track 3</text></g>
+    <g stroke="#353a43" fill="none"><path d="M186 119H682M186 181H682M186 245H682M186 308H682"/><path d="M247 102V327M309 102V327M371 102V327M433 102V327M495 102V327M557 102V327M619 102V327"/></g>
+    <rect x="202" y="129" width="366" height="39" rx="2" fill="#3b4d46"/>
+    <path d="M212 149h8l5-7 5 15 5-21 5 22 5-11 5 6 5-12 5 16 5-18 5 19 5-9h12l5-14 5 25 5-30 5 26 5-12 5 8 5-14 5 19 5-11h16l5-7 5 13 5-19 5 21 5-12 5 7h18l5-8 5 12 5-16 5 17 5-10h20l5-4 5 8 5-11 5 12 5-5h25" fill="none" stroke="#9fb9a7" stroke-width="1.5"/>
+    <rect x="293" y="194" width="324" height="38" rx="2" fill="#404a5c"/>
+    <path d="M303 213h17l5-6 5 14 5-17 5 16 5-10 5 6 5-10 5 14 5-15 5 16 5-9h17l5-8 5 18 5-24 5 25 5-15 5 8 5-11 5 16 5-10h20l5-6 5 13 5-17 5 17 5-9h20l5-5 5 10 5-12 5 11 5-5h24" fill="none" stroke="#a0aec5" stroke-width="1.5"/>
+    <rect x="225" y="258" width="242" height="37" rx="2" fill="#51483d"/>
+    <path d="M235 277h15l4-8 4 15 4-19 4 20 4-10 4 5h20l4-11 4 17 4-22 4 24 4-13 4 8h28l4-7 4 11 4-16 4 16 4-8h34" fill="none" stroke="#c1b397" stroke-width="1.5"/>
+    <path d="M493 111V317" stroke="#d7d9dd" stroke-opacity=".65"/>
+    <!-- LUFFY is a small separate window, not the container for the red frame. -->
+    <rect x="157" y="357" width="446" height="48" rx="7" fill="#292c32" stroke="#50545d"/>
+    <text x="380" y="372" text-anchor="middle" fill="#b0b6c0" font-size="9">LUFFY v3.14</text>
+    <g fill="#bfd8ad"><rect x="171" y="382" width="3" height="12"/><rect x="177" y="386" width="3" height="8"/></g>
+    <g font-size="13" font-weight="600"><text x="191" y="393" fill="#bfd8ad">I −13.8</text><text x="267" y="393" fill="#e6e7e5">S −18.7</text><text x="348" y="393" fill="#f49d96">TP −0.4</text><text x="435" y="393" fill="#e6e7e5">1:58</text></g>
+    <g fill="#e6e7e5"><rect x="493" y="382" width="3" height="11"/><rect x="499" y="382" width="3" height="11"/></g>
+    <text x="528" y="395" fill="#e6e7e5" font-size="19">↻</text><text x="571" y="393" fill="#e6e7e5" font-size="17">⚙</text>
   </g>
+  <!-- Warning follows the entire active display, not the meter or workspace. -->
+  <rect x="38" y="36" width="684" height="388" rx="1" fill="none" stroke="#f16d64" stroke-width="5"/>
 </svg>
