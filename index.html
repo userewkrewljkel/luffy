@@ -10,10 +10,11 @@
   <meta property="og:title" content="LUFFY — Windows loudness meter">
   <meta property="og:description" content="A free loudness meter by Andreas Busk. Download the Windows beta.">
   <link rel="icon" type="image/svg+xml" href="luffy-paw.svg">
-  <link rel="stylesheet" href="styles.css?v=3.14-2">
+  <link rel="stylesheet" href="styles.css?v=3.14-3">
   <title>LUFFY — Windows loudness meter</title>
   <script src="config.js?v=3.14" defer></script>
   <script src="app.js?v=3.14" defer></script>
+  <script src="demo.js?v=1" defer></script>
 </head>
 <body>
   <div class="shell">
@@ -32,7 +33,30 @@
           <p class="download-meta"><span id="download-message" role="status">Download from the release page below.</span> · Windows x64</p>
           <p class="release-links"><a href="https://github.com/userewkrewljkel/luffy/releases/tag/3.14">Release notes</a><a href="https://github.com/userewkrewljkel/luffy/releases/download/3.14/SHA256SUMS.txt">SHA-256 checksum</a><a href="https://github.com/userewkrewljkel/luffy">Source code</a></p>
         </div>
-        <figure class="hero-figure"><img src="images/luffy-3.14-meter.svg?v=4" width="760" height="520" alt="Illustration of an entire desktop monitor: a red True Peak warning runs along all four display edges, while LUFFY sits in a small window at the bottom."><figcaption>When True Peak exceeds your limit, the red warning runs around the entire screen. Illustration.</figcaption></figure>
+        <figure class="hero-figure peak-demo" id="peak-demo"><svg class="peak-demo-screen" xmlns="http://www.w3.org/2000/svg" width="760" height="520" viewBox="0 0 760 520" role="img" aria-labelledby="demo-title demo-desc">
+  <title id="demo-title">LUFFY True Peak warning around an entire monitor</title>
+  <desc id="demo-desc">A neutral desktop monitor with a small LUFFY meter at the bottom. The red warning follows all four display edges when True Peak crosses the limit.</desc>
+  <!-- Physical monitor and stand distinguish the display from an app window. -->
+  <path d="M346 448H414L426 488H334Z" fill="#303237" stroke="#4a4c51"/>
+  <rect x="264" y="487" width="232" height="12" rx="5" fill="#3c3e43"/>
+  <rect x="20" y="18" width="720" height="434" rx="13" fill="#25272b" stroke="#55585e" stroke-width="2"/>
+  <rect x="35" y="33" width="690" height="394" fill="#111316"/>
+  <circle cx="380" cy="439" r="2" fill="#72777e"/>
+  <g font-family="Segoe UI,Arial,sans-serif">
+    <!-- LUFFY is a small separate window, not the container for the red frame. -->
+    <rect x="157" y="357" width="446" height="48" rx="7" fill="#292c32" stroke="#50545d"/>
+    <text x="380" y="372" text-anchor="middle" fill="#b0b6c0" font-size="9">LUFFY v3.14</text>
+    <g fill="#bfd8ad"><rect x="171" y="382" width="3" height="12"/><rect x="177" y="386" width="3" height="8"/></g>
+    <g font-size="13" font-weight="600"><text x="191" y="393" fill="#bfd8ad">I −13.8</text><text x="267" y="393" fill="#e6e7e5">S −18.7</text><text class="demo-normal" x="348" y="393" fill="#e6e7e5">TP −2.8</text><text class="demo-peak" x="348" y="393" fill="#f49d96">TP −0.4</text><text x="435" y="393" fill="#e6e7e5">1:58</text></g>
+    <g fill="#e6e7e5"><rect x="493" y="382" width="3" height="11"/><rect x="499" y="382" width="3" height="11"/></g>
+    <text x="528" y="395" fill="#e6e7e5" font-size="19">↻</text><text x="571" y="393" fill="#e6e7e5" font-size="17">⚙</text>
+  </g>
+  <text class="demo-normal demo-state" x="62" y="77">Monitoring</text>
+  <text class="demo-peak demo-state" x="62" y="77">True Peak warning</text>
+  <!-- Warning follows the entire active display, not the meter or workspace. -->
+  <rect class="demo-peak" x="38" y="36" width="684" height="388" rx="1" fill="none" stroke="#f16d64" stroke-width="5"/>
+</svg>
+<figcaption><span>A small meter during normal use. A full-screen border when True Peak exceeds your limit. Animated illustration.</span><button id="demo-toggle" class="demo-toggle" type="button" aria-controls="peak-demo" aria-pressed="false" hidden>Pause animation</button></figcaption></figure>
       </section>
       <section id="features" class="section" aria-labelledby="features-title">
         <h2 id="features-title">What it measures</h2>
