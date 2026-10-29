@@ -1,7 +1,7 @@
 "use strict";
 (function () {
   const c = window.LUFFY_CONFIG || {};
-  const version = typeof c.version === "string" && /^\d+(\.\d+)*$/.test(c.version) ? c.version : "3.8.1";
+  const version = typeof c.version === "string" && /^\d+(\.\d+)*$/.test(c.version) ? c.version : "3.14";
   const label = `v${version}${c.beta ? " beta" : ""}`;
   const versionPill = document.getElementById("version-pill");
   const panelVersion = document.getElementById("panel-version");

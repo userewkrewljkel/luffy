@@ -24,13 +24,13 @@ function render(config) {
 
 test('valid download enables both buttons and updates version labels', () => {
   const url = 'https://example.com/LUFFY.exe';
-  const elements = render({ version: '3.8.1', beta: true, downloadUrl: url });
+  const elements = render({ version: '3.14', beta: true, downloadUrl: url });
   for (const id of ['download-button', 'download-button-secondary']) {
     assert.equal(elements.get(id).attrs.get('href'), url);
     assert.equal(elements.get(id).attrs.has('aria-disabled'), false);
     assert.equal(elements.get(id).classes.has('is-unavailable'), false);
   }
-  assert.equal(elements.get('version-pill').textContent, 'v3.8.1 beta');
+  assert.equal(elements.get('version-pill').textContent, 'v3.14 beta');
   assert.match(elements.get('download-message').textContent, /Direct download/);
 });
 
@@ -50,7 +50,7 @@ test('missing and unsafe destinations remain disabled and prevent clicks', () =>
 });
 
 test('donation opens safely in a new tab while an empty donation remains unavailable', () => {
-  const elements = render({ version: '3.8.1', donationUrl: 'https://ko-fi.com/example' });
+  const elements = render({ version: '3.14', donationUrl: 'https://ko-fi.com/example' });
   assert.equal(elements.get('donation-button').target, '_blank');
   assert.equal(elements.get('donation-button').rel, 'noopener noreferrer');
   assert.equal(elements.get('donation-message').textContent, 'Optional. LUFFY stays free.');
@@ -58,6 +58,6 @@ test('donation opens safely in a new tab while an empty donation remains unavail
 });
 
 test('invalid version falls back and stable releases omit beta', () => {
-  assert.equal(render({ version: '<script>' }).get('version-pill').textContent, 'v3.8.1');
+  assert.equal(render({ version: '<script>' }).get('version-pill').textContent, 'v3.14');
   assert.equal(render({ version: '4.0', beta: false }).get('panel-version').textContent, 'LUFFY v4.0 · Windows x64');
 });

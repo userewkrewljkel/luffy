@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#101114">
-  <meta name="description" content="LUFFY is a tiny, free Windows loudness meter with Integrated LUFS, Short-term LUFS, True Peak monitoring and a clear screen-edge peak warning.">
+  <meta name="description" content="LUFFY is a free Windows loudness meter. Monitor LUFS and True Peak, capture peaks as WAV clips, and review them in the built-in player. Download the 3.14 beta.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="LUFFY — a little loudness meter">
-  <meta property="og:description" content="A free little loudness meter for Windows, currently in beta.">
+  <meta property="og:description" content="Meet LUFFY 3.14 beta: live loudness, Peak Capture and a built-in WAV player. Free for Windows.">
   <link rel="icon" type="image/svg+xml" href="luffy-paw.svg">
   <link rel="stylesheet" href="styles.css">
   <title>LUFFY — A little loudness meter</title>
@@ -24,6 +24,7 @@
       </a>
       <nav class="nav" aria-label="Main navigation">
         <a href="#features">Features</a>
+        <a href="#playback">What's new</a>
         <a href="#questions">FAQ</a>
         <a class="nav-support" href="#support">Support <span aria-hidden="true">↗</span></a>
       </nav>
@@ -32,25 +33,20 @@
     <main id="top">
       <section class="hero" aria-labelledby="hero-heading">
         <div class="hero-copy">
-          <div class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> A FREE LITTLE WINDOWS APP <span class="eyebrow-slash">/</span> <span id="version-pill">v3.8.1 beta</span></div>
-          <h1 id="hero-heading">A little loudness meter.<br><span>Still finding its feet.</span></h1>
-          <p class="lead">I made LUFFY as a small Windows loudness meter for my own audio work. It’s in beta, and I’m sharing it in case you find it useful too.</p>
+          <div class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> A FREE LITTLE WINDOWS APP <span class="eyebrow-slash">/</span> <span id="version-pill">v3.14 beta</span></div>
+          <h1 id="hero-heading">A little loudness meter.<br><span>A closer listen.</span></h1>
+          <p class="lead">Keep an eye on loudness. Catch the peaks. Listen back to what happened. LUFFY 3.14 brings live metering and saved audio together in a small, free Windows app.</p>
           <div class="cta-row">
             <a id="download-button" class="button button-primary is-unavailable" aria-disabled="true"><span aria-hidden="true">↓</span><span>Download for Windows</span></a>
             <a href="#support" class="button button-outline">Support LUFFY <span aria-hidden="true">↗</span></a>
           </div>
-          <p class="download-meta"><span id="download-message" role="status">Download link to be added before publishing.</span> <span class="dot-separator" aria-hidden="true">·</span> Free to use <span class="dot-separator" aria-hidden="true">·</span> Windows x64</p>
+          <p class="download-meta"><span id="download-message" role="status">Enable JavaScript to activate the download buttons, or use the release link below.</span> <span class="dot-separator" aria-hidden="true">·</span> Free to use <span class="dot-separator" aria-hidden="true">·</span> Windows x64</p>
+          <p class="release-links"><a href="https://github.com/userewkrewljkel/luffy/releases/tag/3.14">Release notes &amp; downloads ↗</a><a href="https://github.com/userewkrewljkel/luffy/releases/download/3.14/SHA256SUMS.txt">SHA-256 checksum</a></p>
         </div>
-        <div class="hero-art" aria-label="Illustration of the LUFFY interface and true peak warning">
-          <div class="art-grid" aria-hidden="true"></div>
-          <div class="corner top-left"></div><div class="corner top-right"></div><div class="corner bottom-left"></div><div class="corner bottom-right"></div>
-          <div class="warning-hint"><span class="warning-dot"></span> TRUE PEAK ALERT</div>
-          <div class="readout" aria-label="LUFFY v3.8.1 example: Integrated minus 13.8, Short-term minus 18.7, True Peak minus 2.8, time 1 minute 58 seconds">
-            <div class="readout-label">LUFFY v3.8.1</div>
-            <div class="readout-values"><span class="green">I −13.8</span><span>S −18.7</span><span>TP −2.8</span><span>1:58</span><span class="reset-glyph" aria-hidden="true">↻</span></div>
-          </div>
-          <div class="art-caption"><span class="caption-mark"></span> A small look at your levels.</div>
-        </div>
+        <figure class="product-figure hero-figure">
+          <img src="images/luffy-3.14-meter.svg" width="760" height="600" alt="Illustration of LUFFY 3.14 with stereo peak bars, Integrated and Short-term LUFS, True Peak, pause, reset and settings controls.">
+          <figcaption>Interface illustration · example readings</figcaption>
+        </figure>
       </section>
 
       <section class="microline" aria-label="Highlights"><span>MADE FOR AUDIO WORK</span><span class="micro-sep">✳</span><span>SMALL AND SIMPLE</span><span class="micro-sep">✳</span><span>FREE, WITH OPTIONAL SUPPORT</span></section>
@@ -58,16 +54,23 @@
       <section id="features" class="section features-section" aria-labelledby="features-title">
         <div class="section-heading"><div><p class="kicker">WHAT IT DOES</p><h2 id="features-title">A few useful tools.<br><span>In a small window.</span></h2></div><p>A simple work-in-progress tool for keeping an eye on loudness.</p></div>
         <div class="feature-grid">
-          <article class="feature"><div class="feature-index">01 <span class="feature-symbol">◉</span></div><h3>Live loudness</h3><p>Shows Integrated and Short-term LUFS as audio plays.</p></article>
+          <article class="feature"><div class="feature-index">01 <span class="feature-symbol">◉</span></div><h3>Live loudness</h3><p>Integrated and Short-term LUFS, True Peak and stereo peak bars. Keep your readings close in a compact, always-on-top window.</p></article>
           <article class="feature"><div class="feature-index">02 <span class="feature-symbol coral">⌁</span></div><h3>True Peak heads-up</h3><p>Can show a coral warning around your screens when True Peak crosses your chosen limit.</p></article>
-          <article class="feature"><div class="feature-index">03 <span class="feature-symbol">↗</span></div><h3>Small &amp; flexible</h3><p>Choose an audio source, adjust settings and reset the measurements when needed.</p></article>
+          <article class="feature"><div class="feature-index">03 <span class="feature-symbol">↗</span></div><h3>Catch the moment</h3><p>Enable Peak Capture to save WAV clips around above-limit peaks on your selected audio source. Review them when you're ready. Capture is off by default.</p></article>
         </div>
       </section>
 
-      <section class="download-panel" aria-labelledby="download-title">
-        <div><p class="kicker">TRY THE BETA</p><h2 id="download-title">A small tool.<br>Still a work in progress.</h2><p>Free for Windows x64. This is a beta, so you may run into bugs. Feedback is welcome.</p></div>
-        <div class="panel-action"><a id="download-button-secondary" class="button button-primary is-unavailable" aria-disabled="true">↓&nbsp; Download LUFFY</a><span id="panel-version">LUFFY v3.8.1 beta · Windows x64</span></div>
+      <section id="playback" class="playback-section" aria-labelledby="playback-title">
+        <div class="section-heading"><div><p class="kicker">NEW IN THE 3.14 BETA</p><h2 id="playback-title">Hear the moment.<br><span>See the detail.</span></h2></div><p>Peak Capture Player puts saved clips, a waveform and listening controls in one place.</p></div>
+        <figure class="product-figure player-figure"><img src="images/luffy-3.14-player.svg" width="1120" height="660" loading="lazy" alt="Feature illustration of the Peak Capture Player: saved WAV clips, waveform with approximate trigger marker, playback controls, listening gain and output selection."><figcaption>Feature illustration · sample waveform and filenames</figcaption></figure>
+        <div class="playback-points"><article><h3>Review your captures</h3><p>Browse saved clips, seek in the waveform and choose a playback output. A marker shows roughly where the peak triggered.</p></article><article><h3>Meter the original WAV</h3><p>Playback mode measures the saved samples before listening gain. Adjust what you hear without rewriting your recording.</p></article><article><h3>Keep your session</h3><p>Built-in playback pauses live monitoring. Stop listening and your live session resumes with its Integrated LUFS history preserved.</p></article></div>
       </section>
+
+      <section class="download-panel" aria-labelledby="download-title">
+        <div><p class="kicker">TRY THE 3.14 BETA</p><h2 id="download-title">Ready for a<br>closer listen?</h2><p>Free for Windows x64. Download the EXE and run it — no separate .NET installation needed. This is a beta; feedback is welcome.</p></div>
+        <div class="panel-action"><a id="download-button-secondary" class="button button-primary is-unavailable" aria-disabled="true">↓&nbsp; Download LUFFY</a><span id="panel-version">LUFFY v3.14 beta · Windows x64</span></div>
+      </section>
+      <p class="beta-note">Beta release: automated build checks pass, but the full manual audio and device test checklist is still in progress. Keep your previous build available. <a href="https://github.com/userewkrewljkel/luffy/issues">Report a problem ↗</a></p>
 
       <section id="support" class="section support-section" aria-labelledby="support-title">
         <div class="support-icon" aria-hidden="true">♡</div>
@@ -80,7 +83,9 @@
           <details><summary>Is LUFFY really free?<span class="expand" aria-hidden="true">+</span></summary><p>Yes. LUFFY is free to download and use. Tips are optional.</p></details>
           <details><summary>What can I run it on?<span class="expand" aria-hidden="true">+</span></summary><p>This beta is for 64-bit Windows. There are no Mac or Linux builds at the moment.</p></details>
           <details><summary>Which audio does it measure?<span class="expand" aria-hidden="true">+</span></summary><p>You can choose supported Windows output or input devices. For applications using a dedicated ASIO driver, such as a DAW, you may need an audio interface with loopback routing.</p></details>
-          <details><summary>Is it finished?<span class="expand" aria-hidden="true">+</span></summary><p>Not yet. This is a beta made for real-world testing. It may have bugs, and I’m still improving it.</p></details>
+          <details><summary>How does Peak Capture work?<span class="expand" aria-hidden="true">+</span></summary><p>Turn it on in Settings → True Peak to save WAV audio around above-limit peaks from your selected source. It is off by default. Saved clips stay on your computer; the player lets you review them without changing the originals.</p></details>
+          <details><summary>Does live monitoring continue during playback?<span class="expand" aria-hidden="true">+</span></summary><p>While the built-in player is playing, LUFFY measures the original saved WAV and pauses the live session. Stop playback to resume your live readings and history. Live audio during preview is excluded, so avoid reviewing clips during an unattended measurement.</p></details>
+          <details><summary>Is it finished?<span class="expand" aria-hidden="true">+</span></summary><p>Not yet. The 3.14 beta builds automatically from the source on GitHub. The full manual audio and device checks are still outstanding, so keep your previous version and send feedback if you run into bugs.</p></details>
           <details><summary>Windows says “Unknown publisher”. What is that?<span class="expand" aria-hidden="true">+</span></summary><p>Early LUFFY builds may not be digitally signed, so Windows can show a publisher warning. Only download the file from a link you trust, and verify its source before running it.</p></details>
         </div>
       </section>
