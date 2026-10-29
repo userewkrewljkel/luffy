@@ -1,6 +1,6 @@
 # Protect main
 
-In GitHub Settings → Rules → Rulesets, create an active branch ruleset targeting the default branch:
+In GitHub Settings → Rules → Rulesets, import [`main-ruleset.json`](main-ruleset.json), review the settings and save it. Alternatively, create an active branch ruleset targeting the default branch:
 
 - Require a pull request before merging. Use zero required approvals for a solo-maintainer repository to avoid requiring self-approval.
 - Require status checks: `Website checks` and `Windows build` (select them after the first checks run).
