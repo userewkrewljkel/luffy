@@ -40,7 +40,7 @@ Everything from v3.12 (stereo meter, settings gear, input selection, original Pe
 
 ## Before sharing
 
-**The project is distributed as SOURCE, not a verified Windows executable.** Build on Windows using the .NET 8 SDK. This release has not been compiled or run on Windows in the authoring environment.
+**A self-contained Windows x64 beta is available in the GitHub 3.14 release.** GitHub Actions compiles it from the tracked source and publishes a SHA-256 checksum. The full manual audio, device and playback checks below remain outstanding. You can also build the source on Windows using the .NET 8 SDK.
 
 1. Extract the ZIP.
 2. Run `BUILD-WINDOWS.ps1` from the extracted `LUFFY-v3.14` folder.
@@ -84,7 +84,7 @@ Contact: contact@andreasbusk.com
 6. Open several clips, close the player or Settings while playing, and confirm there is only one player and playback stops safely.
 7. Compare Integrated LUFS and True Peak to your known v3.12 behavior once playback is stopped; the loudness algorithms are unmodified.
 
-**Known limitations:** The first-trigger mark is approximate because the v3.12 recorder marks an entire WASAPI callback, not a sample. There is no multi-peak timeline, session tagging, automatic cleanup, or auto-update yet. This is source code, not a verified Windows binary; the authoring environment cannot compile or run this Windows Forms application.
+**Known limitations:** The first-trigger mark is approximate because the v3.12 recorder marks an entire WASAPI callback, not a sample. There is no multi-peak timeline, session tagging, automatic cleanup, or auto-update yet. The Windows build passes automated compilation. This does not verify audio accuracy or replace the manual device and playback checks below.
 
 ## v3.14 manual regression checks
 

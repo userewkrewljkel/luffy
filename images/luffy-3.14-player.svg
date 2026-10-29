@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="660" viewBox="0 0 1120 660" role="img" aria-labelledby="title desc">
+  <title id="title">LUFFY 3.14 Peak Capture Player feature illustration</title>
+  <desc id="desc">A sample clip list, waveform and approximate peak trigger, playback controls, listening gain and output selection. This is an illustrative layout, not a screenshot.</desc>
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#272c2e"/><stop offset="1" stop-color="#18191e"/></linearGradient></defs>
+  <rect x="1" y="1" width="1118" height="658" rx="25" fill="url(#bg)" stroke="#373b42"/>
+  <g font-family="Segoe UI,Arial,sans-serif">
+    <text x="40" y="48" fill="#bff6ab" font-size="13" letter-spacing="2">PEAK CAPTURE → LISTEN BACK → UNDERSTAND</text>
+    <rect x="40" y="82" width="1040" height="500" rx="13" fill="#f3f3f3"/>
+    <path d="M53 82H1067Q1080 82 1080 95V120H40V95Q40 82 53 82" fill="#ffffff"/>
+    <text x="61" y="107" font-size="15" fill="#24262b">LUFFY v3.14 – Peak Capture Player</text>
+    <text x="1025" y="108" font-size="20" fill="#656a72">×</text>
+    <text x="62" y="153" font-size="17" font-weight="600" fill="#25272c">Saved Peak Captures</text>
+    <rect x="60" y="170" width="235" height="31" rx="3" fill="#e6e6e6" stroke="#c6c6c6"/><text x="178" y="191" text-anchor="middle" font-size="13" fill="#25272c">Refresh</text>
+    <rect x="60" y="211" width="235" height="301" fill="#ffffff" stroke="#c6c6c6"/>
+    <rect x="61" y="220" width="233" height="36" fill="#dcebd6"/>
+    <g font-size="12" fill="#31343a"><text x="72" y="243">LUFFY_Peak_example_01.wav</text><text x="72" y="280">LUFFY_Peak_example_02.wav</text><text x="72" y="317">LUFFY_Peak_example_03.wav</text></g>
+    <rect x="60" y="526" width="235" height="31" rx="3" fill="#e6e6e6" stroke="#c6c6c6"/><text x="178" y="547" text-anchor="middle" font-size="13" fill="#25272c">Open capture folder</text>
+    <text x="322" y="153" font-size="18" font-weight="600" fill="#25272c">LUFFY_Peak_example_01.wav</text>
+    <text x="322" y="178" font-size="12" fill="#656a72">10.00 sec · 48000 Hz · 2 ch · sample clip</text>
+    <rect x="322" y="193" width="733" height="137" rx="3" fill="#1f2126"/>
+    <path d="M335 261H1042" stroke="#737a86" stroke-opacity=".4"/>
+    <path d="M335 261l9-6 8 13 8-17 8 18 9-25 8 39 8-48 8 48 9-40 8 32 8-25 8 15 9-20 8 34 8-45 8 51 9-64 8 75 8-52 8 36 9-17 8 10 8-32 8 43 9-46 8 27 8-15 8 26 9-37 8 45 8-60 8 73 9-99 8 111 8-118 8 112 9-93 8 74 8-60 8 50 9-42 8 34 8-25 8 19 9-12 8 19 8-29 8 38 9-46 8 48 8-40 8 29 9-20 8 12 8-18 8 21 9-16 8 9 8-12 8 17 9-19 8 16 8-10 8 7 9-5 8 5 8-4 8 3" fill="none" stroke="#bff6ab" stroke-width="2"/>
+    <path d="M693 202V320" stroke="#f16d64" stroke-width="2" stroke-dasharray="5 5"/>
+    <text x="706" y="214" fill="#f49d96" font-size="12">approx. trigger</text>
+    <text x="322" y="351" font-size="12" fill="#656a72">0:03.2 / 0:10.0 · trigger near 5.00 s</text>
+    <g fill="#e6e6e6" stroke="#c6c6c6"><rect x="322" y="366" width="91" height="32" rx="3"/><rect x="423" y="366" width="91" height="32" rx="3"/><rect x="524" y="366" width="79" height="32" rx="3"/><rect x="613" y="366" width="79" height="32" rx="3"/></g>
+    <g font-size="13" fill="#25272c" text-anchor="middle"><text x="367" y="387">Previous</text><text x="468" y="387">Pause</text><text x="563" y="387">Stop</text><text x="652" y="387">Next</text></g>
+    <text x="322" y="427" font-size="13" fill="#25272c">Listening gain (WAV remains unchanged)</text><text x="901" y="427" font-size="13" fill="#25272c">0 dB</text>
+    <path d="M334 450H875" stroke="#bfc4ca" stroke-width="4"/><circle cx="694" cy="450" r="7" fill="#4d7250"/>
+    <rect x="906" y="436" width="149" height="29" rx="3" fill="#e6e6e6" stroke="#c6c6c6"/><text x="980" y="456" text-anchor="middle" font-size="12" fill="#25272c">Original 0 dB</text>
+    <text x="322" y="490" font-size="13" fill="#25272c">Playback output (Windows shared mode)</text>
+    <rect x="322" y="500" width="733" height="29" fill="#fff" stroke="#c6c6c6"/><text x="332" y="520" font-size="13" fill="#25272c">Windows default output</text><text x="1034" y="520" font-size="13" fill="#656a72">⌄</text>
+    <text x="322" y="555" font-size="12" fill="#545b65">PLAYBACK measures the original WAV. Live monitoring resumes after playback.</text>
+    <text x="40" y="620" font-size="15" fill="#a3a5ae">Saved clips. Original samples. A closer look at the peak.</text><text x="1080" y="620" text-anchor="end" font-size="12" fill="#888f99">Feature illustration</text>
+  </g>
+</svg>

@@ -4,9 +4,9 @@ A free Windows loudness meter by Andreas Busk, with its static website.
 
 ## Versions
 
-- Public download: [v3.8.1 beta](https://github.com/userewkrewljkel/luffy/releases/tag/3.8.1).
+- Public download: [v3.14 beta](https://github.com/userewkrewljkel/luffy/releases/tag/3.14).
 - Development source: **v3.14 beta**, in [`app/`](app/). Imported from the local `LUFFY-v3.14-source` project; generated binaries and build caches are excluded. This import does not prove that a published EXE was built from this source.
-- The website continues to offer v3.8.1 until a newer build has passed the manual audio and playback checks in [`app/README.md`](app/README.md).
+- The v3.14 beta executable is built from the tagged source by GitHub Actions. Automated build checks pass; the full manual audio and playback checklist in [`app/README.md`](app/README.md) remains outstanding. Keep the previous release available.
 
 ## Website
 
@@ -20,7 +20,7 @@ The English website uses plain HTML, CSS and JavaScript. Open `index.html` local
 | `app.js` | Version labels and button availability |
 | `luffy-paw.svg` | Logo and favicon |
 
-The download URL in `config.js` points to the existing v3.8.1 release asset. Donations remain disabled because no payment address has been configured. Empty or non-HTTPS destinations disable their buttons. No analytics, cookies, external fonts or third-party scripts are used.
+The download URL in `config.js` points to the v3.14 release asset. Donations remain disabled because no payment address has been configured. Empty or non-HTTPS destinations disable their buttons. No analytics, cookies, external fonts or third-party scripts are used.
 
 Before changing the public version, test the Windows build, upload it to GitHub Releases, then update `version` and `downloadUrl` together. A donation URL must belong to the intended recipient; leave it empty until available.
 
