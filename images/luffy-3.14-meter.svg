@@ -1,12 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="760" height="240" viewBox="0 0 760 240" role="img" aria-labelledby="title desc">
   <title id="title">LUFFY 3.14 meter illustration</title>
-  <desc id="desc">Stereo peak bars, example loudness readings and pause, reset and settings controls.</desc>
+  <desc id="desc">A red screen-edge warning surrounds the compact meter when True Peak exceeds the selected limit. Example readings and controls.</desc>
+  <rect x="3" y="3" width="754" height="234" rx="2" fill="none" stroke="#f16d64" stroke-width="3"/>
   <rect x="20" y="73" width="720" height="94" rx="12" fill="#23252a" stroke="#484b52"/>
   <g font-family="Segoe UI,Arial,sans-serif">
+    <text x="21" y="35" fill="#f49d96" font-size="16">True Peak warning</text>
     <text x="380" y="100" text-anchor="middle" fill="#aeb4bf" font-size="14">LUFFY v3.14</text>
     <g fill="#46494f"><rect x="43" y="119" width="5" height="27"/><rect x="52" y="119" width="5" height="27"/></g>
     <g fill="#bfd8ad"><rect x="43" y="123" width="5" height="23"/><rect x="52" y="130" width="5" height="16"/></g>
-    <g font-size="24" font-weight="600"><text x="77" y="141" fill="#bfd8ad">I −13.8</text><text x="205" y="141" fill="#e6e7e5">S −18.7</text><text x="341" y="141" fill="#e6e7e5">TP −2.8</text><text x="481" y="141" fill="#e6e7e5">1:58</text></g>
+    <g font-size="24" font-weight="600"><text x="77" y="141" fill="#bfd8ad">I −13.8</text><text x="205" y="141" fill="#e6e7e5">S −18.7</text><text x="341" y="141" fill="#f49d96">TP −0.4</text><text x="481" y="141" fill="#e6e7e5">1:58</text></g>
     <g fill="#e6e7e5"><rect x="576" y="121" width="4" height="20"/><rect x="585" y="121" width="4" height="20"/></g>
     <text x="618" y="144" fill="#e6e7e5" font-size="30">↻</text><text x="683" y="141" fill="#e6e7e5" font-size="27">⚙</text>
   </g>
