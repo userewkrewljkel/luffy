@@ -1,52 +1,55 @@
-# LUFFY website — ready-to-host static landing page
+# LUFFY
 
-The page is in English so it can be shared beyond Denmark. It includes the existing LUFFY paw icon, responsive layout, a styled (illustrative) meter, features, FAQ, free download and optional donation link.
+A free Windows loudness meter by Andreas Busk, with its static website.
 
-## IMPORTANT: Before sharing publicly
+## Versions
 
-The download and donation links are **intentionally disabled**, because neither a hosted `.exe` nor a real payment URL was provided. The site does NOT falsely imply a working download.
+- Public download: [v3.8.1 beta](https://github.com/userewkrewljkel/luffy/releases/tag/3.8.1).
+- Development source: **v3.14 beta**, in [`app/`](app/). Imported from the local `LUFFY-v3.14-source` project; generated binaries and build caches are excluded. This import does not prove that a published EXE was built from this source.
+- The website continues to offer v3.8.1 until a newer build has passed the manual audio and playback checks in [`app/README.md`](app/README.md).
 
-1. Test your **compiled** LUFFY v3.8.1 `.exe` on Windows.
-2. Upload that `.exe` to a GitHub Release (Assets), or another trustworthy file host.
-3. Create your optional tipping/donation page (e.g. https://ko-fi.com/), then link the account to your PayPal or Stripe.
-4. Edit **`config.js`**:
+## Website
 
-   ```js
-   window.LUFFY_CONFIG = {
-     version: "3.8.1",
-     beta: true,
-     downloadUrl: "https://...real-download-link...",
-     donationUrl: "https://ko-fi.com/...your-profile..."
-   };
-   ```
+The English website uses plain HTML, CSS and JavaScript. Open `index.html` locally, keeping the adjacent files together.
 
-5. Open `index.html` to preview locally. The other files must stay in the same folder.
-6. Publish the full folder to GitHub Pages, Netlify Drop, Cloudflare Pages, or your own web host. On GitHub Pages: create a public repository, upload all site files at root, then go to **Settings → Pages** and select branch `main` and folder `/ (root)`.
+| File | Purpose |
+| --- | --- |
+| `index.html` | Page content |
+| `styles.css` | Responsive design |
+| `config.js` | Public version and download/donation destinations |
+| `app.js` | Version labels and button availability |
+| `luffy-paw.svg` | Logo and favicon |
 
-## Free hosting recommendation
+The download URL in `config.js` points to the existing v3.8.1 release asset. Donations remain disabled because no payment address has been configured. Empty or non-HTTPS destinations disable their buttons. No analytics, cookies, external fonts or third-party scripts are used.
 
-GitHub Pages hosts the website for free; GitHub Releases hosts downloadable app builds. Separate hosting of the binary from the website keeps updates simple. Your default URL will look like `https://YOURNAME.github.io/luffy/` until you add a custom domain.
+Before changing the public version, test the Windows build, upload it to GitHub Releases, then update `version` and `downloadUrl` together. A donation URL must belong to the intended recipient; leave it empty until available.
 
-See official docs:
-- https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site
-- https://docs.github.com/en/repositories/releasing-projects-on-github/linking-to-releases
-- https://help.ko-fi.com/hc/en-us/articles/115003980093-How-do-I-get-paid
+## Build the Windows app
 
-## Release safety checklist
+Install the .NET 8 SDK on Windows, then run from the repository root:
 
-- Confirm the EXE starts on a second Windows PC and can select an audio source.
-- Publish a SHA-256 hash alongside the release (optional but recommended).
-- The executable may be marked as an unknown publisher because it is unsigned. Consider code signing if wider distribution grows.
-- Ensure that copyright, contact details, product claims and selected donation account are accurate.
-- If handling donations as income, check the applicable tax/accounting rules.
-- Replacing `downloadUrl` with a new real release link is all that's needed to update the button.
+```powershell
+dotnet build app/LufsTaskbarMeter.csproj -c Release
+dotnet publish app/LufsTaskbarMeter.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
+```
 
-## Files
+The executable is written to `app/bin/Release/net8.0-windows/win-x64/publish/`. The existing `app/BUILD-WINDOWS.ps1` also launches the app after publishing; the commands above only build it. See the app README for device, capture and playback tests. A successful build does not verify audio accuracy or interactive Windows behavior.
 
-- `index.html` — main page
-- `styles.css` — responsive design
-- `config.js` — URL + version configuration
-- `app.js` — connects buttons to real URLs, safely disables unavailable ones
-- `assets/luffy-paw.svg` — LUFFY logo copied from the app's sources
+## Checks and changes
 
-No analytics, trackers, cookies, external fonts, third-party scripts, build tools, or server are used by this site.
+Requires Node.js 22 or later; there are no npm dependencies:
+
+```powershell
+node --test
+node scripts/check-site.mjs
+```
+
+GitHub Actions runs these checks and a Windows .NET build on pull requests and pushes to `main`. Website checks validate local resources, anchors, script syntax, configured URLs, version labels and the release asset. Button tests cover working, missing and unsafe destinations.
+
+Work on a branch, open a pull request and wait for `Website checks` and `Windows build` before merging. GitHub Pages currently publishes `main` automatically; the checks alone do not enforce a publishing gate. Configure the protection described in [repository setup](docs/repository-setup.md) to require them before merging.
+
+## Release checks
+
+Test source selection, pause/resume, reset, warnings on each monitor, capture and playback on Windows. Compare loudness readings against known reference signals. Test the EXE on another Windows PC before publishing and include its SHA-256 hash. Keep the previous release available for rollback.
+
+Contact: contact@andreasbusk.com

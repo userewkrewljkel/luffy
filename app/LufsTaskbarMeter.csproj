@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>LUFFY-v3.14</AssemblyName>
+    <Version>3.14.0</Version>
+    <FileVersion>3.14.0.0</FileVersion>
+    <AssemblyVersion>3.14.0.0</AssemblyVersion>
+    <ApplicationIcon>LUFFY.ico</ApplicationIcon>
+    <RootNamespace>LufsTaskbarMeter</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.2.1" />
+  </ItemGroup>
+  <ItemGroup><Content Include="LUFFY.ico" CopyToOutputDirectory="PreserveNewest" /></ItemGroup>
+</Project>
