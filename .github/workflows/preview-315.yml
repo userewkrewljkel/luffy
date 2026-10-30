@@ -1,0 +1,31 @@
+name: LUFFY 3.15 preview EXE
+on:
+  pull_request:
+    paths:
+      - 'app/**'
+      - '.github/workflows/preview-315.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Publish portable Windows preview
+        shell: pwsh
+        run: |
+          dotnet publish app/LufsTaskbarMeter.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o artifacts/preview
+          if ($LASTEXITCODE -ne 0) { throw 'Publish failed' }
+          if (!(Test-Path 'artifacts/preview/LUFFY-v3.15-preview.exe')) { throw 'EXE missing' }
+          (Get-FileHash 'artifacts/preview/LUFFY-v3.15-preview.exe' -Algorithm SHA256).Hash.ToLowerInvariant() | Set-Content artifacts/preview/SHA256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: LUFFY-3.15-preview-Windows-x64
+          path: |
+            artifacts/preview/LUFFY-v3.15-preview.exe
+            artifacts/preview/SHA256.txt
+          retention-days: 14

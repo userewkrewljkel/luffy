@@ -20,6 +20,14 @@ internal sealed class Settings
     public double WarningDurationSeconds {get;set;}=0.5;
     public double WarningCooldownSeconds {get;set;}=0.0;
     public bool WarningFadeOut {get;set;}=true;
+    // New settings default OFF for existing and new installations.
+    public bool AmbientEnabled {get;set;}=false;
+    public double AmbientTarget {get;set;}=-23;
+    public double AmbientRangeLU {get;set;}=2;
+    public bool PeakScreenshotEnabled {get;set;}=false;
+    public bool PeakScreenshotWatermark {get;set;}=true;
+    public double PeakScreenshotCooldownSeconds {get;set;}=5;
+    public int PeakScreenshotMaxPerSession {get;set;}=100;
     public int FontSize {get;set;}=11;
     public int X {get;set;}=-99999;
     public int Y {get;set;}=-99999;
@@ -65,6 +73,13 @@ internal sealed class Settings
         if(!double.IsFinite(WarningCooldownSeconds)) WarningCooldownSeconds=0;
         WarningCooldownSeconds=Math.Clamp(WarningCooldownSeconds,0,30);
         WarningBorderPx=Math.Clamp(WarningBorderPx,2,10);
+        if(!double.IsFinite(AmbientTarget))AmbientTarget=-23;
+        AmbientTarget=Math.Clamp(AmbientTarget,-70,0);
+        if(!double.IsFinite(AmbientRangeLU))AmbientRangeLU=2;
+        AmbientRangeLU=Math.Clamp(AmbientRangeLU,0.5,10);
+        if(!double.IsFinite(PeakScreenshotCooldownSeconds))PeakScreenshotCooldownSeconds=5;
+        PeakScreenshotCooldownSeconds=Math.Clamp(PeakScreenshotCooldownSeconds,0,60);
+        PeakScreenshotMaxPerSession=Math.Clamp(PeakScreenshotMaxPerSession,10,500);
         FontSize=Math.Clamp(FontSize,10,15);
         if(GlowStyle is not ("Soft" or "Studio" or "Alert"))GlowStyle="Studio";
         if(TextColor is not ("Black" or "White"))TextColor="White";
