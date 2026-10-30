@@ -46,7 +46,7 @@ internal sealed class MeterWindow : Form
     private static readonly Color Green=Color.FromArgb(110,221,155), Red=Color.FromArgb(255,110,110);
     private Rectangle pauseBounds, resetBounds, gearBounds;
     private bool hoveredPause, hoveredReset, hoveredGear;
-    private enum HitTarget { None, Pause, Reset, Gear }
+    private enum HitTarget { None, TruePeak, Pause, Reset, Gear }
     private HitTarget pressed=HitTarget.None;
     private bool layeringFailed;
     private static readonly string StartupKey=@"Software\Microsoft\Windows\CurrentVersion\Run";
@@ -560,7 +560,16 @@ internal sealed class MeterWindow : Form
         overlay.HideWarning();
         if(cfg.Docked)PositionByTaskbar();
     }
-    private HitTarget Hit(Point point) => pauseBounds.Contains(point)?HitTarget.Pause:
+    private bool OverTruePeak(Point point)
+    {
+        if(!cfg.ShowTP || previewPlaying)return false;
+        var bounds=strip.BoundsForEntryPrefix("TP ");
+        if(bounds is not Rectangle entry)return false;
+        entry.Offset(0,14);
+        return entry.Contains(point);
+    }
+    private HitTarget Hit(Point point) => OverTruePeak(point)?HitTarget.TruePeak:
+        pauseBounds.Contains(point)?HitTarget.Pause:
         resetBounds.Contains(point)?HitTarget.Reset:
         gearBounds.Contains(point)?HitTarget.Gear:HitTarget.None;
     protected override void OnMouseDown(MouseEventArgs e)
@@ -573,12 +582,12 @@ internal sealed class MeterWindow : Form
     protected override void OnMouseMove(MouseEventArgs e)
     {
         base.OnMouseMove(e);
-        bool p=pauseBounds.Contains(e.Location),r=resetBounds.Contains(e.Location),gear=gearBounds.Contains(e.Location);
+        bool tp=OverTruePeak(e.Location),p=pauseBounds.Contains(e.Location),r=resetBounds.Contains(e.Location),gear=gearBounds.Contains(e.Location);
         if(p!=hoveredPause || r!=hoveredReset || gear!=hoveredGear)
         {
             hoveredPause=p;hoveredReset=r;hoveredGear=gear;
-            Cursor=p||r||gear?Cursors.Hand:Cursors.Default;
-            tooltip.SetToolTip(this,p?(meter.Paused?"Resume measurement":"Pause measurement"):
+            Cursor=tp||p||r||gear?Cursors.Hand:Cursors.Default;
+            tooltip.SetToolTip(this,tp?"Click to reset True Peak max":p?(meter.Paused?"Resume measurement":"Pause measurement"):
                 r?"Reset measurement":gear?"Open Settings":"Double-click for Settings; right-click for menu");
             RenderLayered();
         }
@@ -598,7 +607,12 @@ internal sealed class MeterWindow : Form
         if(dragging){dragging=false;cfg.Save();}
         else if(pressed!=HitTarget.None && Hit(e.Location)==pressed)
         {
-            if(pressed==HitTarget.Pause)PauseResume();
+            if(pressed==HitTarget.TruePeak)
+            {
+                meter.ResetTruePeakMaximum();
+                UpdateDisplay();
+            }
+            else if(pressed==HitTarget.Pause)PauseResume();
             else if(pressed==HitTarget.Reset)Reset();
             else if(pressed==HitTarget.Gear)OpenSettings();
         }
