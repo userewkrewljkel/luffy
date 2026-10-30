@@ -45,7 +45,7 @@ internal sealed class MeterWindow : Form
     private static readonly Color Background=Color.FromArgb(31,33,38);
     private static readonly Color Green=Color.FromArgb(110,221,155), Red=Color.FromArgb(255,110,110);
     private Rectangle pauseBounds, resetBounds, gearBounds;
-    private bool hoveredPause, hoveredReset, hoveredGear;
+    private bool hoveredTp, hoveredPause, hoveredReset, hoveredGear;
     private enum HitTarget { None, TruePeak, Pause, Reset, Gear }
     private HitTarget pressed=HitTarget.None;
     private bool layeringFailed;
@@ -583,9 +583,9 @@ internal sealed class MeterWindow : Form
     {
         base.OnMouseMove(e);
         bool tp=OverTruePeak(e.Location),p=pauseBounds.Contains(e.Location),r=resetBounds.Contains(e.Location),gear=gearBounds.Contains(e.Location);
-        if(p!=hoveredPause || r!=hoveredReset || gear!=hoveredGear)
+        if(tp!=hoveredTp || p!=hoveredPause || r!=hoveredReset || gear!=hoveredGear)
         {
-            hoveredPause=p;hoveredReset=r;hoveredGear=gear;
+            hoveredTp=tp;hoveredPause=p;hoveredReset=r;hoveredGear=gear;
             Cursor=tp||p||r||gear?Cursors.Hand:Cursors.Default;
             tooltip.SetToolTip(this,tp?"Click to reset True Peak max":p?(meter.Paused?"Resume measurement":"Pause measurement"):
                 r?"Reset measurement":gear?"Open Settings":"Double-click for Settings; right-click for menu");
@@ -621,7 +621,7 @@ internal sealed class MeterWindow : Form
     protected override void OnMouseLeave(EventArgs e)
     {
         base.OnMouseLeave(e);
-        if(hoveredPause || hoveredReset || hoveredGear){hoveredPause=false;hoveredReset=false;hoveredGear=false;RenderLayered();}
+        if(hoveredTp || hoveredPause || hoveredReset || hoveredGear){hoveredTp=false;hoveredPause=false;hoveredReset=false;hoveredGear=false;Cursor=Cursors.Default;RenderLayered();}
     }
     protected override void OnMouseDoubleClick(MouseEventArgs e)
     {
