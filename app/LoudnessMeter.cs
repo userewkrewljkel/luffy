@@ -370,6 +370,17 @@ internal sealed class LoudnessMeter : IDisposable
                 maxTP>0?20*Math.Log10(maxTP):null,paused,Error);
         }
     }
+    // Reset the displayed maximum without changing capture, filters, or loudness history.
+    public void ResetTruePeakMaximum()
+    {
+        lock(sync)
+        {
+            maxTP=double.NegativeInfinity;
+            maxTrueFrame=-1;
+            maxTrueChannel=-1;
+            maxTrueAtSample=0;
+        }
+    }
     public void Reset() { lock(sync) ResetInternal(); }
     private void ResetInternal()
     {
