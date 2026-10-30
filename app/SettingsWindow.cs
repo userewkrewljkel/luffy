@@ -53,7 +53,7 @@ internal sealed class SettingsWindow : Form
     {
         cfg=options;this.changed=changed;this.meter=meter;this.setSource=setSource;
         this.previewListeningChanged=previewListeningChanged;
-        Text="LUFFY v3.14 – Settings";
+        Text="LUFFY v3.15 PREVIEW – Settings";
         StartPosition=FormStartPosition.CenterScreen;
         ClientSize=new Size(590,590);
         MinimumSize=new Size(530,480);
@@ -134,7 +134,7 @@ internal sealed class SettingsWindow : Form
         Heading(general,"Shortcuts & application");
         Note(general,hotkeyAvailable()?"Reset shortcut: Ctrl + Alt + R":"Reset shortcut: unavailable (used by another app)",32);
         Note(general,"Open Settings: double-click the meter or click its small gear.",32);
-        Note(general,"LUFFY v3.14 Beta · Andreas Busk · contact@andreasbusk.com",32);
+        Note(general,"LUFFY v3.15 PREVIEW Beta · Andreas Busk · contact@andreasbusk.com",32);
         Button(general,"About LUFFY",about);
         Button(general,"Check for updates (GitHub Releases)",()=>
             Process.Start(new ProcessStartInfo("https://github.com/userewkrewljkel/luffy/releases"){UseShellExecute=true}));
