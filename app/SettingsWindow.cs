@@ -217,6 +217,28 @@ internal sealed class SettingsWindow : Form
         Toggle(warning,"Fade out only (never fade in)",cfg.WarningFadeOut,v=>cfg.WarningFadeOut=v);
         Button(warning,"Test warning on all screens",preview);
         Separator(warning);
+        Heading(warning,"Ambient Mode · target proximity");
+        Toggle(warning,"Enable Ambient Mode (off by default)",cfg.AmbientEnabled,v=>cfg.AmbientEnabled=v);
+        Number(warning,"Ambient target (Short Term LUFS)",(decimal)cfg.AmbientTarget,-70,0,0.5m,v=>cfg.AmbientTarget=(double)v);
+        Number(warning,"Ambient tolerance (+/- LU)",(decimal)cfg.AmbientRangeLU,0.5m,10,0.5m,v=>cfg.AmbientRangeLU=(double)v);
+        Note(warning,"Light green at target, darker towards either edge. Outside the tolerance the border fades out. Coral is reserved for True Peak. No screen recording is used.",76);
+        Separator(warning);
+        Heading(warning,"Peak Screenshots · optional JPEG");
+        Toggle(warning,"Capture a screenshot on True Peak (off by default)",
+            cfg.PeakScreenshotEnabled,v=>cfg.PeakScreenshotEnabled=v);
+        Toggle(warning,"Add TP value and time watermark",cfg.PeakScreenshotWatermark,v=>cfg.PeakScreenshotWatermark=v);
+        Number(warning,"Minimum seconds between screenshots",
+            (decimal)cfg.PeakScreenshotCooldownSeconds,0,60,1,v=>cfg.PeakScreenshotCooldownSeconds=(double)v);
+        Number(warning,"Maximum screenshots per session",
+            cfg.PeakScreenshotMaxPerSession,10,500,10,v=>cfg.PeakScreenshotMaxPerSession=(int)v);
+        Button(warning,"Open screenshot folder",()=>
+        {
+            string folder=Path.Combine(cfg.PeakCaptureFolder,"Screenshots");
+            Directory.CreateDirectory(folder);
+            Process.Start(new ProcessStartInfo(folder){UseShellExecute=true});
+        });
+        Note(warning,"On-demand capture of the foreground monitor, max 1280 x 720 JPEG (quality 80). No image buffer. Screenshots can lag very short events.",70);
+        Separator(warning);
         Heading(warning,"Peak Capture · local WAV clips");
         var recordingToggle=Toggle(warning,"Automatically record peaks (off by default)",cfg.PeakCaptureEnabled,v=>cfg.PeakCaptureEnabled=v);
         Number(warning,"Seconds before peak",cfg.PeakBeforeSeconds,1,30,1,v=>cfg.PeakBeforeSeconds=(int)v);
