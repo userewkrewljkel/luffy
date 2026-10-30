@@ -56,7 +56,7 @@ internal sealed class MeterWindow : Form
 
     public MeterWindow()
     {
-        Text="LUFFY by Andreas Busk – v3.14";
+        Text="LUFFY by Andreas Busk – v3.15 PREVIEW";
         Icon=Icon.ExtractAssociatedIcon(Application.ExecutablePath) ?? SystemIcons.Application;
         FormBorderStyle=FormBorderStyle.None;
         StartPosition=FormStartPosition.Manual;
@@ -69,7 +69,7 @@ internal sealed class MeterWindow : Form
         Height=40;
         Padding=Padding.Empty;
 
-        brand.Text="LUFFY v3.14";
+        brand.Text="LUFFY v3.15 PREVIEW";
         brand.Dock=DockStyle.Top;
         brand.Height=13;
         brand.AutoSize=false;
@@ -209,7 +209,7 @@ internal sealed class MeterWindow : Form
         var playback=settingsWindow?.ReadPlayback();
         Snapshot s=playback?.Snapshot ?? meter.Read();
         TimeSpan t=playback?.ClipTime ?? elapsed.Elapsed;
-        string desiredBrand=playback!=null ? "LUFFY v3.14 · PLAYBACK" : "LUFFY v3.14";
+        string desiredBrand=playback!=null ? "LUFFY v3.15 PREVIEW · PLAYBACK" : "LUFFY v3.15 PREVIEW";
         bool brandChanged=brand.Text!=desiredBrand;
         brand.Text=desiredBrand;
         string time=$"{(int)t.TotalMinutes}:{t.Seconds:00}";
@@ -494,7 +494,7 @@ internal sealed class MeterWindow : Form
     }
     private void ShowAbout()
     {
-        MessageBox.Show(this,"LUFFY v3.14\nby Andreas Busk\ncontact@andreasbusk.com\n\nIntegrated LUFS · Short-term LUFS · True Peak\nPeak Capture stores local WAV clips when enabled.\n\nBeta software: validate measurements before critical professional use.",
+        MessageBox.Show(this,"LUFFY v3.15 PREVIEW\nby Andreas Busk\ncontact@andreasbusk.com\n\nIntegrated LUFS · Short-term LUFS · True Peak\nPeak Capture stores local WAV clips when enabled.\n\nBeta software: validate measurements before critical professional use.",
             "About LUFFY",MessageBoxButtons.OK,MessageBoxIcon.Information);
     }
     private void RestartCaptureWithWarning()
