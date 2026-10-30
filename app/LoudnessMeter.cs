@@ -72,11 +72,13 @@ internal sealed class LoudnessMeter : IDisposable
     private double peakTriggerLimit = double.NaN;
     public (long sequence,double peak) ReadLatestBufferPeak() {lock(sync) return (latestBufferSequence,lastBufferTP); }
     public void ClearPendingPeakEvents() { lock(sync) { bufferedPeaks.Clear(); peakArmed=true; } }
-    public bool ConsumePeakCrossing(double limitDbtp)
+    public bool ConsumePeakCrossing(double limitDbtp)=>ConsumePeakCrossingValue(limitDbtp).HasValue;
+    // Returns the highest triggering buffer peak in dBTP, not the old session max.
+    public double? ConsumePeakCrossingValue(double limitDbtp)
     {
         lock(sync)
         {
-            if(!double.IsFinite(limitDbtp))return false;
+            if(!double.IsFinite(limitDbtp))return null;
             if(limitDbtp != peakTriggerLimit)
             {
                 peakTriggerLimit=limitDbtp;
@@ -84,14 +86,16 @@ internal sealed class LoudnessMeter : IDisposable
             }
             double trigger=Math.Pow(10,limitDbtp/20.0);
             double release=trigger*Math.Pow(10,-0.5/20.0);
+            double highest=double.NegativeInfinity;
             bool crossed=false;
             while(bufferedPeaks.Count>0)
             {
                 double current=bufferedPeaks.Dequeue();
-                if(current>=trigger && peakArmed) { crossed=true;peakArmed=false; }
-                else if(current<release) peakArmed=true;
+                if(current>=trigger && peakArmed){crossed=true;peakArmed=false;}
+                else if(current<release)peakArmed=true;
+                if(crossed && current>highest)highest=current;
             }
-            return crossed;
+            return crossed && highest>0 ? 20*Math.Log10(highest) : null;
         }
     }
     private bool paused;
