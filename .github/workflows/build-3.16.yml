@@ -1,0 +1,41 @@
+name: LUFFY 3.16 preview build
+
+on:
+  pull_request:
+    paths:
+      - 'app/**'
+      - '.github/workflows/build-3.16.yml'
+      - 'docs/releases/3.16.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows-preview:
+    name: Windows 3.16 executable
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Publish self-contained Windows x64 build
+        shell: pwsh
+        run: |
+          [xml]$project = Get-Content app/LufsTaskbarMeter.csproj
+          if ($project.Project.PropertyGroup.Version -ne '3.16.0') { throw 'Unexpected version' }
+          dotnet publish app/LufsTaskbarMeter.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o artifacts/release
+          if ($LASTEXITCODE -ne 0) { throw 'Publish failed' }
+          $exe = 'artifacts/release/LUFFY-v3.16.exe'
+          if (!(Test-Path $exe)) { throw 'Executable missing' }
+          $hash = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  LUFFY-v3.16.exe" | Set-Content artifacts/release/SHA256SUMS.txt -Encoding ascii
+      - uses: actions/upload-artifact@v4
+        with:
+          name: LUFFY-v3.16-preview
+          path: |
+            artifacts/release/LUFFY-v3.16.exe
+            artifacts/release/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 14
