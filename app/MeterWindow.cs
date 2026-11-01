@@ -36,6 +36,7 @@ internal sealed class MeterWindow : Form
     private bool dragging, programmaticMove;
     private DiagnosticWindow? diagnosticWindow;
     private readonly MultiScreenWarning overlay=new();
+    private readonly PeakScreenshotRecorder screenshotRecorder=new();
     private SettingsWindow? settingsWindow;
     private bool previewPlaying;
     private bool resumeMeasurementAfterPreview;
@@ -53,7 +54,7 @@ internal sealed class MeterWindow : Form
 
     public MeterWindow()
     {
-        Text="LUFFY by Andreas Busk – v3.16";
+        Text="LUFFY by Andreas Busk – v3.17";
         Icon=Icon.ExtractAssociatedIcon(Application.ExecutablePath) ?? SystemIcons.Application;
         FormBorderStyle=FormBorderStyle.None;
         StartPosition=FormStartPosition.Manual;
@@ -66,7 +67,7 @@ internal sealed class MeterWindow : Form
         Height=40;
         Padding=Padding.Empty;
 
-        brand.Text="LUFFY v3.16";
+        brand.Text="LUFFY v3.17";
         brand.Dock=DockStyle.Top;
         brand.Height=13;
         brand.AutoSize=false;
@@ -201,7 +202,7 @@ internal sealed class MeterWindow : Form
         var playback=settingsWindow?.ReadPlayback();
         Snapshot s=playback?.Snapshot ?? meter.Read();
         TimeSpan t=playback?.ClipTime ?? elapsed.Elapsed;
-        string desiredBrand=playback!=null ? "LUFFY v3.16 · PLAYBACK" : "LUFFY v3.16";
+        string desiredBrand=playback!=null ? "LUFFY v3.17 · PLAYBACK" : "LUFFY v3.17";
         bool brandChanged=brand.Text!=desiredBrand;
         brand.Text=desiredBrand;
         string time=$"{(int)t.TotalMinutes}:{t.Seconds:00}";
@@ -330,104 +331,15 @@ internal sealed class MeterWindow : Form
         menu.Items.Clear();
         menu.Items.Add(new ToolStripMenuItem("Settings…  (double-click / gear)",null,(_,_)=>OpenSettings()));
         menu.Items.Add(new ToolStripSeparator());
-        var sourceItem=new ToolStripMenuItem("Audio source (Windows outputs / inputs)");
-        using(var enumerator=new MMDeviceEnumerator())
-        {
-            try
-            {
-                var def=enumerator.GetDefaultAudioEndpoint(DataFlow.Render,Role.Multimedia);
-                var m=new ToolStripMenuItem("Windows default output"){Checked=!cfg.UseInput && cfg.DeviceId==null};
-                m.Click+=(_,_)=>SetSource(null, false);
-                sourceItem.DropDownItems.Add(m);
-                foreach(var device in enumerator.EnumerateAudioEndPoints(DataFlow.Render,DeviceState.Active))
-                {
-                    string id=device.ID;
-                    var item=new ToolStripMenuItem(device.FriendlyName){Checked=!cfg.UseInput && cfg.DeviceId==id};
-                    item.Click+=(_,_)=>SetSource(id, false);
-                    sourceItem.DropDownItems.Add(item);
-                }
-            }
-            catch(Exception ex){sourceItem.DropDownItems.Add(new ToolStripMenuItem(ex.Message){Enabled=false});}
-        }
-        sourceItem.DropDownItems.Add(new ToolStripSeparator());
-        sourceItem.DropDownItems.Add(new ToolStripMenuItem("Windows input / Focusrite Loopback") { Enabled = false });
-        using(var inputEnumerator = new MMDeviceEnumerator())
-        {
-            try
-            {
-                var defaultInput = new ToolStripMenuItem("Default Windows recording input")
-                    { Checked = cfg.UseInput && cfg.DeviceId == null };
-                defaultInput.Click += (_,_) => SetSource(null, true);
-                sourceItem.DropDownItems.Add(defaultInput);
-                foreach(var device in inputEnumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active))
-                {
-                    string id = device.ID;
-                    var item = new ToolStripMenuItem("Input: " + device.FriendlyName)
-                        { Checked = cfg.UseInput && cfg.DeviceId == id };
-                    item.Click += (_,_) => SetSource(id, true);
-                    sourceItem.DropDownItems.Add(item);
-                }
-            }
-            catch(Exception ex) { sourceItem.DropDownItems.Add(new ToolStripMenuItem("Inputs unavailable: " + ex.Message){Enabled=false}); }
-        }
-        sourceItem.DropDownItems.Add(new ToolStripSeparator());
-        sourceItem.DropDownItems.Add(new ToolStripMenuItem("Direct ASIO capture is not supported; select Focusrite Loopback input") { Enabled=false });
-        menu.Items.Add(sourceItem);
-        var targetItem=new ToolStripMenuItem("LUFS target / profile");
-        foreach(var (label,value) in new[]{("Game (-23)",-23d),("Music (-16)",-16d),("Streaming (-14)",-14d)})
-        {
-            double v=value;
-            var item=new ToolStripMenuItem(label){Checked=cfg.Target==v};
-            item.Click+=(_,_)=>{cfg.Target=v;cfg.Profile=label.Split(' ')[0];cfg.Save();UpdateDisplay();};
-            targetItem.DropDownItems.Add(item);
-        }
-        targetItem.DropDownItems.Add(new ToolStripMenuItem("Custom target…",null,(_,_)=>CustomTarget()));
-        targetItem.DropDownItems.Add(new ToolStripMenuItem("True Peak warning threshold…",null,(_,_)=>CustomPeakLimit()));
-        menu.Items.Add(targetItem);
-        menu.Items.Add(new ToolStripSeparator());
         menu.Items.Add(new ToolStripMenuItem(meter.Paused?"Resume measurement":"Pause measurement",null,(_,_)=>PauseResume()));
         menu.Items.Add(new ToolStripMenuItem("Reset measurement  (Ctrl+Alt+R)",null,(_,_)=>Reset()));
-        menu.Items.Add(new ToolStripMenuItem("Test True Peak warning",null,(_,_)=>ShowPeakWarning(true)));
         menu.Items.Add(new ToolStripSeparator());
-        AddToggle(menu,"Always on Top",cfg.OnTop,v=>{cfg.OnTop=v;TopMost=v;});
-        AddToggle(menu,"True Peak warning",cfg.PeakWarning,v=>cfg.PeakWarning=v);
-        menu.Items.Add(new ToolStripSeparator());
-        var tools=new ToolStripMenuItem("Tools & diagnostics");
-        tools.DropDownItems.Add(new ToolStripMenuItem("Restart capture (resets measurement)…",null,(_,_)=>RestartCaptureWithWarning()));
-        tools.DropDownItems.Add(new ToolStripMenuItem($"Capture: {(meter.Error != null ? meter.Error : meter.IsRunning ? "Running" : "Stopped")} · buffers {meter.CapturedBuffers}"){Enabled=false});
-        tools.DropDownItems.Add(new ToolStripMenuItem("True Peak diagnostics…",null,(_,_)=>OpenDiagnostics()));
-        tools.DropDownItems.Add(new ToolStripMenuItem("Save desktop screenshot…",null,(_,_)=>SaveScreenshot()));
-        tools.DropDownItems.Add(new ToolStripMenuItem("Open measurement history (CSV)",null,(_,_)=>OpenHistory()));
-        tools.DropDownItems.Add(new ToolStripMenuItem(hotkeyRegistered?"Reset shortcut: Ctrl+Alt+R":"Reset shortcut: unavailable") {Enabled=false});
-        menu.Items.Add(tools);
-        menu.Items.Add(new ToolStripMenuItem("About LUFFY",null,(_,_)=>ShowAbout()));
-        menu.Items.Add(new ToolStripSeparator());
-        menu.Items.Add(new ToolStripMenuItem("Exit",null,(_,_)=>Close()));
+        menu.Items.Add(new ToolStripMenuItem("Exit LUFFY",null,(_,_)=>Close()));
     }
-    // On demand only. No continuous framebuffer or screenshot recording.
-    private void SaveScreenshot()
-    {
-        using var dialog=new SaveFileDialog
-        {
-            Title="Save LUFFY screenshot",
-            Filter="PNG image (*.png)|*.png",
-            DefaultExt="png",AddExtension=true,OverwritePrompt=true,
-            FileName=$"LUFFY_3.16_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.png"
-        };
-        if(dialog.ShowDialog(this)!=DialogResult.OK)return;
-        try
-        {
-            var bounds=SystemInformation.VirtualScreen;
-            using var image=new Bitmap(bounds.Width,bounds.Height);
-            using(var g=Graphics.FromImage(image))
-                g.CopyFromScreen(bounds.Location,Point.Empty,bounds.Size,CopyPixelOperation.SourceCopy);
-            image.Save(dialog.FileName,System.Drawing.Imaging.ImageFormat.Png);
-        }
-        catch(Exception ex) {Program.ReportError(ex,"Saving screenshot");}
-    }
+
     private void CheckPeakWarning()
     {
-        if(!cfg.PeakWarning || !meter.IsRunning || meter.Paused)
+        if((!cfg.PeakWarning && !cfg.PeakScreenshotEnabled) || !meter.IsRunning || meter.Paused)
         {
             meter.ClearPendingPeakEvents();
             return;
@@ -436,8 +348,12 @@ internal sealed class MeterWindow : Form
         // Edge-triggered, so 0.0 second cooldown does not keep restarting one
         // held warning while a loud signal stays above the limit.
         if(!meter.ConsumePeakCrossing(cfg.PeakLimit))return;
-        if((DateTime.UtcNow-lastPeakWarning).TotalSeconds<cfg.WarningCooldownSeconds)return;
-        ShowPeakWarning(false);
+        // Screenshot sampling is independent of visual warning/cooldown and never
+        // creates a continuous image buffer. Test-warning clicks do not capture.
+        screenshotRecorder.TryCapture(cfg);
+        if(cfg.PeakWarning &&
+            (DateTime.UtcNow-lastPeakWarning).TotalSeconds>=cfg.WarningCooldownSeconds)
+            ShowPeakWarning(false);
     }
     private void ShowPeakWarning(bool test)
     {
@@ -491,7 +407,7 @@ internal sealed class MeterWindow : Form
         if(settingsWindow==null || settingsWindow.IsDisposed)
             settingsWindow=new SettingsWindow(cfg, ()=>{meter.ConfigurePeakCapture(cfg);ApplyStyle();TopMost=cfg.OnTop;},
                 ()=>ShowPeakWarning(true), ()=>PositionByTaskbar(), IsStartupEnabled, SetStartup,
-                meter,SetSource,RestartCaptureWithWarning,OpenDiagnostics,OpenHistory,ShowAbout,
+                meter,screenshotRecorder,SetSource,RestartCaptureWithWarning,OpenDiagnostics,OpenHistory,ShowAbout,
                 () => hotkeyRegistered,PreviewListeningChanged);
         if(!settingsWindow.Visible)settingsWindow.Show();
         if(settingsWindow.WindowState==FormWindowState.Minimized)settingsWindow.WindowState=FormWindowState.Normal;
@@ -499,7 +415,7 @@ internal sealed class MeterWindow : Form
     }
     private void ShowAbout()
     {
-        MessageBox.Show(this,"LUFFY v3.16\nby Andreas Busk\ncontact@andreasbusk.com\n\nIntegrated LUFS · Short-term LUFS · True Peak\nPeak Capture stores local WAV clips when enabled.\n\nBeta software: validate measurements before critical professional use.",
+        MessageBox.Show(this,"LUFFY v3.17\nby Andreas Busk\ncontact@andreasbusk.com\n\nIntegrated LUFS · Short-term LUFS · True Peak\nPeak Capture stores local WAV clips when enabled.\n\nBeta software: validate measurements before critical professional use.",
             "About LUFFY",MessageBoxButtons.OK,MessageBoxIcon.Information);
     }
     private void RestartCaptureWithWarning()
