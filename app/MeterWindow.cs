@@ -36,9 +36,7 @@ internal sealed class MeterWindow : Form
     private bool dragging, programmaticMove;
     private DiagnosticWindow? diagnosticWindow;
     private readonly MultiScreenWarning overlay=new();
-    private readonly AmbientBorder ambient=new();
     private readonly PeakScreenshotCapture screenshot=new();
-    private double lastAmbientUpdateMs;
     private SettingsWindow? settingsWindow;
     private bool previewPlaying;
     private bool resumeMeasurementAfterPreview;
@@ -116,11 +114,6 @@ internal sealed class MeterWindow : Form
                     lastReadoutMs=now;
                     draw=UpdateDisplay(false);
                     CheckPeakWarning();
-                    if(now-lastAmbientUpdateMs>=200)
-                    {
-                        lastAmbientUpdateMs=now;
-                        UpdateAmbient();
-                    }
                 }
                 if(now-lastStereoMs>=33)
                 {
@@ -276,7 +269,6 @@ internal sealed class MeterWindow : Form
         // Reset starts a new measurement; save current session before restarting.
         bool remainPaused=meter.Paused;
         overlay.HideWarning();
-        ambient.Hide();
         screenshot.ResetSession();
         // Mark the new capture as paused *before* its first WASAPI callback.
         meter.Start(cfg.DeviceId,cfg.UseInput,remainPaused);
@@ -303,8 +295,7 @@ internal sealed class MeterWindow : Form
         {
             elapsed.Stop();
             overlay.HideWarning();
-            ambient.Hide();
-        }
+            }
         else
         {
             elapsed.Start();
@@ -406,15 +397,6 @@ internal sealed class MeterWindow : Form
         menu.Items.Add(new ToolStripSeparator());
         menu.Items.Add(new ToolStripMenuItem("Exit",null,(_,_)=>Close()));
     }
-    private void UpdateAmbient()
-    {
-        var playback=settingsWindow?.ReadPlayback();
-        bool active=cfg.AmbientEnabled && playback==null && meter.IsRunning && !meter.Paused;
-        bool suppressed=(DateTime.UtcNow-lastPeakWarning).TotalSeconds<
-            cfg.WarningDurationSeconds+(cfg.WarningFadeOut?0.3:0);
-        ambient.Update(active?meter.Read().ShortTerm:null,cfg.AmbientTarget,
-            cfg.AmbientRangeLU,active,suppressed);
-    }
     private void CheckPeakWarning()
     {
         if((!cfg.PeakWarning && !cfg.PeakScreenshotEnabled) || !meter.IsRunning || meter.Paused)
@@ -431,7 +413,6 @@ internal sealed class MeterWindow : Form
         screenshot.Capture(cfg,peak);
         if(!cfg.PeakWarning)return;
         if((DateTime.UtcNow-lastPeakWarning).TotalSeconds<cfg.WarningCooldownSeconds)return;
-        ambient.Hide();
         ShowPeakWarning(false);
     }
     private void ShowPeakWarning(bool test)
@@ -583,7 +564,6 @@ internal sealed class MeterWindow : Form
             return;
         }
         overlay.HideWarning();
-        ambient.DisplayChanged();
         if(cfg.Docked)PositionByTaskbar();
     }
     private bool OverTruePeak(Point point)
@@ -666,7 +646,7 @@ internal sealed class MeterWindow : Form
     protected override void OnFormClosed(FormClosedEventArgs e)
     {
         SaveSession();timer.Stop();timer.Dispose();
-        settingsWindow?.Close();overlay.Dispose();ambient.Dispose();
+        settingsWindow?.Close();overlay.Dispose();
         if(hotkeyRegistered && IsHandleCreated)UnregisterHotKey(Handle,HOTKEY_ID);
         SystemEvents.DisplaySettingsChanged-=DisplayChanged;
         meter.Dispose();readoutFont.Dispose();brand.Dispose();strip.Dispose();
