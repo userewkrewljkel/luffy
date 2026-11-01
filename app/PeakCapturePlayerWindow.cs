@@ -334,6 +334,10 @@ internal sealed class PeakCapturePlayerWindow : Form
     {
         if(listening)TogglePlayback();
     }
+    public void ResetTruePeakMaxFromMeter()
+    {
+        lock(readerGate)playbackMeter?.ResetTruePeakMax();
+    }
     public void ResetFromMeter()
     {
         lock(readerGate)
