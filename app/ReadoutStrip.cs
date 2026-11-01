@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace LufsTaskbarMeter;
@@ -9,13 +10,14 @@ namespace LufsTaskbarMeter;
 // values even when ReadDiagnostics() proved the meter had real audio samples.
 internal sealed class ReadoutStrip : Panel
 {
-    internal readonly record struct Entry(string Text, Color Foreground);
+    internal readonly record struct Entry(string Text, Color Foreground, bool ResetTp=false);
     private readonly List<(Entry entry, Rectangle bounds)> placements = new();
     // Managed by MeterWindow. Never depend on WinForms Control.Font setter
     // equality/caching, which can retain a subsequently disposed Font.
     private Font displayFont=SystemFonts.DefaultFont;
     private bool layoutDirty=true;
     internal bool LastEntriesChanged {get;private set;}
+    internal Rectangle TruePeakResetBounds {get;private set;} = Rectangle.Empty;
     internal Font DisplayFont
     {
         get=>displayFont;
@@ -55,6 +57,7 @@ internal sealed class ReadoutStrip : Panel
         LastEntriesChanged=true;
         layoutDirty=false;
         placements.Clear();
+        TruePeakResetBounds=Rectangle.Empty;
         int x=LeftInset+StereoReservedWidth;
         foreach(var entry in entries)
         {
@@ -63,7 +66,8 @@ internal sealed class ReadoutStrip : Panel
             // flags, and text. Never set narrow child Label bounds.
             int measured=TextRenderer.MeasureText(entry.Text, DisplayFont,
                 new Size(32767,Math.Max(22,Height)),Flags).Width;
-            int width=Math.Max(18,measured+ExtraWidth);
+            int width=Math.Max(18,measured+ExtraWidth+(entry.ResetTp?19:0));
+            if(entry.ResetTp)TruePeakResetBounds=new Rectangle(x+measured+3,3,16,16);
             placements.Add((entry,new Rectangle(x,0,width,Height)));
             x+=width;
         }
@@ -72,7 +76,7 @@ internal sealed class ReadoutStrip : Panel
     }
     // Paint the exact precomputed text positions into the alpha-composited
     // window. No Label controls or layout engines can clip/reorder values.
-    internal void DrawAt(Graphics graphics,int top)
+    internal void DrawAt(Graphics graphics,int top,bool hoveredTp=false)
     {
         foreach(var (entry,bounds) in placements)
         {
@@ -87,7 +91,31 @@ internal sealed class ReadoutStrip : Panel
             };
             graphics.DrawString(entry.Text,DisplayFont,brush,
                 new RectangleF(rect.X,rect.Y,rect.Width,rect.Height),fmt);
+            if(entry.ResetTp)
+            {
+                var icon=HereAtTop(TruePeakResetBounds,top);
+                DrawTpReset(graphics,icon,hoveredTp);
+            }
         }
+    }
+    private static Rectangle HereAtTop(Rectangle rect,int top) =>
+        new(rect.X,rect.Y+top,rect.Width,rect.Height);
+    // Dedicated small TP-only reset icon, independent of the global 22px Reset.
+    private static void DrawTpReset(Graphics g,Rectangle rect,bool hovered)
+    {
+        var state=g.SmoothingMode;
+        g.SmoothingMode=SmoothingMode.AntiAlias;
+        if(hovered)
+        {
+            using var fill=new SolidBrush(Color.FromArgb(85,88,94));
+            g.FillEllipse(fill,rect);
+        }
+        using var pen=new Pen(Color.FromArgb(200,205,214),1.4f)
+            {StartCap=LineCap.Round,EndCap=LineCap.Round};
+        g.DrawArc(pen,rect.X+3,rect.Y+3,10,10,210,285);
+        g.DrawLine(pen,rect.X+4.1f,rect.Y+8.4f,rect.X+4.4f,rect.Y+12f);
+        g.DrawLine(pen,rect.X+4.4f,rect.Y+12f,rect.X+8f,rect.Y+11.2f);
+        g.SmoothingMode=state;
     }
     internal int LastRightEdge => placements.Count==0 ? LeftInset+StereoReservedWidth : placements[^1].bounds.Right;
     protected override void OnPaint(PaintEventArgs e)

@@ -65,6 +65,9 @@ internal sealed class LoudnessMeter : IDisposable
     private double maxShort = double.NegativeInfinity;
     private TruePeakDetector[] tpDetectors = [];
     private double maxTP = double.NegativeInfinity;
+    // Only a meaningful new signal should populate TP after a TP-only reset.
+    private bool waitingForNewTruePeak;
+    private const double NewPeakFloor = 0.00031622776601683794; // -70 dBTP
     private double lastBufferTP;
     private long latestBufferSequence;
     private readonly Queue<double> bufferedPeaks = new();
@@ -303,8 +306,9 @@ internal sealed class LoudnessMeter : IDisposable
                     }
                     double detected=tpDetectors[c].Process(sample);
                     bufferMax=Math.Max(bufferMax,detected);
-                    if(detected>maxTP)
+                    if(detected>maxTP && (!waitingForNewTruePeak || detected>=NewPeakFloor))
                     {
+                        waitingForNewTruePeak=false;
                         maxTP=detected;maxTrueFrame=frameIndex;maxTrueChannel=c;maxTrueAtSample=abs;
                         LogPeakEvent("TP",detected,frameIndex,c);
                     }
@@ -370,6 +374,18 @@ internal sealed class LoudnessMeter : IDisposable
                 maxTP>0?20*Math.Log10(maxTP):null,paused,Error);
         }
     }
+    // Does not touch LUFS integration, time, audio filters, pending warnings or WAV recording.
+    public void ResetTruePeakMax()
+    {
+        lock(sync)
+        {
+            maxTP=double.NegativeInfinity;
+            maxTrueFrame=-1;
+            maxTrueChannel=-1;
+            maxTrueAtSample=0;
+            waitingForNewTruePeak=true;
+        }
+    }
     public void Reset() { lock(sync) ResetInternal(); }
     private void ResetInternal()
     {
@@ -377,6 +393,7 @@ internal sealed class LoudnessMeter : IDisposable
         lastBufferTP=0;latestBufferSequence++;
         bufferedPeaks.Clear();peakArmed=true;peakTriggerLimit=double.NaN;
         hopCount=0;hopEnergy=0;rollingEnergy=0;shortEnergy=0;maxShort=double.NegativeInfinity;maxTP=double.NegativeInfinity;
+        waitingForNewTruePeak=false;
         maxSamplePeak=double.NegativeInfinity;maxSampleFrame=-1;maxTrueFrame=-1;maxSampleChannel=-1;maxTrueChannel=-1;
         maxTrueAtSample=0;frameIndex=0;peakEvents.Clear();
         fourHops.Clear();thirtyHops.Clear();gatedBlocks.Clear();

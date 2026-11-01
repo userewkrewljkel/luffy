@@ -37,6 +37,7 @@ internal sealed class SettingsWindow : Form
         capturePlayer?.ConsumePlaybackStereo() ?? (0,0);
     public void TogglePreviewPlayback() => capturePlayer?.ToggleFromMeter();
     public void ResetPlayback() => capturePlayer?.ResetFromMeter();
+    public void ResetPlaybackTruePeakMax() => capturePlayer?.ResetTruePeakMaxFromMeter();
     private bool choosingSource;
     private bool deletingCaptures;
     private string[] lastClips=[];
@@ -53,7 +54,7 @@ internal sealed class SettingsWindow : Form
     {
         cfg=options;this.changed=changed;this.meter=meter;this.setSource=setSource;
         this.previewListeningChanged=previewListeningChanged;
-        Text="LUFFY v3.14 – Settings";
+        Text="LUFFY v3.16 – Settings";
         StartPosition=FormStartPosition.CenterScreen;
         ClientSize=new Size(590,590);
         MinimumSize=new Size(530,480);
@@ -134,7 +135,7 @@ internal sealed class SettingsWindow : Form
         Heading(general,"Shortcuts & application");
         Note(general,hotkeyAvailable()?"Reset shortcut: Ctrl + Alt + R":"Reset shortcut: unavailable (used by another app)",32);
         Note(general,"Open Settings: double-click the meter or click its small gear.",32);
-        Note(general,"LUFFY v3.14 Beta · Andreas Busk · contact@andreasbusk.com",32);
+        Note(general,"LUFFY v3.16 Beta · Andreas Busk · contact@andreasbusk.com",32);
         Button(general,"About LUFFY",about);
         Button(general,"Check for updates (GitHub Releases)",()=>
             Process.Start(new ProcessStartInfo("https://github.com/userewkrewljkel/luffy/releases"){UseShellExecute=true}));
