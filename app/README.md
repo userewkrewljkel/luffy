@@ -1,3 +1,11 @@
+# LUFFY v3.16 — development candidate
+
+Preview build on the 3.16 branch. See `docs/releases/3.16.md` for testing instructions. This is not a public release, and Windows/manual audio verification remains outstanding.
+
+**New:** separate TP max reset icon, on-demand desktop screenshot, numeric LUFS/TP colors, and no Ambient Mode. The original screen-edge TP warning is unchanged. Existing settings are preserved.
+
+---
+
 # LUFFY v3.14 Beta — Windows source
 
 Small Windows loudness meter by Andreas Busk. **Beta: keep your working v3.13 executable as a backup.**
