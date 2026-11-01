@@ -11,11 +11,11 @@ namespace LufsTaskbarMeter;
 internal static class Program
 {
     private const int HWND_BROADCAST = 0xffff;
-    private const string Version = "v3.16";
+    private const string Version = "v3.17";
     // Each release gets its own lock; previous versions can never silently
     // swallow a launch of this executable, as happened with v3.7.
-    private const string InstanceMutex = @"Local\LUFFY_SingleInstance_v3_16";
-    internal static readonly uint WakeMessage = RegisterWindowMessage("LUFFY_WakeInstance_v3_16_2026");
+    private const string InstanceMutex = @"Local\LUFFY_SingleInstance_v3_17";
+    internal static readonly uint WakeMessage = RegisterWindowMessage("LUFFY_WakeInstance_v3_17_2026");
     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
     private static extern uint RegisterWindowMessage(string name);
     [DllImport("user32.dll")]
@@ -37,8 +37,8 @@ internal static class Program
             if (!first)
             {
                 PostMessage(new IntPtr(HWND_BROADCAST), WakeMessage, IntPtr.Zero, IntPtr.Zero);
-                MessageBox.Show("LUFFY v3.16 is already running. Its existing window has been requested to come to the front.",
-                    "LUFFY v3.16", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("LUFFY v3.17 is already running. Its existing window has been requested to come to the front.",
+                    "LUFFY v3.17", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
             if (!CloseOlderVersions()) return;
@@ -67,7 +67,7 @@ internal static class Program
         catch (Exception ex)
         {
             LogError(ex, "Discover other LUFFY processes");
-            return true; // A failed check must not prevent opening v3.16.
+            return true; // A failed check must not prevent opening v3.17.
         }
         try
         {
@@ -75,9 +75,9 @@ internal static class Program
             string versions = string.Join(", ", older.Select(p => p.ProcessName).Distinct());
             var answer = MessageBox.Show(
                 $"An older LUFFY is still running ({versions}).\n\n" +
-                "Close the old version gracefully and start LUFFY v3.16?\n" +
+                "Close the old version gracefully and start LUFFY v3.17?\n" +
                 "This saves the previous measurement session before closing.",
-                "LUFFY v3.16 – previous version detected",
+                "LUFFY v3.17 – previous version detected",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (answer != DialogResult.Yes) return false;
             foreach (var process in older)
@@ -87,15 +87,15 @@ internal static class Program
                     if (!process.HasExited && !process.CloseMainWindow())
                     {
                         MessageBox.Show($"Could not close {process.ProcessName} automatically.\n" +
-                            "Use its right-click menu → Exit, then launch v3.16 again.",
-                            "LUFFY v3.16", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            "Use its right-click menu → Exit, then launch v3.17 again.",
+                            "LUFFY v3.17", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return false;
                     }
                     if (!process.WaitForExit(4000))
                     {
                         MessageBox.Show($"{process.ProcessName} is still closing.\n" +
-                            "Close it with right-click → Exit and relaunch v3.16.",
-                            "LUFFY v3.16", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            "Close it with right-click → Exit and relaunch v3.17.",
+                            "LUFFY v3.17", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return false;
                     }
                 }
@@ -128,7 +128,7 @@ internal static class Program
         {
             MessageBox.Show($"{context}: {ex.Message}\n\n" +
                 $"Details: {Path.Combine(Settings.Folder, "errors.log")}",
-                "LUFFY v3.16 – error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                "LUFFY v3.17 – error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         catch { }
     }
