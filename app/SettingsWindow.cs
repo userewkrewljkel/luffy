@@ -385,7 +385,7 @@ internal sealed class SettingsWindow : Form
     private static string[] SavedScreenshotPaths(string folder)
     {
         if(!Directory.Exists(folder))return [];
-        return Directory.GetFiles(folder,"LUFFY_TP_*.png",SearchOption.TopDirectoryOnly)
+        return Directory.GetFiles(folder,"LUFFY_TP_*.png",System.IO.SearchOption.TopDirectoryOnly)
             .Where(path=>Regex.IsMatch(Path.GetFileName(path),
                 @"^LUFFY_TP_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}_\d{3}_[a-f0-9]{8}\.png$",
                 RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
