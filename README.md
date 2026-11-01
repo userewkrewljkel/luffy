@@ -4,11 +4,11 @@ A free Windows loudness meter by Andreas Busk, with its static website.
 
 ## Versions
 
-## Development candidate: LUFFY 3.16
+## Development candidate: LUFFY 3.17
 
-Source in the 3.16 feature branch adds a small dedicated TP-only reset icon, preserving the existing global reset. TP-only reset displays an em dash until a new peak reaches −70 dBTP, and does not restart LUFS measurements or WAV recording. Ambient Mode remains excluded; the existing TP screen-edge warning is preserved. A manual PNG desktop screenshot command is available under Tools & diagnostics; no screenshot buffer is kept in the background.
+This 3.17 development branch builds on the 3.16 candidate: a dedicated TP-only reset icon remains beside the True Peak value. Automatic desktop screenshots are optional and triggered only by real TP threshold crossings, without continuous buffering. Settings → True Peak provides two independent Recycle Bin buttons: one for Peak Capture WAVs and matching metadata, the other for saved LUFFY TP screenshots. Ambient Mode remains excluded, and the red screen-edge TP warning stays available. The right-click menu is simplified.
 
-**Download for testing:** once the pull-request Windows job has succeeded, open its Actions run and download the `LUFFY-v3.16-preview` artifact. This is **not** the public 3.14 release. Perform the checks in [3.16 release notes](docs/releases/3.16.md) before distributing it.
+**Download for testing:** once the pull-request Windows job has succeeded, open its Actions run and download the `LUFFY-v3.17-preview` artifact. This is **not** the public 3.14 release. Perform the checks in [3.17 release notes](docs/releases/3.17.md) before distributing it.
 
 
 - Public download: [v3.14 beta](https://github.com/userewkrewljkel/luffy/releases/tag/3.14).
