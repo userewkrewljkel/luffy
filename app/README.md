@@ -1,8 +1,8 @@
-# LUFFY v3.16 — development candidate
+# LUFFY v3.17 — development candidate
 
-Preview build on the 3.16 branch. See `docs/releases/3.16.md` for testing instructions. This is not a public release, and Windows/manual audio verification remains outstanding.
+Preview build on the 3.17 branch. See `docs/releases/3.17.md` for testing instructions. This is not a public release, and Windows/manual audio verification remains outstanding.
 
-**New:** separate TP max reset icon, on-demand desktop screenshot, numeric LUFS/TP colors, and no Ambient Mode. The original screen-edge TP warning is unchanged. Existing settings are preserved.
+**New:** optional automatic TP-crossing screenshots with no continuous image buffering, separate Recycle Bin buttons for audio captures and screenshots, and a simplified right-click menu. The 3.16 TP reset icon, numerical LUFS/TP colors and red screen-edge warning remain. Ambient Mode is excluded. Existing settings are preserved.
 
 ---
 
