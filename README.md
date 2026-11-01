@@ -4,8 +4,15 @@ A free Windows loudness meter by Andreas Busk, with its static website.
 
 ## Versions
 
+## Development candidate: LUFFY 3.16
+
+Source in the 3.16 feature branch adds a small dedicated TP-only reset icon, preserving the existing global reset. TP-only reset displays an em dash until a new peak reaches −70 dBTP, and does not restart LUFS measurements or WAV recording. Ambient Mode remains excluded; the existing TP screen-edge warning is preserved. A manual PNG desktop screenshot command is available under Tools & diagnostics; no screenshot buffer is kept in the background.
+
+**Download for testing:** once the pull-request Windows job has succeeded, open its Actions run and download the `LUFFY-v3.16-preview` artifact. This is **not** the public 3.14 release. Perform the checks in [3.16 release notes](docs/releases/3.16.md) before distributing it.
+
+
 - Public download: [v3.14 beta](https://github.com/userewkrewljkel/luffy/releases/tag/3.14).
-- Development source: **v3.14 beta**, in [`app/`](app/). Imported from the local `LUFFY-v3.14-source` project; generated binaries and build caches are excluded. This import does not prove that a published EXE was built from this source.
+- Latest published source: **v3.14 beta**, in [`app/`](app/). Imported from the local `LUFFY-v3.14-source` project; generated binaries and build caches are excluded. This import does not prove that a published EXE was built from this source.
 - The v3.14 beta executable is built from the tagged source by GitHub Actions. Automated build checks pass; the full manual audio and playback checklist in [`app/README.md`](app/README.md) remains outstanding. Keep the previous release available.
 
 ## Website
