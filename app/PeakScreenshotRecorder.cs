@@ -52,8 +52,8 @@ internal sealed class PeakScreenshotRecorder
         catch(Exception ex)
         {
             Program.LogError(ex,"Saving automatic True Peak screenshot");
-            // A failed save must not leave a truncated image looking valid.
-            try {if(File.Exists(file))File.Delete(file);}catch {}
+            // Leave any partial image in its own folder for the user to review
+            // or move to the Recycle Bin. No permanent-delete fallback.
         }
     }
 
