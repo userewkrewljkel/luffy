@@ -89,6 +89,12 @@ internal sealed class ReadoutStrip : Panel
                 new RectangleF(rect.X,rect.Y,rect.Width,rect.Height),fmt);
         }
     }
+    internal Rectangle? BoundsForEntryPrefix(string prefix)
+    {
+        foreach(var (entry,bounds) in placements)
+            if(entry.Text.StartsWith(prefix,StringComparison.Ordinal))return bounds;
+        return null;
+    }
     internal int LastRightEdge => placements.Count==0 ? LeftInset+StereoReservedWidth : placements[^1].bounds.Right;
     protected override void OnPaint(PaintEventArgs e)
     {

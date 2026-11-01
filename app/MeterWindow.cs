@@ -36,6 +36,7 @@ internal sealed class MeterWindow : Form
     private bool dragging, programmaticMove;
     private DiagnosticWindow? diagnosticWindow;
     private readonly MultiScreenWarning overlay=new();
+    private readonly PeakScreenshotCapture screenshot=new();
     private SettingsWindow? settingsWindow;
     private bool previewPlaying;
     private bool resumeMeasurementAfterPreview;
@@ -45,15 +46,15 @@ internal sealed class MeterWindow : Form
     private static readonly Color Background=Color.FromArgb(31,33,38);
     private static readonly Color Green=Color.FromArgb(110,221,155), Red=Color.FromArgb(255,110,110);
     private Rectangle pauseBounds, resetBounds, gearBounds;
-    private bool hoveredPause, hoveredReset, hoveredGear;
-    private enum HitTarget { None, Pause, Reset, Gear }
+    private bool hoveredTp, hoveredPause, hoveredReset, hoveredGear;
+    private enum HitTarget { None, TruePeak, Pause, Reset, Gear }
     private HitTarget pressed=HitTarget.None;
     private bool layeringFailed;
     private static readonly string StartupKey=@"Software\Microsoft\Windows\CurrentVersion\Run";
 
     public MeterWindow()
     {
-        Text="LUFFY by Andreas Busk – v3.14";
+        Text="LUFFY by Andreas Busk – v3.15 PREVIEW";
         Icon=Icon.ExtractAssociatedIcon(Application.ExecutablePath) ?? SystemIcons.Application;
         FormBorderStyle=FormBorderStyle.None;
         StartPosition=FormStartPosition.Manual;
@@ -66,7 +67,7 @@ internal sealed class MeterWindow : Form
         Height=40;
         Padding=Padding.Empty;
 
-        brand.Text="LUFFY v3.14";
+        brand.Text="LUFFY v3.15 PREVIEW";
         brand.Dock=DockStyle.Top;
         brand.Height=13;
         brand.AutoSize=false;
@@ -201,7 +202,7 @@ internal sealed class MeterWindow : Form
         var playback=settingsWindow?.ReadPlayback();
         Snapshot s=playback?.Snapshot ?? meter.Read();
         TimeSpan t=playback?.ClipTime ?? elapsed.Elapsed;
-        string desiredBrand=playback!=null ? "LUFFY v3.14 · PLAYBACK" : "LUFFY v3.14";
+        string desiredBrand=playback!=null ? "LUFFY v3.15 PREVIEW · PLAYBACK" : "LUFFY v3.15 PREVIEW";
         bool brandChanged=brand.Text!=desiredBrand;
         brand.Text=desiredBrand;
         string time=$"{(int)t.TotalMinutes}:{t.Seconds:00}";
@@ -268,6 +269,7 @@ internal sealed class MeterWindow : Form
         // Reset starts a new measurement; save current session before restarting.
         bool remainPaused=meter.Paused;
         overlay.HideWarning();
+        screenshot.ResetSession();
         // Mark the new capture as paused *before* its first WASAPI callback.
         meter.Start(cfg.DeviceId,cfg.UseInput,remainPaused);
         elapsed.Reset();
@@ -293,7 +295,7 @@ internal sealed class MeterWindow : Form
         {
             elapsed.Stop();
             overlay.HideWarning();
-        }
+            }
         else
         {
             elapsed.Start();
@@ -397,7 +399,7 @@ internal sealed class MeterWindow : Form
     }
     private void CheckPeakWarning()
     {
-        if(!cfg.PeakWarning || !meter.IsRunning || meter.Paused)
+        if((!cfg.PeakWarning && !cfg.PeakScreenshotEnabled) || !meter.IsRunning || meter.Paused)
         {
             meter.ClearPendingPeakEvents();
             return;
@@ -405,7 +407,11 @@ internal sealed class MeterWindow : Form
         // Process ALL buffer peaks, not just the last of the UI timer interval.
         // Edge-triggered, so 0.0 second cooldown does not keep restarting one
         // held warning while a loud signal stays above the limit.
-        if(!meter.ConsumePeakCrossing(cfg.PeakLimit))return;
+        double? eventPeak=meter.ConsumePeakCrossingValue(cfg.PeakLimit);
+        if(eventPeak is not double peak)return;
+        // Capture the screen before the red warning overlay is drawn.
+        screenshot.Capture(cfg,peak);
+        if(!cfg.PeakWarning)return;
         if((DateTime.UtcNow-lastPeakWarning).TotalSeconds<cfg.WarningCooldownSeconds)return;
         ShowPeakWarning(false);
     }
@@ -469,7 +475,7 @@ internal sealed class MeterWindow : Form
     }
     private void ShowAbout()
     {
-        MessageBox.Show(this,"LUFFY v3.14\nby Andreas Busk\ncontact@andreasbusk.com\n\nIntegrated LUFS · Short-term LUFS · True Peak\nPeak Capture stores local WAV clips when enabled.\n\nBeta software: validate measurements before critical professional use.",
+        MessageBox.Show(this,"LUFFY v3.15 PREVIEW\nby Andreas Busk\ncontact@andreasbusk.com\n\nIntegrated LUFS · Short-term LUFS · True Peak\nPeak Capture stores local WAV clips when enabled.\n\nBeta software: validate measurements before critical professional use.",
             "About LUFFY",MessageBoxButtons.OK,MessageBoxIcon.Information);
     }
     private void RestartCaptureWithWarning()
@@ -560,7 +566,16 @@ internal sealed class MeterWindow : Form
         overlay.HideWarning();
         if(cfg.Docked)PositionByTaskbar();
     }
-    private HitTarget Hit(Point point) => pauseBounds.Contains(point)?HitTarget.Pause:
+    private bool OverTruePeak(Point point)
+    {
+        if(!cfg.ShowTP || previewPlaying)return false;
+        var bounds=strip.BoundsForEntryPrefix("TP ");
+        if(bounds is not Rectangle entry)return false;
+        entry.Offset(0,14);
+        return entry.Contains(point);
+    }
+    private HitTarget Hit(Point point) => OverTruePeak(point)?HitTarget.TruePeak:
+        pauseBounds.Contains(point)?HitTarget.Pause:
         resetBounds.Contains(point)?HitTarget.Reset:
         gearBounds.Contains(point)?HitTarget.Gear:HitTarget.None;
     protected override void OnMouseDown(MouseEventArgs e)
@@ -573,12 +588,12 @@ internal sealed class MeterWindow : Form
     protected override void OnMouseMove(MouseEventArgs e)
     {
         base.OnMouseMove(e);
-        bool p=pauseBounds.Contains(e.Location),r=resetBounds.Contains(e.Location),gear=gearBounds.Contains(e.Location);
-        if(p!=hoveredPause || r!=hoveredReset || gear!=hoveredGear)
+        bool tp=OverTruePeak(e.Location),p=pauseBounds.Contains(e.Location),r=resetBounds.Contains(e.Location),gear=gearBounds.Contains(e.Location);
+        if(tp!=hoveredTp || p!=hoveredPause || r!=hoveredReset || gear!=hoveredGear)
         {
-            hoveredPause=p;hoveredReset=r;hoveredGear=gear;
-            Cursor=p||r||gear?Cursors.Hand:Cursors.Default;
-            tooltip.SetToolTip(this,p?(meter.Paused?"Resume measurement":"Pause measurement"):
+            hoveredTp=tp;hoveredPause=p;hoveredReset=r;hoveredGear=gear;
+            Cursor=tp||p||r||gear?Cursors.Hand:Cursors.Default;
+            tooltip.SetToolTip(this,tp?"Click to reset True Peak max":p?(meter.Paused?"Resume measurement":"Pause measurement"):
                 r?"Reset measurement":gear?"Open Settings":"Double-click for Settings; right-click for menu");
             RenderLayered();
         }
@@ -598,7 +613,12 @@ internal sealed class MeterWindow : Form
         if(dragging){dragging=false;cfg.Save();}
         else if(pressed!=HitTarget.None && Hit(e.Location)==pressed)
         {
-            if(pressed==HitTarget.Pause)PauseResume();
+            if(pressed==HitTarget.TruePeak)
+            {
+                meter.ResetTruePeakMaximum();
+                UpdateDisplay();
+            }
+            else if(pressed==HitTarget.Pause)PauseResume();
             else if(pressed==HitTarget.Reset)Reset();
             else if(pressed==HitTarget.Gear)OpenSettings();
         }
@@ -607,7 +627,7 @@ internal sealed class MeterWindow : Form
     protected override void OnMouseLeave(EventArgs e)
     {
         base.OnMouseLeave(e);
-        if(hoveredPause || hoveredReset || hoveredGear){hoveredPause=false;hoveredReset=false;hoveredGear=false;RenderLayered();}
+        if(hoveredTp || hoveredPause || hoveredReset || hoveredGear){hoveredTp=false;hoveredPause=false;hoveredReset=false;hoveredGear=false;Cursor=Cursors.Default;RenderLayered();}
     }
     protected override void OnMouseDoubleClick(MouseEventArgs e)
     {

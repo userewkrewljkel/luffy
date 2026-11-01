@@ -53,7 +53,7 @@ internal sealed class SettingsWindow : Form
     {
         cfg=options;this.changed=changed;this.meter=meter;this.setSource=setSource;
         this.previewListeningChanged=previewListeningChanged;
-        Text="LUFFY v3.14 – Settings";
+        Text="LUFFY v3.15 PREVIEW – Settings";
         StartPosition=FormStartPosition.CenterScreen;
         ClientSize=new Size(590,590);
         MinimumSize=new Size(530,480);
@@ -134,7 +134,7 @@ internal sealed class SettingsWindow : Form
         Heading(general,"Shortcuts & application");
         Note(general,hotkeyAvailable()?"Reset shortcut: Ctrl + Alt + R":"Reset shortcut: unavailable (used by another app)",32);
         Note(general,"Open Settings: double-click the meter or click its small gear.",32);
-        Note(general,"LUFFY v3.14 Beta · Andreas Busk · contact@andreasbusk.com",32);
+        Note(general,"LUFFY v3.15 PREVIEW Beta · Andreas Busk · contact@andreasbusk.com",32);
         Button(general,"About LUFFY",about);
         Button(general,"Check for updates (GitHub Releases)",()=>
             Process.Start(new ProcessStartInfo("https://github.com/userewkrewljkel/luffy/releases"){UseShellExecute=true}));
@@ -216,6 +216,22 @@ internal sealed class SettingsWindow : Form
         Number(warning,"True Peak limit (dBTP)",(decimal)cfg.PeakLimit,-30,6,0.1m,v=>cfg.PeakLimit=(double)v);
         Toggle(warning,"Fade out only (never fade in)",cfg.WarningFadeOut,v=>cfg.WarningFadeOut=v);
         Button(warning,"Test warning on all screens",preview);
+        Separator(warning);
+        Heading(warning,"Peak Screenshots · optional JPEG");
+        Toggle(warning,"Capture a screenshot on True Peak (off by default)",
+            cfg.PeakScreenshotEnabled,v=>cfg.PeakScreenshotEnabled=v);
+        Toggle(warning,"Add TP value and time watermark",cfg.PeakScreenshotWatermark,v=>cfg.PeakScreenshotWatermark=v);
+        Number(warning,"Minimum seconds between screenshots",
+            (decimal)cfg.PeakScreenshotCooldownSeconds,0,60,1,v=>cfg.PeakScreenshotCooldownSeconds=(double)v);
+        Number(warning,"Maximum screenshots per session",
+            cfg.PeakScreenshotMaxPerSession,10,500,10,v=>cfg.PeakScreenshotMaxPerSession=(int)v);
+        Button(warning,"Open screenshot folder",()=>
+        {
+            string folder=Path.Combine(cfg.PeakCaptureFolder,"Screenshots");
+            Directory.CreateDirectory(folder);
+            Process.Start(new ProcessStartInfo(folder){UseShellExecute=true});
+        });
+        Note(warning,"On-demand capture of the foreground monitor, max 1280 x 720 JPEG (quality 80). No image buffer. Screenshots can lag very short events.",70);
         Separator(warning);
         Heading(warning,"Peak Capture · local WAV clips");
         var recordingToggle=Toggle(warning,"Automatically record peaks (off by default)",cfg.PeakCaptureEnabled,v=>cfg.PeakCaptureEnabled=v);
