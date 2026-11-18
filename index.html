@@ -5,15 +5,15 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#151618">
-  <meta name="description" content="LUFFY is a free Windows loudness meter by Andreas Busk. Integrated and Short-term LUFS, True Peak, optional WAV capture and playback. Version 3.14 beta.">
+  <meta name="description" content="LUFFY is a free Windows loudness meter by Andreas Busk. Integrated and Short-term LUFS, True Peak, optional WAV capture and playback. Development version 3.17; latest public beta download 3.14.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="LUFFY — Windows loudness meter">
   <meta property="og:description" content="A free loudness meter by Andreas Busk. Download the Windows beta.">
   <link rel="icon" type="image/svg+xml" href="luffy-paw.svg">
   <link rel="stylesheet" href="styles.css?v=3.14-3">
   <title>LUFFY — Windows loudness meter</title>
-  <script src="config.js?v=3.14" defer></script>
-  <script src="app.js?v=3.14" defer></script>
+  <script src="config.js?v=3.17-site1" defer></script>
+  <script src="app.js?v=3.17-site1" defer></script>
   <script src="demo.js?v=1" defer></script>
 </head>
 <body>
@@ -29,9 +29,10 @@
           <h1 id="hero-heading">A loudness meter<br>for Windows.</h1>
           <p class="lead">I made LUFFY for my own audio work. It keeps LUFS and True Peak readings in a small window while I work in other applications.</p>
           <p>It's free to use. This is a beta, so there are still things to test and improve.</p>
-          <a id="download-button" class="button is-unavailable" aria-disabled="true">Download for Windows</a>
+          <p><strong>Version 3.17 is in development.</strong> The latest public download is still 3.14 beta. A downloadable 3.17 build has not been published here yet.</p>
+          <a id="download-button" class="button is-unavailable" aria-disabled="true">Download 3.14 beta for Windows</a>
           <p class="download-meta"><span id="download-message" role="status">Download from the release page below.</span> · Windows x64</p>
-          <p class="release-links"><a href="https://github.com/userewkrewljkel/luffy/releases/tag/3.14">Release notes</a><a href="https://github.com/userewkrewljkel/luffy/releases/download/3.14/SHA256SUMS.txt">SHA-256 checksum</a><a href="https://github.com/userewkrewljkel/luffy">Source code</a></p>
+          <p class="release-links"><a href="https://github.com/userewkrewljkel/luffy/releases/tag/3.14">3.14 release notes</a><a href="https://github.com/userewkrewljkel/luffy/releases/download/3.14/SHA256SUMS.txt">SHA-256 checksum</a><a href="https://github.com/userewkrewljkel/luffy">Source code</a></p>
         </div>
         <figure class="hero-figure peak-demo" id="peak-demo"><svg class="peak-demo-screen" xmlns="http://www.w3.org/2000/svg" width="760" height="520" viewBox="0 0 760 520" role="img" aria-labelledby="demo-title demo-desc">
   <title id="demo-title">LUFFY True Peak warning around an entire monitor</title>
@@ -74,8 +75,8 @@
         <div class="playback-copy"><p>The player lets you browse saved clips, seek in the waveform and choose an output. The trigger marker is approximate.</p><p>LUFFY measures the original WAV before listening gain. During built-in playback, your live measurement pauses. It resumes afterward with its history preserved; live audio during the preview is excluded.</p></div>
       </section>
       <section class="download-section section" aria-labelledby="download-title">
-        <div><h2 id="download-title">Download the beta</h2><p>Run the EXE on 64-bit Windows. No separate .NET installation is needed.</p><p class="beta-note">The automated build passes, but the full manual audio and device tests are still outstanding. Keep your previous version available.</p></div>
-        <div class="panel-action"><a id="download-button-secondary" class="button is-unavailable" aria-disabled="true">Download LUFFY</a><span id="panel-version">LUFFY v3.14 beta · Windows x64</span></div>
+        <div><h2 id="download-title">Download the public beta (3.14)</h2><p>Run the EXE on 64-bit Windows. No separate .NET installation is needed.</p><p class="beta-note">The automated build passes, but the full manual audio and device tests are still outstanding. Keep your previous version available.</p></div>
+        <div class="panel-action"><a id="download-button-secondary" class="button is-unavailable" aria-disabled="true">Download LUFFY 3.14</a><span id="panel-version">LUFFY v3.14 beta · Windows x64</span></div>
       </section>
       <section id="questions" class="section" aria-labelledby="faq-title">
         <h2 id="faq-title">A few notes</h2>

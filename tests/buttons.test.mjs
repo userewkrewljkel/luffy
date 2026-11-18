@@ -34,6 +34,13 @@ test('valid download enables both buttons and updates version labels', () => {
   assert.match(elements.get('download-message').textContent, /Direct download/);
 });
 
+test('development version is shown without mislabeling the public download', () => {
+  const elements = render({ version: '3.14', developmentVersion: '3.17', beta: true, downloadUrl: 'https://example.com/LUFFY-v3.14.exe' });
+  assert.equal(elements.get('version-pill').textContent, 'v3.17 · in development');
+  assert.equal(elements.get('panel-version').textContent, 'LUFFY v3.14 beta · Windows x64');
+  assert.match(elements.get('download-message').textContent, /3.14 beta/);
+});
+
 test('missing and unsafe destinations remain disabled and prevent clicks', () => {
   for (const url of [undefined, '', 'http://example.com/file', 'javascript:alert(1)', '/file.exe', 'not a URL']) {
     const elements = render({ downloadUrl: url, donationUrl: url });
