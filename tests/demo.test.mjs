@@ -68,7 +68,7 @@ test('uploaded Ableton example appears directly under the original animated hero
   assert.ok(exampleEnd > exampleStart, 'Example has a separate figure');
   assert.match(hero.slice(exampleStart, exampleEnd), /src="assets\/luffy-ableton-example\.png"/);
   assert.match(hero.slice(exampleStart, exampleEnd), /width="325" height="85"/);
-  assert.match(hero.slice(exampleStart, exampleEnd), /<figcaption>LUFFY in Ableton Live<\/figcaption>/);
+  assert.match(hero.slice(exampleStart, exampleEnd), /<figcaption>Place LUFFY anywhere you like — here, above Ableton Live’s Control Bar.<\/figcaption>/);
   assert.match(hero.slice(0, originalFigureEnd), /id="demo-screen-warning"/);
   assert.match(hero.slice(0, originalFigureEnd), /id="demo-toggle"/);
   const asset = new URL('../assets/luffy-ableton-example.png', import.meta.url);
