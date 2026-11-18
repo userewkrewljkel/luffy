@@ -3,7 +3,7 @@
   const c = window.LUFFY_CONFIG || {};
   const version = typeof c.version === "string" && /^\d+(\.\d+)*$/.test(c.version) ? c.version : "3.14";
   const label = `v${version}${c.beta ? " beta" : ""}`;
-  const developmentVersion = typeof c.developmentVersion === "string" && /^\\d+(\\.\\d+)*$/.test(c.developmentVersion) ? c.developmentVersion : null;
+  const developmentVersion = typeof c.developmentVersion === "string" && /^\d+(\.\d+)*$/.test(c.developmentVersion) ? c.developmentVersion : null;
   const versionPill = document.getElementById("version-pill");
   const panelVersion = document.getElementById("panel-version");
   if (versionPill) versionPill.textContent = developmentVersion && developmentVersion !== version ? `v${developmentVersion} · in development` : label;
