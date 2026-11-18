@@ -4,10 +4,10 @@ A free Windows loudness meter by Andreas Busk, with its static website.
 
 ## Versions
 
-- Public download: [v3.14 beta](https://github.com/userewkrewljkel/luffy/releases/tag/3.14).
-- Website development status: **v3.17 in development**. No v3.17 release or Windows executable is published in this repository as of this update. The site intentionally keeps the tested public download button on v3.14.
-- Development source: **v3.14 beta**, in [`app/`](app/). Imported from the local `LUFFY-v3.14-source` project; generated binaries and build caches are excluded. This import does not prove that a published EXE was built from this source.
-- The v3.14 beta executable is built from the tagged source by GitHub Actions. Automated build checks pass; the full manual audio and playback checklist in [`app/README.md`](app/README.md) remains outstanding. Keep the previous release available.
+- Latest public download: [LUFFY v3.17 beta](https://github.com/userewkrewljkel/luffy/releases/tag/3.17) with a Windows x64 EXE and SHA-256 checksum.
+- Previous beta: [v3.14](https://github.com/userewkrewljkel/luffy/releases/tag/3.14), still available for rollback.
+- **Matching v3.17 source:** use the [3.17 release tag](https://github.com/userewkrewljkel/luffy/tree/3.17) from the 3.17 feature branch. The `main/app/` directory currently contains the older v3.14 app source and is not the source of the v3.17 EXE.
+- The v3.17 beta passed automated Windows compilation and release-upload checks. Full manual audio, screenshot, playback and device testing is still outstanding. Test before production use.
 
 ## Website
 
@@ -21,13 +21,13 @@ The English website uses plain HTML, CSS and JavaScript. Open `index.html` local
 | `app.js` | Version labels and button availability |
 | `luffy-paw.svg` | Logo and favicon |
 
-The download URL in `config.js` points to the v3.14 release asset; `developmentVersion` communicates v3.17 as in development without changing the download version. Donations remain disabled because no payment address has been configured. Empty or non-HTTPS destinations disable their buttons. No analytics, cookies, external fonts or third-party scripts are used.
+The download URL in `config.js` points to the published v3.17 beta release asset. Donations remain disabled because no payment address has been configured. Empty or non-HTTPS destinations disable their buttons. No analytics, cookies, external fonts or third-party scripts are used.
 
 Before changing the public version, test the Windows build, upload it to GitHub Releases, then update `version` and `downloadUrl` together. A donation URL must belong to the intended recipient; leave it empty until available.
 
 ## Build the Windows app
 
-Install the .NET 8 SDK on Windows, then run from the repository root:
+To rebuild v3.17, check out the `3.17` tag (not `main`). Install the .NET 8 SDK on Windows, then run from the release tag's repository root:
 
 ```powershell
 dotnet build app/LufsTaskbarMeter.csproj -c Release
@@ -51,6 +51,6 @@ Work on a branch, open a pull request and wait for `Website checks` and `Windows
 
 ## Release checks
 
-Test source selection, pause/resume, reset, warnings on each monitor, capture and playback on Windows. Compare loudness readings against known reference signals. Test the EXE on another Windows PC before publishing and include its SHA-256 hash. Keep the previous release available for rollback.
+Test source selection, pause/resume, reset, warnings on each monitor, capture and playback on Windows. Compare loudness readings against known reference signals. The v3.17 beta is released for testing, not verified production use. Test on another Windows PC and check its SHA-256 hash before relying on it. Keep the previous release available for rollback.
 
 Contact: contact@andreasbusk.com

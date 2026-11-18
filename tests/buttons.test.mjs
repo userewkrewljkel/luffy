@@ -65,6 +65,6 @@ test('donation opens safely in a new tab while an empty donation remains unavail
 });
 
 test('invalid version falls back and stable releases omit beta', () => {
-  assert.equal(render({ version: '<script>' }).get('version-pill').textContent, 'v3.14');
+  assert.equal(render({ version: '<script>' }).get('version-pill').textContent, 'v3.17');
   assert.equal(render({ version: '4.0', beta: false }).get('panel-version').textContent, 'LUFFY v4.0 · Windows x64');
 });
