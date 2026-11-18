@@ -5,15 +5,15 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#151618">
-  <meta name="description" content="LUFFY is a free Windows loudness meter by Andreas Busk. Integrated and Short-term LUFS, True Peak, optional WAV capture and playback. Development version 3.17; latest public beta download 3.14.">
+  <meta name="description" content="LUFFY is a free Windows loudness meter by Andreas Busk. Integrated and Short-term LUFS, True Peak, optional WAV capture and playback. Version 3.17 beta. True Peak meter with optional automatic screenshot and WAV capture.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="LUFFY — Windows loudness meter">
   <meta property="og:description" content="A free loudness meter by Andreas Busk. Download the Windows beta.">
   <link rel="icon" type="image/svg+xml" href="luffy-paw.svg">
   <link rel="stylesheet" href="styles.css?v=3.14-3">
   <title>LUFFY — Windows loudness meter</title>
-  <script src="config.js?v=3.17-site1" defer></script>
-  <script src="app.js?v=3.17-site1" defer></script>
+  <script src="config.js?v=3.17-release2" defer></script>
+  <script src="app.js?v=3.17-release2" defer></script>
   <script src="demo.js?v=1" defer></script>
 </head>
 <body>
@@ -25,14 +25,14 @@
     <main id="top">
       <section class="hero" aria-labelledby="hero-heading">
         <div class="hero-copy">
-          <p class="version" id="version-pill">v3.14 beta</p>
+          <p class="version" id="version-pill">v3.17 beta</p>
           <h1 id="hero-heading">A loudness meter<br>for Windows.</h1>
           <p class="lead">I made LUFFY for my own audio work. It keeps LUFS and True Peak readings in a small window while I work in other applications.</p>
           <p>It's free to use. This is a beta, so there are still things to test and improve.</p>
-          <p><strong>Version 3.17 is in development.</strong> The latest public download is still 3.14 beta. A downloadable 3.17 build has not been published here yet.</p>
-          <a id="download-button" class="button is-unavailable" aria-disabled="true">Download 3.14 beta for Windows</a>
+          <p><strong>LUFFY 3.17 beta is now available.</strong> It adds optional True Peak screenshots, independent cleanup for WAV recordings and screenshots, and a compact True Peak reset. Full manual audio/device tests are still outstanding; keep your previous version available.</p>
+          <a id="download-button" class="button is-unavailable" aria-disabled="true">Download 3.17 beta for Windows</a>
           <p class="download-meta"><span id="download-message" role="status">Download from the release page below.</span> · Windows x64</p>
-          <p class="release-links"><a href="https://github.com/userewkrewljkel/luffy/releases/tag/3.14">3.14 release notes</a><a href="https://github.com/userewkrewljkel/luffy/releases/download/3.14/SHA256SUMS.txt">SHA-256 checksum</a><a href="https://github.com/userewkrewljkel/luffy">Source code</a></p>
+          <p class="release-links"><a href="https://github.com/userewkrewljkel/luffy/releases/tag/3.17">3.17 release notes</a><a href="https://github.com/userewkrewljkel/luffy/releases/download/3.17/SHA256SUMS.txt">SHA-256 checksum</a><a href="https://github.com/userewkrewljkel/luffy/tree/3.17">3.17 source code</a></p>
         </div>
         <figure class="hero-figure peak-demo" id="peak-demo"><svg class="peak-demo-screen" xmlns="http://www.w3.org/2000/svg" width="760" height="520" viewBox="0 0 760 520" role="img" aria-labelledby="demo-title demo-desc">
   <title id="demo-title">LUFFY True Peak warning around an entire monitor</title>
@@ -46,7 +46,7 @@
   <g font-family="Segoe UI,Arial,sans-serif">
     <!-- LUFFY is a small separate window, not the container for the red frame. -->
     <rect x="157" y="357" width="446" height="48" rx="7" fill="#292c32" stroke="#50545d"/>
-    <text x="380" y="372" text-anchor="middle" fill="#b0b6c0" font-size="9">LUFFY v3.14</text>
+    <text x="380" y="372" text-anchor="middle" fill="#b0b6c0" font-size="9">LUFFY v3.17</text>
     <g fill="#bfd8ad"><rect x="171" y="382" width="3" height="12"/><rect x="177" y="386" width="3" height="8"/></g>
     <g font-size="13" font-weight="600"><text x="191" y="393" fill="#bfd8ad">I −13.8</text><text x="267" y="393" fill="#e6e7e5">S −18.7</text><text class="demo-normal" x="348" y="393" fill="#e6e7e5">TP −2.8</text><text class="demo-peak" x="348" y="393" fill="#f49d96">TP −0.4</text><text x="435" y="393" fill="#e6e7e5">1:58</text></g>
     <g fill="#e6e7e5"><rect x="493" y="382" width="3" height="11"/><rect x="499" y="382" width="3" height="11"/></g>
@@ -72,11 +72,11 @@
         <h2 id="playback-title">Peak Capture and playback</h2>
         <p class="section-intro">If a peak needs a closer look, Peak Capture can save a WAV clip around it. Turn it on in Settings → True Peak. It's off by default.</p>
         <figure class="player-figure"><img src="images/luffy-3.14-player.svg?v=2" width="1050" height="515" loading="lazy" alt="Illustration of the Peak Capture Player showing saved WAV clips, a waveform, playback controls and listening gain."><figcaption>Peak Capture Player in the 3.14 beta. Illustration with sample files and waveform.</figcaption></figure>
-        <div class="playback-copy"><p>The player lets you browse saved clips, seek in the waveform and choose an output. The trigger marker is approximate.</p><p>LUFFY measures the original WAV before listening gain. During built-in playback, your live measurement pauses. It resumes afterward with its history preserved; live audio during the preview is excluded.</p></div>
+        <div class="playback-copy"><p>The player lets you browse saved clips, seek in the waveform and choose an output. The trigger marker is approximate.</p><p>LUFFY measures the original WAV before listening gain. During built-in playback, your live measurement pauses. It resumes afterward with its history preserved; live audio during the preview is excluded.</p><p><strong>New in 3.17:</strong> Optional screenshots of the full desktop after True Peak crossings (off by default). These may include private content. WAV and screenshot capture each have their own switch and Recycle Bin cleanup action.</p></div>
       </section>
       <section class="download-section section" aria-labelledby="download-title">
-        <div><h2 id="download-title">Download the public beta (3.14)</h2><p>Run the EXE on 64-bit Windows. No separate .NET installation is needed.</p><p class="beta-note">The automated build passes, but the full manual audio and device tests are still outstanding. Keep your previous version available.</p></div>
-        <div class="panel-action"><a id="download-button-secondary" class="button is-unavailable" aria-disabled="true">Download LUFFY 3.14</a><span id="panel-version">LUFFY v3.14 beta · Windows x64</span></div>
+        <div><h2 id="download-title">Download the public beta (3.17)</h2><p>Run the EXE on 64-bit Windows. No separate .NET installation is needed.</p><p class="beta-note">The automated build passes, but the full manual audio and device tests are still outstanding. Keep your previous version available.</p></div>
+        <div class="panel-action"><a id="download-button-secondary" class="button is-unavailable" aria-disabled="true">Download LUFFY 3.17</a><span id="panel-version">LUFFY v3.17 beta · Windows x64</span></div>
       </section>
       <section id="questions" class="section" aria-labelledby="faq-title">
         <h2 id="faq-title">A few notes</h2>
