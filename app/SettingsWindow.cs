@@ -18,6 +18,7 @@ internal sealed class SettingsWindow : Form
 {
     private readonly Settings cfg;
     private readonly LoudnessMeter meter;
+    private readonly PeakScreenshotRecorder screenshotRecorder;
     private readonly Label audioStatus=new();
     private readonly Label audioLevels=new();
     private readonly Label audioFormat=new();
@@ -40,6 +41,7 @@ internal sealed class SettingsWindow : Form
     public void ResetPlaybackTruePeakMax() => capturePlayer?.ResetTruePeakMaxFromMeter();
     private bool choosingSource;
     private bool deletingCaptures;
+    private bool deletingScreenshots;
     private string[] lastClips=[];
     private int refreshTicks;
     private sealed record AudioDevice(string Label,string? Id,bool Input)
@@ -49,12 +51,14 @@ internal sealed class SettingsWindow : Form
 
     public SettingsWindow(Settings options,Action changed,Action preview,Action resetPosition,
         Func<bool> startupEnabled,Action<bool> setStartup,LoudnessMeter meter,
+        PeakScreenshotRecorder screenshotRecorder,
         Action<string?,bool> setSource,Action restart,Action showDiagnostics,
         Action openHistory,Action about,Func<bool> hotkeyAvailable,Action<bool> previewListeningChanged)
     {
         cfg=options;this.changed=changed;this.meter=meter;this.setSource=setSource;
+        this.screenshotRecorder=screenshotRecorder;
         this.previewListeningChanged=previewListeningChanged;
-        Text="LUFFY v3.16 – Settings";
+        Text="LUFFY v3.17 – Settings";
         StartPosition=FormStartPosition.CenterScreen;
         ClientSize=new Size(590,590);
         MinimumSize=new Size(530,480);
@@ -135,7 +139,7 @@ internal sealed class SettingsWindow : Form
         Heading(general,"Shortcuts & application");
         Note(general,hotkeyAvailable()?"Reset shortcut: Ctrl + Alt + R":"Reset shortcut: unavailable (used by another app)",32);
         Note(general,"Open Settings: double-click the meter or click its small gear.",32);
-        Note(general,"LUFFY v3.16 Beta · Andreas Busk · contact@andreasbusk.com",32);
+        Note(general,"LUFFY v3.17 Beta · Andreas Busk · contact@andreasbusk.com",32);
         Button(general,"About LUFFY",about);
         Button(general,"Check for updates (GitHub Releases)",()=>
             Process.Start(new ProcessStartInfo("https://github.com/userewkrewljkel/luffy/releases"){UseShellExecute=true}));
@@ -248,12 +252,38 @@ internal sealed class SettingsWindow : Form
         Button(warning,"Open selected WAV in external player",OpenSelectedClipExternally);
         Button(warning,"Refresh clip list",RefreshClips);
         Separator(warning);
+        Heading(warning,"Screenshot Capture · local PNG files");
+        var screenshotToggle=Toggle(warning,
+            "Automatically screenshot desktop on True Peak crossing (off by default)",
+            cfg.PeakScreenshotEnabled,v=>cfg.PeakScreenshotEnabled=v);
+        Number(warning,"Minimum time between screenshots (s)",
+            cfg.ScreenshotMinIntervalSeconds,5,300,1,v=>cfg.ScreenshotMinIntervalSeconds=(int)v);
+        Note(warning,"Saves all connected screens after an actual True Peak threshold crossing. Independent of the visual warning. Screenshots may contain private desktop content. No continuous image buffer.",70);
+        var screenshotsPath=new TextBox
+        {
+            ReadOnly=true,Text=cfg.PeakScreenshotFolder,Height=26
+        };
+        Add(warning,screenshotsPath);
+        Button(warning,"Open Peak Screenshots folder",()=>
+        {
+            try
+            {
+                Directory.CreateDirectory(cfg.PeakScreenshotFolder);
+                Process.Start(new ProcessStartInfo(cfg.PeakScreenshotFolder){UseShellExecute=true});
+            }
+            catch(Exception ex){MessageBox.Show(this,ex.Message,"Cannot open screenshot folder");}
+        });
+        Separator(warning);
         Heading(warning,"Manage saved recordings");
-        Button(warning,"Delete all Peak Captures (Recycle Bin)…",()=>
+        Button(warning,"Move all Peak Capture recordings to Recycle Bin…",()=>
         {
             _=DeleteAllCapturesAsync(recordingToggle);
         });
-        Note(warning,"Moves only LUFFY_Peak_*.wav files and their matching .wav.txt metadata to the Windows Recycle Bin. Does not erase measurement history or other files.",62);
+        Button(warning,"Move all Peak screenshots to Recycle Bin…",()=>
+        {
+            _=DeleteAllScreenshotsAsync(screenshotToggle);
+        });
+        Note(warning,"Each button only moves its own LUFFY files to the Windows Recycle Bin. WAV recordings include matching .wav.txt metadata. The other file type, settings and measurement history remain untouched. There is no permanent-delete fallback.",78);
         Note(warning,"Clips remain on this computer. A matching .txt file records the approximate first trigger position. Pause, Reset and device changes may produce a shorter partial clip.",70);
         Note(warning,"Screen warnings and recording are independent. Exclusive fullscreen apps may prevent visible overlays.",50);
 
@@ -349,6 +379,76 @@ internal sealed class SettingsWindow : Form
                 "Peak Capture cleanup failed",MessageBoxButtons.OK,MessageBoxIcon.Warning);
         }
         finally {deletingCaptures=false;}
+    }
+
+    // Never touch PNG files with other names, in other directories or subfolders.
+    private static string[] SavedScreenshotPaths(string folder)
+    {
+        if(!Directory.Exists(folder))return [];
+        return Directory.GetFiles(folder,"LUFFY_TP_*.png",System.IO.SearchOption.TopDirectoryOnly)
+            .Where(path=>Regex.IsMatch(Path.GetFileName(path),
+                @"^LUFFY_TP_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}_\d{3}_[a-f0-9]{8}\.png$",
+                RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+            .ToArray();
+    }
+    private async Task DeleteAllScreenshotsAsync(CheckBox screenshotToggle)
+    {
+        if(deletingScreenshots)return;
+        deletingScreenshots=true;
+        try
+        {
+            // Prevent a screenshot writer from creating a new image after we
+            // enumerate files, and finish any PNG already in progress.
+            await screenshotRecorder.SuspendAndWaitAsync();
+            string folder=cfg.PeakScreenshotFolder;
+            var files=SavedScreenshotPaths(folder);
+            if(files.Length==0)
+            {
+                MessageBox.Show(this,"No LUFFY True Peak screenshots were found in the screenshot folder.",
+                    "Move screenshots to Recycle Bin",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                return;
+            }
+            string note=screenshotToggle.Checked
+                ?"\nAutomatic screenshot capture will be switched OFF before moving the files."
+                :"";
+            var answer=MessageBox.Show(this,
+                $"Move ALL {files.Length} LUFFY True Peak screenshot(s) to the Windows Recycle Bin?\n\n"+
+                $"Folder: {folder}\n\nOther PNG files and Peak Capture WAV recordings will not be touched.{note}\n\nContinue?",
+                "Move all LUFFY screenshots",MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,MessageBoxDefaultButton.Button2);
+            if(answer!=DialogResult.Yes)return;
+
+            // Prevent new screenshot files until the user explicitly re-enables.
+            if(screenshotToggle.Checked)screenshotToggle.Checked=false;
+            int moved=0,failed=0;
+            var errors=new System.Collections.Generic.List<string>();
+            foreach(var file in files)
+            {
+                try
+                {
+                    FileSystem.DeleteFile(file,UIOption.OnlyErrorDialogs,RecycleOption.SendToRecycleBin);
+                    moved++;
+                }
+                catch(Exception ex){failed++;errors.Add(Path.GetFileName(file)+": "+ex.Message);}
+            }
+            MessageBox.Show(this,
+                $"Moved {moved} LUFFY screenshot(s) to the Recycle Bin."+
+                (failed>0?$"\n{failed} could not be moved:\n"+string.Join("\n",errors.Take(5)):"")+
+                "\n\nAutomatic screenshot capture is now off; enable it again to save new images.",
+                "Screenshot cleanup",MessageBoxButtons.OK,
+                failed>0?MessageBoxIcon.Warning:MessageBoxIcon.Information);
+        }
+        catch(Exception ex)
+        {
+            Program.LogError(ex,"Moving saved screenshots to Recycle Bin");
+            MessageBox.Show(this,"No permanent deletion fallback will be used. "+ex.Message,
+                "Screenshot cleanup failed",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+        }
+        finally
+        {
+            screenshotRecorder.ResumeAfterCleanup();
+            deletingScreenshots=false;
+        }
     }
 
     private void RefreshDevices()

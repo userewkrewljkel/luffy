@@ -1,0 +1,51 @@
+name: Publish LUFFY 3.17 beta
+
+on:
+  push:
+    branches: [feature/luffy-3.17-screenshot-capture-cleanup]
+    paths: ['.github/workflows/release-3.17.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-luffy-3.17-beta
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build, checksum and publish Windows beta
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Compile Windows x64 self-contained executable
+        shell: pwsh
+        run: |
+          [xml]$project = Get-Content app/LufsTaskbarMeter.csproj
+          if ($project.Project.PropertyGroup.Version -ne '3.17.0') { throw 'Unexpected source version; refusing release' }
+          if ($project.Project.PropertyGroup.AssemblyName -ne 'LUFFY-v3.17') { throw 'Unexpected output name; refusing release' }
+          dotnet publish app/LufsTaskbarMeter.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o artifacts/release
+          if ($LASTEXITCODE -ne 0) { throw 'Windows build failed' }
+          $exe = 'artifacts/release/LUFFY-v3.17.exe'
+          if (!(Test-Path $exe)) { throw 'Executable missing' }
+          if ((Get-Item $exe).Length -lt 10000000) { throw 'Executable unexpectedly small' }
+          $hash = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  LUFFY-v3.17.exe" | Set-Content artifacts/release/SHA256SUMS.txt -Encoding ascii
+      - name: Create draft release, upload binary and checksum, publish beta
+        shell: pwsh
+        run: |
+          gh release create 3.17 artifacts/release/LUFFY-v3.17.exe artifacts/release/SHA256SUMS.txt --draft --prerelease --target $env:GITHUB_SHA --title 'LUFFY v3.17 Beta' --notes-file docs/releases/3.17.md
+          if ($LASTEXITCODE -ne 0) { throw 'Release creation failed; existing releases are never overwritten' }
+          gh release edit 3.17 --draft=false --prerelease
+          if ($LASTEXITCODE -ne 0) { throw 'Release publication failed; inspect draft' }

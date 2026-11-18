@@ -32,9 +32,16 @@ internal sealed class Settings
     public bool PeakCaptureEnabled {get;set;}=false;
     public int PeakBeforeSeconds {get;set;}=5;
     public int PeakAfterSeconds {get;set;}=5;
+    // Optional desktop screenshot capture on an actual TP threshold crossing.
+    // Disabled for new installations and independent of the red screen-edge warning.
+    public bool PeakScreenshotEnabled {get;set;}=false;
+    public int ScreenshotMinIntervalSeconds {get;set;}=10;
+    public string PeakScreenshotFolder {get;set;}=DefaultScreenshotFolder;
     public string PeakCaptureFolder {get;set;}=DefaultPeakFolder;
     public static string DefaultPeakFolder => Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.MyMusic),"LUFFY","Peak Captures");
+    public static string DefaultScreenshotFolder => Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),"LUFFY","Peak Screenshots");
     public static string Folder => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"LufsTaskbarMeter");
     public static string FilePath => Path.Combine(Folder,"settings.json");
     public static Settings Load()
@@ -73,6 +80,8 @@ internal sealed class Settings
         PeakBeforeSeconds=Math.Clamp(PeakBeforeSeconds,1,30);
         PeakAfterSeconds=Math.Clamp(PeakAfterSeconds,1,30);
         if(string.IsNullOrWhiteSpace(PeakCaptureFolder)) PeakCaptureFolder=DefaultPeakFolder;
+        ScreenshotMinIntervalSeconds=Math.Clamp(ScreenshotMinIntervalSeconds,5,300);
+        if(string.IsNullOrWhiteSpace(PeakScreenshotFolder)) PeakScreenshotFolder=DefaultScreenshotFolder;
     }
     public void Save()
     {
