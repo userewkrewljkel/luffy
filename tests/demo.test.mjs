@@ -43,3 +43,16 @@ test('reduced-motion preference disables animation initially and when changed', 
 test('pages without the illustration are unaffected', () => {
   assert.doesNotThrow(() => vm.runInNewContext(source, { document: { getElementById: () => null } }));
 });
+
+test('hero illustration keeps real desktop proportions and the tiny 40px meter', () => {
+  const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  const illustration = html.match(/<figure class="hero-figure peak-demo"[\\s\\S]*?<\\/figure>/)?.[0];
+  assert.ok(illustration, 'Animated hero figure is present');
+  assert.match(illustration, /class="demo-desktop"[^>]*width="690" height="388\\.125" viewBox="0 0 1920 1080"/);
+  assert.match(illustration, /id="demo-luffy-meter" transform="translate\\(1598 994\\)"/);
+  assert.match(illustration, /width="310" height="40"/);
+  assert.match(illustration, /id="demo-screen-warning" class="demo-peak" x="8" y="8" width="1904" height="1064"/);
+  assert.match(illustration, /class="demo-normal" x="140"/);
+  assert.match(illustration, /class="demo-peak" x="140"/);
+  assert.match(illustration, /id="demo-toggle"/);
+});
