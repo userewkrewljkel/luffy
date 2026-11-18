@@ -10,7 +10,7 @@
   <meta property="og:title" content="LUFFY — Windows loudness meter">
   <meta property="og:description" content="A free loudness meter by Andreas Busk. Download the Windows beta.">
   <link rel="icon" type="image/svg+xml" href="luffy-paw.svg">
-  <link rel="stylesheet" href="styles.css?v=3.14-3">
+  <link rel="stylesheet" href="styles.css?v=3.17-example1">
   <title>LUFFY — Windows loudness meter</title>
   <script src="config.js?v=3.17-release2" defer></script>
   <script src="app.js?v=3.17-release2" defer></script>
@@ -34,7 +34,8 @@
           <p class="download-meta"><span id="download-message" role="status">Download from the release page below.</span> · Windows x64</p>
           <p class="release-links"><a href="https://github.com/userewkrewljkel/luffy/releases/tag/3.17">3.17 release notes</a><a href="https://github.com/userewkrewljkel/luffy/releases/download/3.17/SHA256SUMS.txt">SHA-256 checksum</a><a href="https://github.com/userewkrewljkel/luffy/tree/3.17">3.17 source code</a></p>
         </div>
-        <figure class="hero-figure peak-demo" id="peak-demo">
+                <div class="hero-visuals">
+<figure class="hero-figure peak-demo" id="peak-demo">
   <svg class="peak-demo-screen" xmlns="http://www.w3.org/2000/svg" width="760" height="520" viewBox="0 0 760 520" role="img" aria-labelledby="demo-title demo-desc">
     <title id="demo-title">LUFFY v3.17 fits in a corner of a full 1920 by 1080 audio-production desktop</title>
     <desc id="demo-desc">A full widescreen monitor shows a fictional digital audio workstation with waveforms, track lanes and a mixer. LUFFY appears at approximately its actual 310 by 40 pixel footprint just above the taskbar in the bottom-right corner. When True Peak exceeds the limit, a coral border briefly surrounds the entire screen before fading away.</desc>
@@ -415,6 +416,11 @@
   </svg>
   <figcaption><span>Illustrative 1920 × 1080 audio workspace. LUFFY is shown at approximately its real size; the True Peak warning surrounds the entire screen.</span><button id="demo-toggle" class="demo-toggle" type="button" aria-controls="peak-demo" aria-pressed="false" hidden>Pause animation</button></figcaption>
 </figure>
+          <figure class="hero-example">
+            <img src="assets/luffy-ableton-example.png" width="325" height="85" loading="lazy" decoding="async" alt="LUFFY v3.17 above the Ableton Live transport controls">
+            <figcaption>LUFFY in Ableton Live</figcaption>
+          </figure>
+        </div>
       </section>
       <section id="features" class="section" aria-labelledby="features-title">
         <h2 id="features-title">What it measures</h2>

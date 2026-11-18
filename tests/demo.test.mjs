@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import vm from 'node:vm';
 
 const source = readFileSync(new URL('../demo.js', import.meta.url), 'utf8');
@@ -55,4 +55,26 @@ test('hero illustration keeps real desktop proportions and the tiny 40px meter',
   assert.ok(illustration.includes('class="demo-normal" x="140"'));
   assert.ok(illustration.includes('class="demo-peak" x="140"'));
   assert.ok(illustration.includes('id="demo-toggle"'));
+});
+
+test('uploaded Ableton example appears directly under the original animated hero', () => {
+  const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  const hero = html.split('<section class="hero"')[1]?.split('</section>')[0];
+  assert.ok(hero, 'Hero exists');
+  const originalFigureEnd = hero.indexOf('</figure>');
+  const exampleStart = hero.indexOf('<figure class="hero-example">');
+  const exampleEnd = hero.indexOf('</figure>', exampleStart);
+  assert.ok(exampleStart > originalFigureEnd, 'Example is below the animated illustration');
+  assert.ok(exampleEnd > exampleStart, 'Example has a separate figure');
+  assert.match(hero.slice(exampleStart, exampleEnd), /src="assets\/luffy-ableton-example\.png"/);
+  assert.match(hero.slice(exampleStart, exampleEnd), /width="325" height="85"/);
+  assert.match(hero.slice(exampleStart, exampleEnd), /<figcaption>LUFFY in Ableton Live<\/figcaption>/);
+  assert.match(hero.slice(0, originalFigureEnd), /id="demo-screen-warning"/);
+  assert.match(hero.slice(0, originalFigureEnd), /id="demo-toggle"/);
+  const asset = new URL('../assets/luffy-ableton-example.png', import.meta.url);
+  assert.ok(existsSync(asset), 'Original screenshot asset exists');
+  const png = readFileSync(asset);
+  assert.equal(png.subarray(1,4).toString('ascii'), 'PNG');
+  assert.equal(png.readUInt32BE(16), 325);
+  assert.equal(png.readUInt32BE(20), 85);
 });
