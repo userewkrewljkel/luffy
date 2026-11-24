@@ -13,3 +13,11 @@
 /* Launch guidance, privacy information and low-key outbound links. */
 .setup-steps{margin:0 0 22px;padding-left:25px;max-width:835px;color:var(--muted)}.setup-steps li{padding-left:7px;margin-bottom:15px;line-height:1.65}.setup-steps strong{color:var(--ink)}.setup-steps li::marker{color:#f16d64;font-weight:600}.setting-path{color:var(--ink);white-space:normal}.beta-note{max-width:800px}.text-link{font-size:.9rem;color:var(--accent)}.updates-section>p{max-width:790px;color:var(--muted)}.quiet-links{display:flex;flex-wrap:wrap;gap:8px 25px;font-size:.9rem;color:var(--accent)}.privacy-details code{font-size:.88em;word-break:break-word;color:var(--ink)}.privacy-details dd a{color:var(--accent)}.developer-photo{height:auto!important;object-fit:contain}
 @media(max-width:760px){.setup-steps{padding-left:23px}.quiet-links{gap:12px 20px}}
+
+
+/* LUFFY beta signup: compact embedded Tally form, without a second website or login. */
+.luffy-signup-wrap{max-width:650px;margin:22px 0 18px;border:1px solid var(--line);border-radius:8px;background:var(--bg);overflow:hidden}
+.luffy-signup-frame{display:block;width:100%;height:530px;border:0;background:var(--bg)}
+.signup-fallback{padding:0 22px 17px;margin:0;color:var(--muted);font-size:.82rem}
+.signup-fallback a,.updates-section .beta-note a{color:var(--accent)}
+@media(max-width:760px){.luffy-signup-frame{height:625px}.signup-fallback{padding:0 14px 15px}}
