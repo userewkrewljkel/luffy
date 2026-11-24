@@ -4,7 +4,7 @@ This guide covers the publicly distributed LUFFY 3.17 beta.
 
 ## Download and run
 
-1. Download `LUFFY-v3.17.exe` from the [official release page](https://github.com/userewkrewljkel/luffy-site/releases/tag/3.17).
+1. Download `LUFFY-v3.17.exe` from the [official release page](https://github.com/userewkrewljkel/luffy/releases/tag/3.17).
 2. Optionally compare its SHA-256 checksum against `SHA256SUMS.txt` available with the release.
 3. Run the Windows x64 EXE. It is self-contained; no separate .NET installation is required.
 4. The beta is not code-signed. Windows may display an unknown-publisher warning. Use only the official download.
@@ -36,4 +36,4 @@ While listening to a saved WAV in the built-in player, live measurement is pause
 
 Manual compatibility and measurement-reference testing of v3.17 is still outstanding. For important deliveries, compare LUFS and True Peak readings against a trusted reference meter and keep a previously working build for rollback.
 
-For problems, use the [public bug-report form](https://github.com/userewkrewljkel/luffy-site/issues/new?template=bug_report.yml), removing sensitive details from logs and screenshots, or send sensitive reports to contact@andreasbusk.com.
+For problems, use the [public bug-report form](https://github.com/userewkrewljkel/luffy/issues/new?template=bug_report.yml), removing sensitive details from logs and screenshots, or send sensitive reports to contact@andreasbusk.com.
