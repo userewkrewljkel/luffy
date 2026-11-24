@@ -6,6 +6,6 @@
 window.LUFFY_CONFIG = {
   version: "3.17", // Latest downloadable public beta
   beta: true,
-  downloadUrl: "https://github.com/userewkrewljkel/luffy/releases/download/3.17/LUFFY-v3.17.exe",
+  downloadUrl: "https://github.com/userewkrewljkel/luffy-site/releases/download/3.17/LUFFY-v3.17.exe",
   donationUrl: ""
 };
