@@ -1,0 +1,79 @@
+name: LUFFY bug report
+description: Report a reproducible problem with the LUFFY Windows beta
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for testing LUFFY. This report will be **public**. Do not upload private audio, screenshots, passwords or personal details.
+        If you need to share sensitive information, use contact@andreasbusk.com instead.
+  - type: dropdown
+    id: app-version
+    attributes:
+      label: LUFFY version
+      options:
+        - "3.17 beta"
+        - "3.14 beta"
+        - Other / not sure
+      description: Check the version displayed in LUFFY.
+    validations:
+      required: true
+  - type: input
+    id: windows-version
+    attributes:
+      label: Windows version
+      placeholder: e.g. Windows 11 Pro 23H2
+    validations:
+      required: true
+  - type: dropdown
+    id: affected-area
+    attributes:
+      label: Area affected
+      options:
+        - Loudness / True Peak reading
+        - Audio device / loopback selection
+        - Red screen-edge warning
+        - Peak WAV recording
+        - True Peak screenshots
+        - Built-in player
+        - Settings / startup / window placement
+        - Download / installation / SmartScreen
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: daw-and-interface
+    attributes:
+      label: DAW and audio interface (if relevant)
+      description: Mention FMOD, Ableton, Reaper, interface model and loopback/ASIO configuration, if applicable.
+      placeholder: e.g. FMOD 2.03, Focusrite USB loopback, 48 kHz
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: What did you do? Include your audio source and sample rate when relevant.
+      placeholder: |
+        1. Select ...
+        2. Play ...
+        3. Open ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+      placeholder: What should LUFFY have done?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+      placeholder: What happened instead? Include relevant visible readings or error messages.
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Extra context (optional)
+      description: Please redact private details from logs or attachments. You can find errors.log in %LOCALAPPDATA%\\LufsTaskbarMeter.

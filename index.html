@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#151618">
+  <meta name="description" content="LUFFY is a free Windows loudness meter by Andreas Busk. Integrated and Short-term LUFS, True Peak, optional WAV capture and playback. Version 3.17 beta. True Peak meter with optional automatic screenshot and WAV capture.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="LUFFY — Windows loudness meter">
+  <meta property="og:description" content="A tiny always-on-top Windows loudness meter. See true peaks with a full-screen red warning. Free beta by Andreas Busk.">
+  <meta property="og:url" content="https://userewkrewljkel.github.io/luffy/">
+  <meta property="og:image" content="https://userewkrewljkel.github.io/luffy/assets/luffy-social.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="LUFFY — Small meter. Big red warning. Windows loudness meter illustrated with a screen-wide red peak alert.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LUFFY — Small meter. Big red warning.">
+  <meta name="twitter:description" content="A free, tiny always-on-top loudness meter for Windows with an unmistakable True Peak screen-edge warning.">
+  <meta name="twitter:image" content="https://userewkrewljkel.github.io/luffy/assets/luffy-social.png">
+  <link rel="icon" type="image/svg+xml" href="luffy-paw.svg">
+  <link rel="stylesheet" href="styles.css?v=3.17-public-site1">
+  <title>LUFFY — Windows loudness meter</title>
+  <script src="config.js?v=3.17-release2" defer></script>
+  <script src="app.js?v=3.17-release2" defer></script>
+  <script src="demo.js?v=1" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="header">
+      <a class="wordmark" href="#top" aria-label="LUFFY, go to top"><img src="luffy-paw.svg" width="32" height="32" alt=""><span>LUFFY</span></a>
+      <nav aria-label="Main navigation"><a href="#features">Features</a><a href="#setup">Setup</a><a href="#playback">Peak Capture</a><a href="#privacy">Privacy</a><a href="#support">Contact</a></nav>
+    </header>
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-heading">
+        <div class="hero-copy">
+          <p class="version" id="version-pill">v3.17 beta</p>
+          <h1 id="hero-heading">Small meter.<br>Big red warning.</h1>
+          <p class="lead">A tiny, always-on-top loudness meter for Windows.</p>
+          <ul class="hero-benefits">
+            <li><strong>Place it anywhere.</strong> Keep LUFFY visible while working in your DAW or other applications.</li>
+            <li><strong>See peaks instantly.</strong> A red border flashes around your entire screen when True Peak exceeds your adjustable limit.</li>
+            <li><strong>Capture the problem.</strong> Optionally enable automatic recording of audio before and after a peak.</li>
+            <li><strong>See what happened.</strong> Optionally capture a screenshot when a peak is detected.</li>
+            <li><strong>Listen back.</strong> Review captured audio in LUFFY's built-in player.</li>
+          </ul>
+          <p>It's free to use. This is a beta, so there are still things to test and improve.</p>
+          <p><strong>LUFFY 3.17 beta is now available.</strong> Full manual audio/device tests are still outstanding; keep your previous version available.</p>
+          <a id="download-button" class="button is-unavailable" aria-disabled="true">Download 3.17 beta for Windows</a>
+          <p class="download-meta"><span id="download-message" role="status">Download from the release page below.</span> · Windows x64</p>
+          <p class="release-links"><a href="https://github.com/userewkrewljkel/luffy/releases/tag/3.17">3.17 release notes</a><a href="https://github.com/userewkrewljkel/luffy/releases/download/3.17/SHA256SUMS.txt">SHA-256 checksum</a></p>
+        </div>
+                <div class="hero-visuals">
+<figure class="hero-figure peak-demo" id="peak-demo">
+  <svg class="peak-demo-screen" xmlns="http://www.w3.org/2000/svg" width="760" height="520" viewBox="0 0 760 520" role="img" aria-labelledby="demo-title demo-desc">
+    <title id="demo-title">LUFFY v3.17 fits in a corner of a full 1920 by 1080 audio-production desktop</title>
+    <desc id="demo-desc">A full widescreen monitor shows a fictional digital audio workstation with waveforms, track lanes and a mixer. LUFFY appears at approximately its actual 310 by 40 pixel footprint just above the taskbar in the bottom-right corner. When True Peak exceeds the limit, a coral border briefly surrounds the entire screen before fading away.</desc>
+    <!-- Widescreen monitor shell; the desktop below is explicitly modeled in 1920 × 1080 coordinates. -->
+    <path d="M346 448H414L426 488H334Z" fill="#303237" stroke="#4a4c51"/>
+    <rect x="264" y="487" width="232" height="12" rx="5" fill="#3c3e43"/>
+    <rect x="20" y="18" width="720" height="434" rx="13" fill="#25272b" stroke="#55585e" stroke-width="2"/>
+    <svg class="demo-desktop" x="35" y="33" width="690" height="388.125" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <defs>
+        <pattern id="demo-time-grid" width="90" height="55" patternUnits="userSpaceOnUse">
+          <path d="M0 0V55 M45 0V55" fill="none" stroke="#5e6772" stroke-width="1" opacity=".29"/>
+        </pattern>
+        <linearGradient id="demo-daw-header" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stop-color="#323942"/><stop offset="1" stop-color="#232830"/>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="1920" height="1080" fill="#111419"/>
+      <!-- Generic audio software illustration, not a screenshot of a particular DAW. -->
+      <rect x="15" y="16" width="1890" height="1010" rx="10" fill="#20252b" stroke="#414953" stroke-width="2"/>
+      <rect x="15" y="16" width="1890" height="43" rx="10" fill="url(#demo-daw-header)"/>
+      <rect x="15" y="48" width="1890" height="11" fill="#29313a"/>
+      <rect x="35" y="33" width="13" height="13" rx="3" fill="#a6c7b1"/>
+      <g fill="#d3d9df" font-family="Segoe UI,Arial,sans-serif">
+        <text x="62" y="45" font-size="19" font-weight="600">Audio session</text>
+        <text x="196" y="44" font-size="16" fill="#96a1ac">— arrangement / mix</text>
+      </g>
+      <g stroke="#a2aab1" stroke-width="2" opacity=".8">
+        <path d="M1775 38h18 M1820 30v16h18V30 M1872 30l14 14m0-14l-14 14" fill="none"/>
+      </g>
+      <rect x="16" y="59" width="1888" height="65" fill="#2b323a"/>
+      <g font-family="Segoe UI,Arial,sans-serif" font-size="16" fill="#c6ced5">
+        <rect x="306" y="71" width="35" height="35" rx="5" fill="#353e46" stroke="#59636c"/>
+        <path d="M321 80 L321 97 L335 88 Z" fill="#a3dbb5"/>
+        <rect x="349" y="71" width="35" height="35" rx="5" fill="#353e46" stroke="#59636c"/>
+        <rect x="359" y="81" width="14" height="14" rx="2" fill="#c6cdd5"/>
+        <text x="405" y="95" font-size="21">32.1.3</text>
+        <text x="542" y="95" fill="#91a09d">88.0</text>
+        <text x="601" y="95" fill="#91a09d">4/4</text>
+        <text x="691" y="95" fill="#96a2af">1/16</text>
+        <text x="1650" y="95" font-size="15" fill="#a6b1bb">48 kHz</text>
+        <text x="1730" y="95" font-size="15" fill="#a6b1bb">STEREO</text>
+      </g>
+      <g fill="none" stroke="#87929f" stroke-width="3" opacity=".7">
+        <path d="M42 81h15v18H42z M44 86h11 M80 82h18m-18 8h18m-18 8h18 M120 80v20 M135 80v20 M150 80v20"/>
+      </g>
+      <!-- File browser pane. -->
+      <rect x="16" y="124" width="252" height="896" fill="#1d2228"/>
+      <rect x="27" y="139" width="229" height="36" rx="4" fill="#2c343d" stroke="#454d56"/>
+      <g font-family="Segoe UI,Arial,sans-serif" fill="#aeb9c4" font-size="17">
+        <text x="43" y="162">Search sounds</text>
+        <text x="40" y="206" fill="#e0e5e7" font-weight="600">BROWSER</text>
+      </g>
+<g font-family="Segoe UI,Arial,sans-serif" font-size="16" fill="#a6b0bb">
+          <rect x="39" y="227" width="15" height="14" rx="2" fill="#58636d"/>
+          <text x="68" y="240">Collections</text>
+        </g>
+<g font-family="Segoe UI,Arial,sans-serif" font-size="16" fill="#a6b0bb">
+          <rect x="39" y="274" width="15" height="14" rx="2" fill="#58636d"/>
+          <text x="68" y="287">Instruments</text>
+        </g>
+<g font-family="Segoe UI,Arial,sans-serif" font-size="16" fill="#a6b0bb">
+          <rect x="39" y="321" width="15" height="14" rx="2" fill="#58636d"/>
+          <text x="68" y="334">Effects</text>
+        </g>
+<g font-family="Segoe UI,Arial,sans-serif" font-size="16" fill="#d1e1d1">
+          <rect x="39" y="368" width="15" height="14" rx="2" fill="#7fa68e"/>
+          <text x="68" y="381">Sample library</text>
+        </g>
+<g font-family="Segoe UI,Arial,sans-serif" font-size="16" fill="#a6b0bb">
+          <rect x="39" y="415" width="15" height="14" rx="2" fill="#58636d"/>
+          <text x="68" y="428">Field recordings</text>
+        </g>
+<g font-family="Segoe UI,Arial,sans-serif" font-size="16" fill="#a6b0bb">
+          <rect x="39" y="462" width="15" height="14" rx="2" fill="#58636d"/>
+          <text x="68" y="475">Percussion</text>
+        </g>
+<g font-family="Segoe UI,Arial,sans-serif" font-size="16" fill="#a6b0bb">
+          <rect x="39" y="509" width="15" height="14" rx="2" fill="#58636d"/>
+          <text x="68" y="522">Ambiences</text>
+        </g>
+<g font-family="Segoe UI,Arial,sans-serif" font-size="16" fill="#a6b0bb">
+          <rect x="39" y="556" width="15" height="14" rx="2" fill="#58636d"/>
+          <text x="68" y="569">Recent projects</text>
+        </g>
+<path d="M38 642 H243" stroke="#3d444b" stroke-width="2"/>
+      <text x="41" y="685" fill="#7e8c99" font-size="15" font-family="Segoe UI,Arial,sans-serif">FAVORITES</text>
+      <g fill="#8d99a5" font-family="Segoe UI,Arial,sans-serif" font-size="16">
+        <text x="42" y="725">Textures</text><text x="42" y="765">Tonal sketches</text><text x="42" y="805">Soft transients</text>
+      </g>
+      <!-- Track controls, arrangement ruler, and uncluttered timeline. -->
+      <rect x="269" y="124" width="230" height="676" fill="#252c33"/>
+      <rect x="499" y="124" width="1402" height="52" fill="#222931"/>
+      <rect x="499" y="176" width="1402" height="614" fill="#1d242a"/>
+      <rect x="499" y="176" width="1402" height="614" fill="url(#demo-time-grid)" opacity=".72"/>
+      <path d="M498 124V802 M1812 124V802" stroke="#57606a" stroke-width="2"/>
+      <g font-family="Segoe UI,Arial,sans-serif" fill="#99a8b5" font-size="17">
+<text x="520" y="155">1</text>
+<text x="678" y="155">5</text>
+<text x="836" y="155">9</text>
+<text x="994" y="155">13</text>
+<text x="1152" y="155">17</text>
+<text x="1310" y="155">21</text>
+<text x="1468" y="155">25</text>
+<text x="1626" y="155">29</text>
+<text x="1784" y="155">33</text>
+</g>
+<rect x="269" y="178" width="1630" height="54" fill="#20272f" opacity=".9"/>
+        <rect x="275" y="185" width="5" height="41" rx="2" fill="#88a9ad"/>
+        <text x="292" y="202" font-family="Segoe UI,Arial,sans-serif" font-size="15" font-weight="600" fill="#ccd4da">AMBIENCE</text>
+        <g font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#85919b">
+          <text x="291" y="221">01 · AUDIO</text>
+        </g>
+        <rect x="448" y="196" width="13" height="13" rx="3" fill="#4d5862"/>
+        <rect x="472" y="196" width="13" height="13" rx="3" fill="#4d5862"/>
+        <line x1="269" y1="232" x2="1900" y2="232" stroke="#45505b" stroke-width="1"/>
+<rect x="518" y="185" width="790" height="41" rx="4" fill="#88a9ad" fill-opacity=".22" stroke="#88a9ad" stroke-opacity=".68" stroke-width="1.5"/>
+<rect x="521" y="187" width="5" height="37" fill="#88a9ad" opacity=".63"/>
+<path d="M534 205 L534 198.5 L534 211.5 L544 201.4 L544 208.6 L554 198.4 L554 211.6 L564 199.1 L564 210.9 L574 195.4 L574 214.6 L584 193.5 L584 216.5 L594 200.8 L594 209.2 L604 201.6 L604 208.4 L614 197.7 L614 212.3 L624 197.9 L624 212.1 L634 202.7 L634 207.3 L644 199.8 L644 210.2 L654 200.0 L654 210.0 L664 195.5 L664 214.5 L674 194.1 L674 215.9 L684 200.7 L684 209.3 L694 200.9 L694 209.1 L704 196.0 L704 214.0 L714 197.4 L714 212.6 L724 201.8 L724 208.2 L734 201.4 L734 208.6 L744 201.1 L744 208.9 L754 195.8 L754 214.2 L764 195.1 L764 214.9 L774 200.8 L774 209.2 L784 200.5 L784 209.5 L794 194.5 L794 215.5 L804 197.0 L804 213.0 L814 200.6 L814 209.4 L824 202.8 L824 207.2 L834 202.2 L834 207.8 L844 196.4 L844 213.6 L854 196.4 L854 213.6 L864 201.1 L864 208.9 L874 200.2 L874 209.8 L884 193.4 L884 216.6 L894 196.9 L894 213.1 L904 199.5 L904 210.5 L914 201.2 L914 208.8 L924 202.5 L924 207.5 L934 197.1 L934 212.9 L944 198.0 L944 212.0 L954 201.4 L954 208.6 L964 200.1 L964 209.9 L974 192.7 L974 217.3 L984 196.9 L984 213.1 L994 198.5 L994 211.5 L1004 199.7 L1004 210.3 L1014 201.3 L1014 208.7 L1024 198.0 L1024 212.0 L1034 199.9 L1034 210.1 L1044 202.0 L1044 208.0 L1054 200.2 L1054 209.8 L1064 192.5 L1064 217.5 L1074 197.1 L1074 212.9 L1084 197.8 L1084 212.2 L1094 198.4 L1094 211.6 L1104 200.1 L1104 209.9 L1114 199.0 L1114 211.0 L1124 202.0 L1124 208.0 L1134 202.6 L1134 207.4 L1144 200.4 L1144 209.6 L1154 192.6 L1154 217.4 L1164 197.6 L1164 212.4 L1174 197.2 L1174 212.8 L1184 197.3 L1184 212.7 L1194 199.1 L1194 210.9 L1204 200.0 L1204 210.0 L1214 201.7 L1214 208.3 L1224 202.5 L1224 207.5 L1234 200.7 L1234 209.3 L1244 193.2 L1244 216.8 L1254 198.3 L1254 211.7 L1264 196.8 L1264 213.2 L1274 196.5 L1274 213.5 L1284 198.2 L1284 211.8 L1294 201.1 L1294 208.9" fill="none" stroke="#88a9ad" stroke-width="1.8" opacity=".93"/>
+<rect x="269" y="233" width="1630" height="54" fill="#242b33" opacity=".9"/>
+        <rect x="275" y="240" width="5" height="41" rx="2" fill="#a89ac6"/>
+        <text x="292" y="257" font-family="Segoe UI,Arial,sans-serif" font-size="15" font-weight="600" fill="#ccd4da">DRONE</text>
+        <g font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#85919b">
+          <text x="291" y="276">02 · AUDIO</text>
+        </g>
+        <rect x="448" y="251" width="13" height="13" rx="3" fill="#4d5862"/>
+        <rect x="472" y="251" width="13" height="13" rx="3" fill="#4d5862"/>
+        <line x1="269" y1="287" x2="1900" y2="287" stroke="#45505b" stroke-width="1"/>
+<rect x="636" y="240" width="990" height="41" rx="4" fill="#a89ac6" fill-opacity=".22" stroke="#a89ac6" stroke-opacity=".68" stroke-width="1.5"/>
+<rect x="639" y="242" width="5" height="37" fill="#a89ac6" opacity=".63"/>
+<path d="M652 260 L652 252.9 L652 267.1 L662 255.5 L662 264.5 L672 252.9 L672 267.1 L682 250.9 L682 269.1 L692 255.9 L692 264.1 L702 255.8 L702 264.2 L712 256.1 L712 263.9 L722 255.6 L722 264.4 L732 248.4 L732 271.6 L742 253.6 L742 266.4 L752 255.4 L752 264.6 L762 252.0 L762 268.0 L772 249.8 L772 270.2 L782 256.7 L782 263.3 L792 254.0 L792 266.0 L802 257.3 L802 262.7 L812 255.5 L812 264.5 L822 249.7 L822 270.3 L832 254.6 L832 265.4 L842 255.5 L842 264.5 L852 251.4 L852 268.6 L862 249.1 L862 270.9 L872 257.5 L872 262.5 L882 252.4 L882 267.6 L892 257.2 L892 262.8 L902 255.5 L902 264.5 L912 251.3 L912 268.7 L922 255.9 L922 264.1 L932 255.6 L932 264.4 L942 251.2 L942 268.8 L952 248.7 L952 271.3 L962 257.5 L962 262.5 L972 251.1 L972 268.9 L982 256.0 L982 264.0 L992 255.5 L992 264.5 L1002 253.2 L1002 266.8 L1012 257.3 L1012 262.7 L1022 255.8 L1022 264.2 L1032 251.3 L1032 268.7 L1042 248.6 L1042 271.4 L1052 256.8 L1052 263.2 L1062 250.0 L1062 270.0 L1072 254.8 L1072 265.2 L1082 255.5 L1082 264.5 L1092 255.1 L1092 264.9 L1102 257.0 L1102 263.0 L1112 256.1 L1112 263.9 L1122 251.7 L1122 268.3 L1132 248.9 L1132 271.1 L1142 256.1 L1142 263.9 L1152 249.2 L1152 270.8 L1162 253.9 L1162 266.1 L1172 255.5 L1172 264.5 L1182 257.2 L1182 262.8 L1192 255.4 L1192 264.6 L1202 256.4 L1202 263.6 L1212 252.4 L1212 267.6 L1222 249.5 L1222 270.5 L1232 255.5 L1232 264.5 L1242 248.8 L1242 271.2 L1252 253.1 L1252 266.9 L1262 255.6 L1262 264.4 L1272 256.6 L1272 263.4 L1282 253.9 L1282 266.1 L1292 256.8 L1292 263.2 L1302 253.4 L1302 266.6 L1312 250.5 L1312 269.5 L1322 255.0 L1322 265.0 L1332 248.8 L1332 271.2 L1342 252.6 L1342 267.4 L1352 255.7 L1352 264.3 L1362 254.7 L1362 265.3 L1372 252.4 L1372 267.6 L1382 257.2 L1382 262.8 L1392 254.6 L1392 265.4 L1402 251.8 L1402 268.2 L1412 254.6 L1412 265.4 L1422 249.1 L1422 270.9 L1432 252.3 L1432 267.7 L1442 255.8 L1442 264.2 L1452 253.0 L1452 267.0 L1462 251.0 L1462 269.0 L1472 257.5 L1472 262.5 L1482 256.0 L1482 264.0 L1492 253.4 L1492 266.6 L1502 254.2 L1502 265.8 L1512 249.9 L1512 270.1 L1522 252.4 L1522 267.6 L1532 255.9 L1532 264.1 L1542 251.6 L1542 268.4 L1552 249.9 L1552 270.1 L1562 257.9 L1562 262.1 L1572 257.4 L1572 262.6 L1582 255.1 L1582 264.9 L1592 253.9 L1592 266.1 L1602 251.0 L1602 269.0 L1612 252.8 L1612 267.2" fill="none" stroke="#a89ac6" stroke-width="1.8" opacity=".93"/>
+<rect x="269" y="288" width="1630" height="54" fill="#20272f" opacity=".9"/>
+        <rect x="275" y="295" width="5" height="41" rx="2" fill="#aebf97"/>
+        <text x="292" y="312" font-family="Segoe UI,Arial,sans-serif" font-size="15" font-weight="600" fill="#ccd4da">KANTELE</text>
+        <g font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#85919b">
+          <text x="291" y="331">03 · MIDI</text>
+        </g>
+        <rect x="448" y="306" width="13" height="13" rx="3" fill="#4d5862"/>
+        <rect x="472" y="306" width="13" height="13" rx="3" fill="#4d5862"/>
+        <line x1="269" y1="342" x2="1900" y2="342" stroke="#45505b" stroke-width="1"/>
+<rect x="535" y="295" width="780" height="41" rx="4" fill="#aebf97" fill-opacity=".22" stroke="#aebf97" stroke-opacity=".68" stroke-width="1.5"/>
+<rect x="538" y="297" width="5" height="37" fill="#aebf97" opacity=".63"/>
+<rect x="553.0" y="324" width="14" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="579.4" y="312" width="18" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="605.9" y="300" width="22" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="632.3" y="318" width="14" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="658.7" y="306" width="18" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="685.1" y="324" width="22" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="711.6" y="312" width="14" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="738.0" y="300" width="18" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="764.4" y="318" width="22" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="790.9" y="306" width="14" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="817.3" y="324" width="18" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="843.7" y="312" width="22" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="870.1" y="300" width="14" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="896.6" y="318" width="18" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="923.0" y="306" width="22" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="949.4" y="324" width="14" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="975.9" y="312" width="18" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="1002.3" y="300" width="22" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="1028.7" y="318" width="14" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="1055.1" y="306" width="18" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="1081.6" y="324" width="22" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="1108.0" y="312" width="14" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="1134.4" y="300" width="18" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="1160.9" y="318" width="22" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="1187.3" y="306" width="14" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="1213.7" y="324" width="18" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="1240.1" y="312" width="22" height="4" rx="1" fill="#aebf97" opacity=".9"/><rect x="1266.6" y="300" width="14" height="4" rx="1" fill="#aebf97" opacity=".9"/>
+<rect x="269" y="343" width="1630" height="54" fill="#242b33" opacity=".9"/>
+        <rect x="275" y="350" width="5" height="41" rx="2" fill="#b6a1c8"/>
+        <text x="292" y="367" font-family="Segoe UI,Arial,sans-serif" font-size="15" font-weight="600" fill="#ccd4da">KEYS</text>
+        <g font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#85919b">
+          <text x="291" y="386">04 · MIDI</text>
+        </g>
+        <rect x="448" y="361" width="13" height="13" rx="3" fill="#4d5862"/>
+        <rect x="472" y="361" width="13" height="13" rx="3" fill="#4d5862"/>
+        <line x1="269" y1="397" x2="1900" y2="397" stroke="#45505b" stroke-width="1"/>
+<rect x="770" y="350" width="645" height="41" rx="4" fill="#b6a1c8" fill-opacity=".22" stroke="#b6a1c8" stroke-opacity=".68" stroke-width="1.5"/>
+<rect x="773" y="352" width="5" height="37" fill="#b6a1c8" opacity=".63"/>
+<rect x="788.0" y="361" width="14" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="809.6" y="379" width="18" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="831.2" y="367" width="22" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="852.8" y="355" width="14" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="874.4" y="373" width="18" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="896.0" y="361" width="22" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="917.6" y="379" width="14" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="939.3" y="367" width="18" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="960.9" y="355" width="22" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="982.5" y="373" width="14" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="1004.1" y="361" width="18" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="1025.7" y="379" width="22" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="1047.3" y="367" width="14" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="1068.9" y="355" width="18" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="1090.5" y="373" width="22" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="1112.1" y="361" width="14" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="1133.7" y="379" width="18" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="1155.3" y="367" width="22" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="1176.9" y="355" width="14" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="1198.5" y="373" width="18" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="1220.1" y="361" width="22" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="1241.8" y="379" width="14" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="1263.4" y="367" width="18" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="1285.0" y="355" width="22" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="1306.6" y="373" width="14" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="1328.2" y="361" width="18" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="1349.8" y="379" width="22" height="4" rx="1" fill="#b6a1c8" opacity=".9"/><rect x="1371.4" y="367" width="14" height="4" rx="1" fill="#b6a1c8" opacity=".9"/>
+<rect x="269" y="398" width="1630" height="54" fill="#20272f" opacity=".9"/>
+        <rect x="275" y="405" width="5" height="41" rx="2" fill="#b7a09c"/>
+        <text x="292" y="422" font-family="Segoe UI,Arial,sans-serif" font-size="15" font-weight="600" fill="#ccd4da">LOW STRINGS</text>
+        <g font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#85919b">
+          <text x="291" y="441">05 · AUDIO</text>
+        </g>
+        <rect x="448" y="416" width="13" height="13" rx="3" fill="#4d5862"/>
+        <rect x="472" y="416" width="13" height="13" rx="3" fill="#4d5862"/>
+        <line x1="269" y1="452" x2="1900" y2="452" stroke="#45505b" stroke-width="1"/>
+<rect x="560" y="405" width="970" height="41" rx="4" fill="#b7a09c" fill-opacity=".22" stroke="#b7a09c" stroke-opacity=".68" stroke-width="1.5"/>
+<rect x="563" y="407" width="5" height="37" fill="#b7a09c" opacity=".63"/>
+<path d="M576 425 L576 421.6 L576 428.4 L586 422.1 L586 427.9 L596 418.5 L596 431.5 L606 417.2 L606 432.8 L616 418.9 L616 431.1 L626 421.8 L626 428.2 L636 414.5 L636 435.5 L646 413.6 L646 436.4 L656 422.0 L656 428.0 L666 420.3 L666 429.7 L676 421.9 L676 428.1 L686 418.4 L686 431.6 L696 418.9 L696 431.1 L706 419.8 L706 430.2 L716 422.0 L716 428.0 L726 414.1 L726 435.9 L736 413.5 L736 436.5 L746 421.6 L746 428.4 L756 419.1 L756 430.9 L766 420.2 L766 429.8 L776 418.4 L776 431.6 L786 420.8 L786 429.2 L796 421.0 L796 429.0 L806 422.2 L806 427.8 L816 414.0 L816 436.0 L826 413.8 L826 436.2 L836 421.2 L836 428.8 L846 418.2 L846 431.8 L856 418.5 L856 431.5 L866 418.5 L866 431.5 L876 422.7 L876 427.3 L886 422.3 L886 427.7 L896 422.4 L896 427.6 L906 414.4 L906 435.6 L916 414.4 L916 435.6 L926 421.0 L926 429.0 L936 417.5 L936 432.5 L946 417.1 L946 432.9 L956 418.6 L956 431.4 L966 421.2 L966 428.8 L976 422.1 L976 427.9 L986 422.6 L986 427.4 L996 415.0 L996 435.0 L1006 415.5 L1006 434.5 L1016 420.7 L1016 429.3 L1026 417.1 L1026 432.9 L1036 415.9 L1036 434.1 L1046 418.8 L1046 431.2 L1056 419.3 L1056 430.7 L1066 420.7 L1066 429.3 L1076 422.8 L1076 427.2 L1086 416.0 L1086 434.0 L1096 416.8 L1096 433.2 L1106 420.5 L1106 429.5 L1116 417.0 L1116 433.0 L1126 415.0 L1126 435.0 L1136 419.1 L1136 430.9 L1146 417.6 L1146 432.4 L1156 419.4 L1156 430.6 L1166 422.7 L1166 427.3 L1176 417.2 L1176 432.8 L1186 418.4 L1186 431.6 L1196 420.3 L1196 429.7 L1206 417.2 L1206 432.8 L1216 414.5 L1216 435.5 L1226 419.4 L1226 430.6 L1236 416.1 L1236 433.9 L1246 418.1 L1246 431.9 L1256 422.4 L1256 427.6 L1266 418.5 L1266 431.5 L1276 420.3 L1276 429.7 L1286 420.1 L1286 429.9 L1296 417.7 L1296 432.3 L1306 414.4 L1306 435.6 L1316 419.9 L1316 430.1 L1326 415.0 L1326 435.0 L1336 417.1 L1336 432.9 L1346 422.1 L1346 427.9 L1356 420.0 L1356 430.0 L1366 422.3 L1366 427.7 L1376 420.0 L1376 430.0 L1386 418.5 L1386 431.5 L1396 414.6 L1396 435.4 L1406 420.4 L1406 429.6 L1416 414.1 L1416 435.9 L1426 416.3 L1426 433.7 L1436 421.8 L1436 428.2 L1446 421.5 L1446 428.5 L1456 421.4 L1456 428.6 L1466 419.9 L1466 430.1 L1476 419.5 L1476 430.5 L1486 415.2 L1486 434.8 L1496 421.0 L1496 429.0 L1506 413.6 L1506 436.4 L1516 415.8 L1516 434.2" fill="none" stroke="#b7a09c" stroke-width="1.8" opacity=".93"/>
+<rect x="269" y="453" width="1630" height="54" fill="#242b33" opacity=".9"/>
+        <rect x="275" y="460" width="5" height="41" rx="2" fill="#c9a079"/>
+        <text x="292" y="477" font-family="Segoe UI,Arial,sans-serif" font-size="15" font-weight="600" fill="#ccd4da">PERCUSSION</text>
+        <g font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#85919b">
+          <text x="291" y="496">06 · AUDIO</text>
+        </g>
+        <rect x="448" y="471" width="13" height="13" rx="3" fill="#4d5862"/>
+        <rect x="472" y="471" width="13" height="13" rx="3" fill="#4d5862"/>
+        <line x1="269" y1="507" x2="1900" y2="507" stroke="#45505b" stroke-width="1"/>
+<rect x="690" y="460" width="650" height="41" rx="4" fill="#c9a079" fill-opacity=".22" stroke="#c9a079" stroke-opacity=".68" stroke-width="1.5"/>
+<rect x="693" y="462" width="5" height="37" fill="#c9a079" opacity=".63"/>
+<path d="M706 480 L706 473.8 L706 486.2 L716 467.1 L716 492.9 L726 474.1 L726 485.9 L736 472.1 L736 487.9 L746 474.2 L746 485.8 L756 475.0 L756 485.0 L766 474.0 L766 486.0 L776 477.1 L776 482.9 L786 477.5 L786 482.5 L796 474.0 L796 486.0 L806 467.2 L806 492.8 L816 474.6 L816 485.4 L826 471.4 L826 488.6 L836 472.9 L836 487.1 L846 474.2 L846 485.8 L856 475.4 L856 484.6 L866 476.7 L866 483.3 L876 477.8 L876 482.2 L886 474.4 L886 485.6 L896 467.8 L896 492.2 L906 475.2 L906 484.8 L916 471.0 L916 489.0 L926 472.0 L926 488.0 L936 473.5 L936 486.5 L946 476.8 L946 483.2 L956 474.7 L956 485.3 L966 477.4 L966 482.6 L976 475.0 L976 485.0 L986 468.8 L986 491.2 L996 476.0 L996 484.0 L1006 470.9 L1006 489.1 L1016 471.3 L1016 488.7 L1026 472.9 L1026 487.1 L1036 477.6 L1036 482.4 L1046 472.7 L1046 487.3 L1056 476.8 L1056 483.2 L1066 475.6 L1066 484.4 L1076 470.1 L1076 489.9 L1086 476.9 L1086 483.1 L1096 471.1 L1096 488.9 L1106 471.0 L1106 489.0 L1116 472.5 L1116 487.5 L1126 476.3 L1126 483.7 L1136 470.9 L1136 489.1 L1146 476.3 L1146 483.7 L1156 476.4 L1156 483.6 L1166 471.8 L1166 488.2 L1176 477.9 L1176 482.1 L1186 471.5 L1186 488.5 L1196 471.1 L1196 488.9 L1206 472.2 L1206 487.8 L1216 475.2 L1216 484.8 L1226 469.4 L1226 490.6 L1236 475.9 L1236 484.1 L1246 477.2 L1246 482.8 L1256 473.6 L1256 486.4 L1266 476.9 L1266 483.1 L1276 472.2 L1276 487.8 L1286 471.6 L1286 488.4 L1296 472.2 L1296 487.8 L1306 474.2 L1306 485.8 L1316 468.2 L1316 491.8 L1326 475.5 L1326 484.5" fill="none" stroke="#c9a079" stroke-width="1.8" opacity=".93"/>
+<rect x="269" y="508" width="1630" height="54" fill="#20272f" opacity=".9"/>
+        <rect x="275" y="515" width="5" height="41" rx="2" fill="#7ea3a8"/>
+        <text x="292" y="532" font-family="Segoe UI,Arial,sans-serif" font-size="15" font-weight="600" fill="#ccd4da">FIELD RECORD</text>
+        <g font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#85919b">
+          <text x="291" y="551">07 · AUDIO</text>
+        </g>
+        <rect x="448" y="526" width="13" height="13" rx="3" fill="#4d5862"/>
+        <rect x="472" y="526" width="13" height="13" rx="3" fill="#4d5862"/>
+        <line x1="269" y1="562" x2="1900" y2="562" stroke="#45505b" stroke-width="1"/>
+<rect x="525" y="515" width="1210" height="41" rx="4" fill="#7ea3a8" fill-opacity=".22" stroke="#7ea3a8" stroke-opacity=".68" stroke-width="1.5"/>
+<rect x="528" y="517" width="5" height="37" fill="#7ea3a8" opacity=".63"/>
+<path d="M541 535 L541 530.5 L541 539.5 L551 532.5 L551 537.5 L561 530.6 L561 539.4 L571 531.2 L571 538.8 L581 526.2 L581 543.8 L591 525.4 L591 544.6 L601 528.6 L601 541.4 L611 524.0 L611 546.0 L621 528.9 L621 541.1 L631 530.9 L631 539.1 L641 531.1 L641 538.9 L651 529.3 L651 540.7 L661 531.8 L661 538.2 L671 527.2 L671 542.8 L681 526.3 L681 543.7 L691 528.2 L691 541.8 L701 523.9 L701 546.1 L711 528.3 L711 541.7 L721 531.3 L721 538.7 L731 529.1 L731 540.9 L741 528.1 L741 541.9 L751 532.4 L751 537.6 L761 528.4 L761 541.6 L771 527.5 L771 542.5 L781 527.9 L781 542.1 L791 524.3 L791 545.7 L801 528.0 L801 542.0 L811 531.7 L811 538.3 L821 527.2 L821 542.8 L831 527.0 L831 543.0 L841 532.8 L841 537.2 L851 529.9 L851 540.1 L861 528.9 L861 541.1 L871 527.8 L871 542.2 L881 524.9 L881 545.1 L891 527.9 L891 542.1 L901 532.0 L901 538.0 L911 525.6 L911 544.4 L921 526.1 L921 543.9 L931 532.2 L931 537.8 L941 531.4 L941 538.6 L951 530.5 L951 539.5 L961 527.8 L961 542.2 L971 526.0 L971 544.0 L981 528.1 L981 541.9 L991 532.3 L991 537.7 L1001 524.3 L1001 545.7 L1011 525.4 L1011 544.6 L1021 531.7 L1021 538.3 L1031 532.9 L1031 537.1 L1041 532.2 L1041 537.8 L1051 527.9 L1051 542.1 L1061 527.4 L1061 542.6 L1071 528.5 L1071 541.5 L1081 532.6 L1081 537.4 L1091 523.4 L1091 546.6 L1101 525.0 L1101 545.0 L1111 531.2 L1111 538.8 L1121 531.4 L1121 538.6 L1131 531.8 L1131 538.2 L1141 528.1 L1141 541.9 L1151 529.0 L1151 541.0 L1161 529.2 L1161 540.8 L1171 532.8 L1171 537.2 L1181 522.9 L1181 547.1 L1191 524.9 L1191 545.1 L1201 530.8 L1201 539.2 L1211 530.0 L1211 540.0 L1221 530.1 L1221 539.9 L1231 528.4 L1231 541.6 L1241 530.8 L1241 539.2 L1251 530.1 L1251 539.9 L1261 532.8 L1261 537.2 L1271 522.8 L1271 547.2 L1281 525.1 L1281 544.9 L1291 530.5 L1291 539.5 L1301 528.8 L1301 541.2 L1311 528.5 L1311 541.5 L1321 528.8 L1321 541.2 L1331 532.7 L1331 537.3 L1341 531.2 L1341 538.8 L1351 532.6 L1351 537.4 L1361 523.1 L1361 546.9 L1371 525.7 L1371 544.3 L1381 530.3 L1381 539.7 L1391 527.9 L1391 542.1 L1401 527.0 L1401 543.0 L1411 529.3 L1411 540.7 L1421 531.1 L1421 538.9 L1431 532.4 L1431 537.6 L1441 532.4 L1441 537.6 L1451 523.8 L1451 546.2 L1461 526.5 L1461 543.5 L1471 530.1 L1471 539.9 L1481 527.3 L1481 542.7 L1491 525.8 L1491 544.2 L1501 529.8 L1501 540.2 L1511 529.2 L1511 540.8 L1521 532.1 L1521 537.9 L1531 532.3 L1531 537.7 L1541 524.9 L1541 545.1 L1551 527.7 L1551 542.3 L1561 530.0 L1561 540.0 L1571 526.9 L1571 543.1 L1581 524.8 L1581 545.2 L1591 530.3 L1591 539.7 L1601 527.5 L1601 542.5 L1611 530.8 L1611 539.2 L1621 532.1 L1621 537.9 L1631 526.2 L1631 543.8 L1641 529.2 L1641 540.8 L1651 530.0 L1651 540.0 L1661 526.9 L1661 543.1 L1671 524.2 L1671 545.8 L1681 530.8 L1681 539.2 L1691 525.9 L1691 544.1 L1701 529.6 L1701 540.4 L1711 531.9 L1711 538.1 L1721 527.7 L1721 542.3" fill="none" stroke="#7ea3a8" stroke-width="1.8" opacity=".93"/>
+<rect x="269" y="563" width="1630" height="54" fill="#242b33" opacity=".9"/>
+        <rect x="275" y="570" width="5" height="41" rx="2" fill="#a5a6b7"/>
+        <text x="292" y="587" font-family="Segoe UI,Arial,sans-serif" font-size="15" font-weight="600" fill="#ccd4da">TEXTURE</text>
+        <g font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#85919b">
+          <text x="291" y="606">08 · AUDIO</text>
+        </g>
+        <rect x="448" y="581" width="13" height="13" rx="3" fill="#4d5862"/>
+        <rect x="472" y="581" width="13" height="13" rx="3" fill="#4d5862"/>
+        <line x1="269" y1="617" x2="1900" y2="617" stroke="#45505b" stroke-width="1"/>
+<rect x="870" y="570" width="710" height="41" rx="4" fill="#a5a6b7" fill-opacity=".22" stroke="#a5a6b7" stroke-opacity=".68" stroke-width="1.5"/>
+<rect x="873" y="572" width="5" height="37" fill="#a5a6b7" opacity=".63"/>
+<path d="M886 590 L886 586.9 L886 593.1 L896 578.1 L896 601.9 L906 580.7 L906 599.3 L916 586.9 L916 593.1 L926 586.2 L926 593.8 L936 582.4 L936 597.6 L946 584.6 L946 595.4 L956 587.2 L956 592.8 L966 582.8 L966 597.2 L976 587.6 L976 592.4 L986 578.4 L986 601.6 L996 580.9 L996 599.1 L1006 586.8 L1006 593.2 L1016 585.0 L1016 595.0 L1026 580.6 L1026 599.4 L1036 584.7 L1036 595.3 L1046 587.2 L1046 592.8 L1056 584.2 L1056 595.8 L1066 587.5 L1066 592.5 L1076 579.0 L1076 601.0 L1086 581.5 L1086 598.5 L1096 586.8 L1096 593.2 L1106 584.0 L1106 596.0 L1116 579.2 L1116 600.8 L1126 584.9 L1126 595.1 L1136 585.8 L1136 594.2 L1146 585.8 L1146 594.2 L1156 586.8 L1156 593.2 L1166 579.9 L1166 600.1 L1176 582.5 L1176 597.5 L1186 586.8 L1186 593.2 L1196 583.2 L1196 596.8 L1206 578.0 L1206 602.0 L1216 585.2 L1216 594.8 L1226 584.5 L1226 595.5 L1236 587.5 L1236 592.5 L1246 586.0 L1246 594.0 L1256 581.1 L1256 598.9 L1266 583.7 L1266 596.3 L1276 586.8 L1276 593.2 L1286 582.8 L1286 597.2 L1296 577.3 L1296 602.7 L1306 585.5 L1306 594.5 L1316 583.3 L1316 596.7 L1326 586.7 L1326 593.3 L1336 585.3 L1336 594.7 L1346 582.5 L1346 597.5 L1356 585.2 L1356 594.8 L1366 587.0 L1366 593.0 L1376 582.6 L1376 597.4 L1386 577.0 L1386 603.0 L1396 585.8 L1396 594.2 L1406 582.3 L1406 597.7 L1416 585.1 L1416 594.9 L1426 584.6 L1426 595.4 L1436 584.1 L1436 595.9 L1446 586.9 L1446 593.1 L1456 587.2 L1456 592.8 L1466 582.7 L1466 597.3 L1476 577.1 L1476 602.9 L1486 586.3 L1486 593.7 L1496 581.6 L1496 598.4 L1506 583.7 L1506 596.3 L1516 584.0 L1516 596.0 L1526 585.7 L1526 594.3 L1536 587.1 L1536 592.9 L1546 587.4 L1546 592.6 L1556 583.0 L1556 597.0 L1566 577.6 L1566 602.4" fill="none" stroke="#a5a6b7" stroke-width="1.8" opacity=".93"/>
+<rect x="269" y="618" width="1630" height="54" fill="#20272f" opacity=".9"/>
+        <rect x="275" y="625" width="5" height="41" rx="2" fill="#b1b38c"/>
+        <text x="292" y="642" font-family="Segoe UI,Arial,sans-serif" font-size="15" font-weight="600" fill="#ccd4da">BASS</text>
+        <g font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#85919b">
+          <text x="291" y="661">09 · MIDI</text>
+        </g>
+        <rect x="448" y="636" width="13" height="13" rx="3" fill="#4d5862"/>
+        <rect x="472" y="636" width="13" height="13" rx="3" fill="#4d5862"/>
+        <line x1="269" y1="672" x2="1900" y2="672" stroke="#45505b" stroke-width="1"/>
+<rect x="608" y="625" width="880" height="41" rx="4" fill="#b1b38c" fill-opacity=".22" stroke="#b1b38c" stroke-opacity=".68" stroke-width="1.5"/>
+<rect x="611" y="627" width="5" height="37" fill="#b1b38c" opacity=".63"/>
+<rect x="626.0" y="636" width="14" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="653.0" y="654" width="18" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="680.0" y="642" width="22" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="707.0" y="630" width="14" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="734.0" y="648" width="18" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="761.0" y="636" width="22" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="788.0" y="654" width="14" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="815.0" y="642" width="18" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="842.0" y="630" width="22" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="869.0" y="648" width="14" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="896.0" y="636" width="18" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="923.0" y="654" width="22" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="950.0" y="642" width="14" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="977.0" y="630" width="18" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="1004.0" y="648" width="22" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="1031.0" y="636" width="14" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="1058.0" y="654" width="18" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="1085.0" y="642" width="22" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="1112.0" y="630" width="14" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="1139.0" y="648" width="18" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="1166.0" y="636" width="22" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="1193.0" y="654" width="14" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="1220.0" y="642" width="18" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="1247.0" y="630" width="22" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="1274.0" y="648" width="14" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="1301.0" y="636" width="18" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="1328.0" y="654" width="22" height="4" rx="1" fill="#b1b38c" opacity=".9"/><rect x="1355.0" y="642" width="14" height="4" rx="1" fill="#b1b38c" opacity=".9"/>
+<rect x="269" y="673" width="1630" height="54" fill="#242b33" opacity=".9"/>
+        <rect x="275" y="680" width="5" height="41" rx="2" fill="#92a4a3"/>
+        <text x="292" y="697" font-family="Segoe UI,Arial,sans-serif" font-size="15" font-weight="600" fill="#ccd4da">FOLEY</text>
+        <g font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#85919b">
+          <text x="291" y="716">10 · AUDIO</text>
+        </g>
+        <rect x="448" y="691" width="13" height="13" rx="3" fill="#4d5862"/>
+        <rect x="472" y="691" width="13" height="13" rx="3" fill="#4d5862"/>
+        <line x1="269" y1="727" x2="1900" y2="727" stroke="#45505b" stroke-width="1"/>
+<rect x="722" y="680" width="690" height="41" rx="4" fill="#92a4a3" fill-opacity=".22" stroke="#92a4a3" stroke-opacity=".68" stroke-width="1.5"/>
+<rect x="725" y="682" width="5" height="37" fill="#92a4a3" opacity=".63"/>
+<path d="M738 700 L738 692.9 L738 707.1 L748 694.4 L748 705.6 L758 691.6 L758 708.4 L768 690.2 L768 709.8 L778 695.6 L778 704.4 L788 692.2 L788 707.8 L798 695.5 L798 704.5 L808 697.2 L808 702.8 L818 691.3 L818 708.7 L828 694.4 L828 705.6 L838 694.5 L838 705.5 L848 691.7 L848 708.3 L858 689.6 L858 710.4 L868 696.2 L868 703.8 L878 690.6 L878 709.4 L888 694.4 L888 705.6 L898 697.1 L898 702.9 L908 692.9 L908 707.1 L918 696.0 L918 704.0 L928 694.5 L928 705.5 L938 692.1 L938 707.9 L948 689.4 L948 710.6 L958 696.8 L958 703.2 L968 689.4 L968 710.6 L978 693.4 L978 706.6 L988 697.1 L988 702.9 L998 694.6 L998 705.4 L1008 697.8 L1008 702.2 L1018 694.7 L1018 705.3 L1028 692.8 L1028 707.2 L1038 689.6 L1038 710.4 L1048 697.4 L1048 702.6 L1058 688.4 L1058 711.6 L1068 692.6 L1068 707.4 L1078 697.0 L1078 703.0 L1088 696.4 L1088 703.6 L1098 696.1 L1098 703.9 L1108 694.9 L1108 705.1 L1118 693.7 L1118 706.3 L1128 690.1 L1128 709.9 L1138 697.8 L1138 702.2 L1148 687.9 L1148 712.1 L1158 692.1 L1158 707.9 L1168 697.0 L1168 703.0 L1178 697.7 L1178 702.3 L1188 694.2 L1188 705.8 L1198 695.2 L1198 704.8 L1208 694.9 L1208 705.1 L1218 690.9 L1218 709.1 L1228 697.2 L1228 702.8 L1238 687.8 L1238 712.2 L1248 691.8 L1248 708.2 L1258 696.9 L1258 703.1 L1268 696.0 L1268 704.0 L1278 692.4 L1278 707.6 L1288 695.5 L1288 704.5 L1298 696.3 L1298 703.7 L1308 692.0 L1308 708.0 L1318 696.6 L1318 703.4 L1328 688.0 L1328 712.0 L1338 691.9 L1338 708.1 L1348 696.9 L1348 703.1 L1358 694.5 L1358 705.5 L1368 690.8 L1368 709.2 L1378 695.9 L1378 704.1 L1388 697.7 L1388 702.3 L1398 693.4 L1398 706.6" fill="none" stroke="#92a4a3" stroke-width="1.8" opacity=".93"/>
+<rect x="269" y="728" width="1630" height="54" fill="#20272f" opacity=".9"/>
+        <rect x="275" y="735" width="5" height="41" rx="2" fill="#9cb9aa"/>
+        <text x="292" y="752" font-family="Segoe UI,Arial,sans-serif" font-size="15" font-weight="600" fill="#ccd4da">MIX PRINT</text>
+        <g font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#85919b">
+          <text x="291" y="771">11 · AUDIO</text>
+        </g>
+        <rect x="448" y="746" width="13" height="13" rx="3" fill="#4d5862"/>
+        <rect x="472" y="746" width="13" height="13" rx="3" fill="#4d5862"/>
+        <line x1="269" y1="782" x2="1900" y2="782" stroke="#45505b" stroke-width="1"/>
+<rect x="515" y="736" width="1178" height="39" rx="4" fill="#4b6b61" fill-opacity=".55" stroke="#81b09b" stroke-opacity=".6"/>
+<path d="M533 756 L533 749.6 L533 762.4 L543 754.0 L543 758.0 L553 753.6 L553 758.4 L563 751.9 L563 760.1 L573 753.3 L573 758.7 L583 750.7 L583 761.3 L593 750.4 L593 761.6 L603 751.6 L603 760.4 L613 751.2 L613 760.8 L623 748.9 L623 763.1 L633 753.9 L633 758.1 L643 754.3 L643 757.7 L653 753.2 L653 758.8 L663 752.8 L663 759.2 L673 751.4 L673 760.6 L683 750.8 L683 761.2 L693 751.7 L693 760.3 L703 750.6 L703 761.4 L713 748.3 L713 763.7 L723 753.8 L723 758.2 L733 754.4 L733 757.6 L743 754.6 L743 757.4 L753 752.3 L753 759.7 L763 752.2 L763 759.8 L773 751.4 L773 760.6 L783 751.9 L783 760.1 L793 750.2 L793 761.8 L803 748.1 L803 763.9 L813 753.7 L813 758.3 L823 753.8 L823 758.2 L833 753.4 L833 758.6 L843 751.8 L843 760.2 L853 753.0 L853 759.0 L863 752.2 L863 759.8 L873 752.3 L873 759.7 L883 750.0 L883 762.0 L893 748.1 L893 763.9 L903 753.7 L903 758.3 L913 753.3 L913 758.7 L923 752.1 L923 759.9 L933 751.4 L933 760.6 L943 753.9 L943 758.1 L953 753.0 L953 759.0 L963 752.7 L963 759.3 L973 750.0 L973 762.0 L983 748.4 L983 763.6 L993 753.7 L993 758.3 L1003 752.9 L1003 759.1 L1013 751.0 L1013 761.0 L1023 751.1 L1023 760.9 L1033 754.4 L1033 757.6 L1043 754.0 L1043 758.0 L1053 753.2 L1053 758.8 L1063 750.2 L1063 761.8 L1073 748.9 L1073 763.1 L1083 753.8 L1083 758.2 L1093 752.6 L1093 759.4 L1103 750.0 L1103 762.0 L1113 750.8 L1113 761.2 L1123 753.5 L1123 758.5 L1133 754.2 L1133 757.8 L1143 753.8 L1143 758.2 L1153 750.5 L1153 761.5 L1163 749.7 L1163 762.3 L1173 754.0 L1173 758.0 L1183 752.5 L1183 759.5 L1193 749.3 L1193 762.7 L1203 750.6 L1203 761.4 L1213 752.7 L1213 759.3 L1223 753.2 L1223 758.8 L1233 754.4 L1233 757.6 L1243 750.9 L1243 761.1 L1253 750.7 L1253 761.3 L1263 754.3 L1263 757.7 L1273 752.4 L1273 759.6 L1283 748.7 L1283 763.3 L1293 750.6 L1293 761.4 L1303 751.9 L1303 760.1 L1313 752.2 L1313 759.8 L1323 754.2 L1323 757.8 L1333 751.4 L1333 760.6 L1343 751.9 L1343 760.1 L1353 754.6 L1353 757.4 L1363 752.5 L1363 759.5 L1373 748.5 L1373 763.5 L1383 750.7 L1383 761.3 L1393 751.3 L1393 760.7 L1403 751.4 L1403 760.6 L1413 753.6 L1413 758.4 L1423 752.0 L1423 760.0 L1433 753.3 L1433 758.7 L1443 754.3 L1443 757.7 L1453 752.8 L1453 759.2 L1463 748.5 L1463 763.5 L1473 750.9 L1473 761.1 L1483 750.8 L1483 761.2 L1493 750.7 L1493 761.3 L1503 753.0 L1503 759.0 L1513 752.7 L1513 759.3 L1523 754.6 L1523 757.4 L1533 753.9 L1533 758.1 L1543 753.1 L1543 758.9 L1553 748.8 L1553 763.2 L1563 751.3 L1563 760.7 L1573 750.4 L1573 761.6 L1583 750.2 L1583 761.8 L1593 752.4 L1593 759.6 L1603 753.3 L1603 758.7 L1613 753.2 L1613 758.8 L1623 753.4 L1623 758.6 L1633 753.5 L1633 758.5 L1643 749.3 L1643 762.7 L1653 751.8 L1653 760.2 L1663 750.2 L1663 761.8" fill="none" stroke="#b4d4c2" stroke-width="1.5" opacity=".64"/>
+<!-- A light playhead separates the timeline from the warning animation. -->
+      <path d="M1161 125V791" stroke="#d7d2b7" stroke-width="2" opacity=".82"/>
+      <path d="M1155 126h12l-6 8z" fill="#d7d2b7"/>
+      <!-- DAW mixer with restrained details. -->
+      <rect x="269" y="801" width="1634" height="222" fill="#20272e" stroke="#4c545d"/>
+      <rect x="269" y="801" width="1634" height="30" fill="#2e363e"/>
+      <text x="290" y="824" fill="#c1cbd4" font-size="15" font-family="Segoe UI,Arial,sans-serif" font-weight="600">MIXER</text>
+<line x1="406" y1="831" x2="406" y2="1019" stroke="#444d57" stroke-width="2"/>
+   <text x="293" y="850" font-size="13" font-family="Segoe UI,Arial,sans-serif" fill="#aebbc4">AMBIENCE</text>
+   <circle cx="313" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <circle cx="347" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <line x1="311" y1="907" x2="311" y2="998" stroke="#65717d" stroke-width="6" stroke-linecap="round"/>
+   <rect x="299" y="930" width="24" height="10" rx="3" fill="#bdc6cf"/>
+   <rect x="347" y="922" width="8" height="67" rx="3" fill="#88a9ad" opacity=".9"/>
+   <rect x="359" y="916" width="8" height="73" rx="3" fill="#84bfa3" opacity=".58"/>
+<line x1="541" y1="831" x2="541" y2="1019" stroke="#444d57" stroke-width="2"/>
+   <text x="428" y="850" font-size="13" font-family="Segoe UI,Arial,sans-serif" fill="#aebbc4">DRONE</text>
+   <circle cx="448" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <circle cx="482" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <line x1="446" y1="907" x2="446" y2="998" stroke="#65717d" stroke-width="6" stroke-linecap="round"/>
+   <rect x="434" y="937" width="24" height="10" rx="3" fill="#bdc6cf"/>
+   <rect x="482" y="925" width="8" height="64" rx="3" fill="#a89ac6" opacity=".9"/>
+   <rect x="494" y="925" width="8" height="64" rx="3" fill="#84bfa3" opacity=".58"/>
+<line x1="676" y1="831" x2="676" y2="1019" stroke="#444d57" stroke-width="2"/>
+   <text x="563" y="850" font-size="13" font-family="Segoe UI,Arial,sans-serif" fill="#aebbc4">KANTELE</text>
+   <circle cx="583" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <circle cx="617" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <line x1="581" y1="907" x2="581" y2="998" stroke="#65717d" stroke-width="6" stroke-linecap="round"/>
+   <rect x="569" y="944" width="24" height="10" rx="3" fill="#bdc6cf"/>
+   <rect x="617" y="928" width="8" height="61" rx="3" fill="#aebf97" opacity=".9"/>
+   <rect x="629" y="934" width="8" height="55" rx="3" fill="#84bfa3" opacity=".58"/>
+<line x1="811" y1="831" x2="811" y2="1019" stroke="#444d57" stroke-width="2"/>
+   <text x="698" y="850" font-size="13" font-family="Segoe UI,Arial,sans-serif" fill="#aebbc4">KEYS</text>
+   <circle cx="718" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <circle cx="752" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <line x1="716" y1="907" x2="716" y2="998" stroke="#65717d" stroke-width="6" stroke-linecap="round"/>
+   <rect x="704" y="951" width="24" height="10" rx="3" fill="#bdc6cf"/>
+   <rect x="752" y="931" width="8" height="58" rx="3" fill="#b6a1c8" opacity=".9"/>
+   <rect x="764" y="943" width="8" height="46" rx="3" fill="#84bfa3" opacity=".58"/>
+<line x1="946" y1="831" x2="946" y2="1019" stroke="#444d57" stroke-width="2"/>
+   <text x="833" y="850" font-size="13" font-family="Segoe UI,Arial,sans-serif" fill="#aebbc4">LOW STRINGS</text>
+   <circle cx="853" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <circle cx="887" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <line x1="851" y1="907" x2="851" y2="998" stroke="#65717d" stroke-width="6" stroke-linecap="round"/>
+   <rect x="839" y="958" width="24" height="10" rx="3" fill="#bdc6cf"/>
+   <rect x="887" y="934" width="8" height="55" rx="3" fill="#b7a09c" opacity=".9"/>
+   <rect x="899" y="923" width="8" height="66" rx="3" fill="#84bfa3" opacity=".58"/>
+<line x1="1081" y1="831" x2="1081" y2="1019" stroke="#444d57" stroke-width="2"/>
+   <text x="968" y="850" font-size="13" font-family="Segoe UI,Arial,sans-serif" fill="#aebbc4">PERCUSSION</text>
+   <circle cx="988" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <circle cx="1022" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <line x1="986" y1="907" x2="986" y2="998" stroke="#65717d" stroke-width="6" stroke-linecap="round"/>
+   <rect x="974" y="965" width="24" height="10" rx="3" fill="#bdc6cf"/>
+   <rect x="1022" y="937" width="8" height="52" rx="3" fill="#c9a079" opacity=".9"/>
+   <rect x="1034" y="932" width="8" height="57" rx="3" fill="#84bfa3" opacity=".58"/>
+<line x1="1216" y1="831" x2="1216" y2="1019" stroke="#444d57" stroke-width="2"/>
+   <text x="1103" y="850" font-size="13" font-family="Segoe UI,Arial,sans-serif" fill="#aebbc4">FIELD RECOR</text>
+   <circle cx="1123" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <circle cx="1157" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <line x1="1121" y1="907" x2="1121" y2="998" stroke="#65717d" stroke-width="6" stroke-linecap="round"/>
+   <rect x="1109" y="930" width="24" height="10" rx="3" fill="#bdc6cf"/>
+   <rect x="1157" y="940" width="8" height="49" rx="3" fill="#7ea3a8" opacity=".9"/>
+   <rect x="1169" y="941" width="8" height="48" rx="3" fill="#84bfa3" opacity=".58"/>
+<line x1="1351" y1="831" x2="1351" y2="1019" stroke="#444d57" stroke-width="2"/>
+   <text x="1238" y="850" font-size="13" font-family="Segoe UI,Arial,sans-serif" fill="#aebbc4">TEXTURE</text>
+   <circle cx="1258" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <circle cx="1292" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <line x1="1256" y1="907" x2="1256" y2="998" stroke="#65717d" stroke-width="6" stroke-linecap="round"/>
+   <rect x="1244" y="937" width="24" height="10" rx="3" fill="#bdc6cf"/>
+   <rect x="1292" y="943" width="8" height="46" rx="3" fill="#a5a6b7" opacity=".9"/>
+   <rect x="1304" y="921" width="8" height="68" rx="3" fill="#84bfa3" opacity=".58"/>
+<line x1="1486" y1="831" x2="1486" y2="1019" stroke="#444d57" stroke-width="2"/>
+   <text x="1373" y="850" font-size="13" font-family="Segoe UI,Arial,sans-serif" fill="#aebbc4">BASS</text>
+   <circle cx="1393" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <circle cx="1427" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <line x1="1391" y1="907" x2="1391" y2="998" stroke="#65717d" stroke-width="6" stroke-linecap="round"/>
+   <rect x="1379" y="944" width="24" height="10" rx="3" fill="#bdc6cf"/>
+   <rect x="1427" y="946" width="8" height="43" rx="3" fill="#b1b38c" opacity=".9"/>
+   <rect x="1439" y="930" width="8" height="59" rx="3" fill="#84bfa3" opacity=".58"/>
+<line x1="1621" y1="831" x2="1621" y2="1019" stroke="#444d57" stroke-width="2"/>
+   <text x="1508" y="850" font-size="13" font-family="Segoe UI,Arial,sans-serif" fill="#aebbc4">FOLEY</text>
+   <circle cx="1528" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <circle cx="1562" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <line x1="1526" y1="907" x2="1526" y2="998" stroke="#65717d" stroke-width="6" stroke-linecap="round"/>
+   <rect x="1514" y="951" width="24" height="10" rx="3" fill="#bdc6cf"/>
+   <rect x="1562" y="924" width="8" height="65" rx="3" fill="#92a4a3" opacity=".9"/>
+   <rect x="1574" y="939" width="8" height="50" rx="3" fill="#84bfa3" opacity=".58"/>
+<line x1="1756" y1="831" x2="1756" y2="1019" stroke="#444d57" stroke-width="2"/>
+   <text x="1643" y="850" font-size="13" font-family="Segoe UI,Arial,sans-serif" fill="#aebbc4">MIX PRINT</text>
+   <circle cx="1663" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <circle cx="1697" cy="876" r="8" fill="#454f58" stroke="#727d87" stroke-width="2"/>
+   <line x1="1661" y1="907" x2="1661" y2="998" stroke="#65717d" stroke-width="6" stroke-linecap="round"/>
+   <rect x="1649" y="958" width="24" height="10" rx="3" fill="#bdc6cf"/>
+   <rect x="1697" y="927" width="8" height="62" rx="3" fill="#9cb9aa" opacity=".9"/>
+   <rect x="1709" y="919" width="8" height="70" rx="3" fill="#84bfa3" opacity=".58"/>
+<!-- Windows taskbar, a screen-wide horizontal baseline. -->
+      <rect x="0" y="1038" width="1920" height="42" fill="#151c22" stroke="#404853" stroke-width="1"/>
+      <g fill="#c2d1db">
+        <rect x="26" y="1051" width="10" height="10"/><rect x="39" y="1051" width="10" height="10"/>
+        <rect x="26" y="1064" width="10" height="10"/><rect x="39" y="1064" width="10" height="10"/>
+        <circle cx="97" cy="1062" r="11" fill="none" stroke="#c2d1db" stroke-width="2.5"/>
+        <path d="M105 1070l8 8" stroke="#c2d1db" stroke-width="2.5"/>
+        <rect x="151" y="1053" width="23" height="20" rx="3" fill="#64747f"/>
+        <rect x="196" y="1052" width="25" height="21" rx="4" fill="#86ad99"/>
+        <rect x="243" y="1051" width="24" height="22" rx="4" fill="#8879a9"/>
+      </g>
+      <text x="1814" y="1066" font-family="Segoe UI,Arial,sans-serif" font-size="14" fill="#c1cad3">16:28</text>
+      <text x="1865" y="1066" font-family="Segoe UI,Arial,sans-serif" font-size="14" fill="#9da9b2">ENG</text>
+      <!-- LUFFY's height is exactly 40 desktop pixels.
+           Its WIDTH is dynamically calculated in the Windows app using GDI text metrics,
+           selected readouts, and button sizes (MeterWindow.cs / ReadoutStrip.cs).
+           Approx. 310 px here represents typical default readouts at 11 px font, not a fixed application width.
+           At this 1920 x 1080 desktop scale it occupies about 3.7% of screen height. -->
+      <!-- A clearly visible coral pointer to LUFFY, using the True Peak warning color. -->
+      <g fill="none" stroke="#f16d64" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" opacity="1" pointer-events="none">
+        <path d="M1440 861 Q1512 880 1591 986"/>
+        <path d="M1564 973 L1591 986 L1581 956"/>
+      </g>
+      <g id="demo-luffy-meter" transform="translate(1598 994)" font-family="Segoe UI,Arial,sans-serif">
+        <rect x="0" y="0" width="310" height="40" rx="10" fill="#1f2126" stroke="#50565e" stroke-width="1.1"/>
+        <text x="155" y="11" text-anchor="middle" font-size="8" font-weight="700" fill="#aeb4bf">LUFFY v3.17</text>
+        <rect x="12" y="23" width="3" height="9" fill="#6edd9b"/><rect x="18" y="20" width="3" height="12" fill="#6edd9b"/>
+        <g font-size="11" font-weight="700" fill="#e6e7e5">
+          <text x="29" y="30" fill="#6edd9b">I −13.8</text>
+          <text x="82" y="30">S −18.7</text>
+          <text class="demo-normal" x="140" y="30">TP −2.8</text>
+          <text class="demo-peak" x="140" y="30" fill="#ff6e6e">TP −0.4</text>
+          <text x="213" y="30">1:58</text>
+        </g>
+        <g fill="none" stroke="#c7cfd5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M194 19a7 7 0 1 1-2 11 M187 27l1 5 5-1"/>
+          <path d="M252 20v13 M259 20v13" stroke-width="3"/>
+          <path d="M278 20a7 7 0 1 1-1.8 11 M273 29l0 4 4-1"/>
+          <circle cx="299" cy="26" r="5"/>
+        </g>
+      </g>
+      <!-- Only a True Peak warning highlights the *entire desktop perimeter*. -->
+      <rect id="demo-screen-warning" class="demo-peak" x="8" y="8" width="1904" height="1064" fill="none" stroke="#f16d64" stroke-width="15" pointer-events="none"/>
+    </svg>
+    <circle cx="380" cy="439" r="2" fill="#72777e"/>
+  </svg>
+  <figcaption><span>Illustrative 1920 × 1080 audio workspace. LUFFY is shown at approximately its real size; the True Peak warning surrounds the entire screen.</span><button id="demo-toggle" class="demo-toggle" type="button" aria-controls="peak-demo" aria-pressed="false" hidden>Pause animation</button></figcaption>
+</figure>
+          <figure class="hero-example">
+            <img src="assets/luffy-ableton-example.png" width="325" height="85" loading="lazy" decoding="async" alt="LUFFY v3.17 above the Ableton Live transport controls">
+            <figcaption>Place LUFFY anywhere you like — for example, above Ableton Live’s Control Bar.</figcaption>
+          </figure>
+        </div>
+      </section>
+      <section id="features" class="section" aria-labelledby="features-title">
+        <h2 id="features-title">What it measures</h2>
+        <dl class="measurements">
+          <div><dt>LUFS</dt><dd>Integrated and Short-term loudness, with targets you can adjust.</dd></div>
+          <div><dt>True Peak</dt><dd>A peak reading and an optional screen-edge warning when your chosen limit is exceeded.</dd></div>
+          <div><dt>Stereo peaks</dt><dd>Small L/R bars show the input channel peaks beside the loudness readings.</dd></div>
+          <div><dt>Audio source</dt><dd>Select a supported Windows input or output device. Direct ASIO capture isn't supported; a DAW may need an interface with loopback.</dd></div>
+        </dl>
+      </section>
+      <section id="setup" class="section setup-section" aria-labelledby="setup-title">
+        <h2 id="setup-title">Getting started</h2>
+        <p class="section-intro">LUFFY monitors a Windows audio device. It does not read audio straight from individual DAW tracks or FMOD events, and direct ASIO capture is not supported.</p>
+        <ol class="setup-steps">
+          <li><strong>Download and launch LUFFY.</strong> It runs as a standalone Windows x64 EXE; a separate .NET installation is not needed. The beta is unsigned, so Windows may warn about an unknown publisher.</li>
+          <li><strong>Choose the audio source.</strong> Open <span class="setting-path">Settings → Audio</span> (the small gear or double-click the meter) and select a supported Windows input or output device.</li>
+          <li><strong>Using ASIO in Ableton, FMOD or another DAW?</strong> If your DAW audio bypasses the Windows shared-audio path, use your audio interface's loopback feature or another supported routing method to expose that signal as a Windows device. LUFFY cannot capture ASIO directly.</li>
+          <li><strong>Check that the meter moves.</strong> Play audio, confirm the input level responds, then adjust your True Peak warning limit in <span class="setting-path">Settings → True Peak</span>.</li>
+          <li><strong>Capture only when needed.</strong> Peak Capture WAV and desktop screenshot recording are separate optional functions. Both are off by default; screenshots can contain private information from every connected monitor.</li>
+        </ol>
+        <p class="beta-note">For important deliveries, compare readings with a trusted reference meter. Full manual tests of v3.17 on different devices and audio configurations are still outstanding.</p>
+        <a class="text-link" href="docs/getting-started.md" target="_blank" rel="noopener noreferrer">Detailed setup and limitations ↗</a>
+      </section>
+      <section id="playback" class="section playback-section" aria-labelledby="playback-title">
+        <h2 id="playback-title">Peak Capture and playback</h2>
+        <p class="section-intro">If a peak needs a closer look, Peak Capture can save a WAV clip around it. Turn it on in Settings → True Peak. It's off by default.</p>
+        <figure class="player-figure"><img src="images/luffy-3.14-player.svg?v=2" width="1050" height="515" loading="lazy" alt="Illustration of the Peak Capture Player showing saved WAV clips, a waveform, playback controls and listening gain."><figcaption>Peak Capture Player in the 3.14 beta. Illustration with sample files and waveform.</figcaption></figure>
+        <div class="playback-copy"><p>The player lets you browse saved clips, seek in the waveform and choose an output. The trigger marker is approximate.</p><p>LUFFY measures the original WAV before listening gain. During built-in playback, your live measurement pauses. It resumes afterward with its history preserved; live audio during the preview is excluded.</p><p><strong>New in 3.17:</strong> Optional screenshots of the full desktop after True Peak crossings (off by default). These may include private content. WAV and screenshot capture each have their own switch and Recycle Bin cleanup action.</p></div>
+      </section>
+      <section class="download-section section" aria-labelledby="download-title">
+        <div><h2 id="download-title">Download the public beta (3.17)</h2><p>Run the EXE on 64-bit Windows. No separate .NET installation is needed.</p><p class="beta-note">The automated build passes, but the full manual audio and device tests are still outstanding. Keep your previous version available.</p></div>
+        <div class="panel-action"><a id="download-button-secondary" class="button is-unavailable" aria-disabled="true">Download LUFFY 3.17</a><span id="panel-version">LUFFY v3.17 beta · Windows x64</span></div>
+      </section>
+      <section id="updates" class="section updates-section" aria-labelledby="updates-title">
+        <h2 id="updates-title">Stay up to date</h2>
+        <p>LUFFY is still in beta. Future builds may fix compatibility issues or change how particular features work.</p>
+        <p>To receive release notifications, open the GitHub repository and choose <strong>Watch → Custom → Releases</strong> while signed into GitHub. You can also bookmark the release page. LUFFY itself has a <strong>Check for updates (GitHub Releases)</strong> shortcut in Settings; it opens the page but does not install updates automatically.</p>
+        <div class="quiet-links">
+          <a href="https://github.com/userewkrewljkel/luffy/releases" target="_blank" rel="noopener noreferrer">View all releases ↗</a>
+          <a href="https://github.com/userewkrewljkel/luffy" target="_blank" rel="noopener noreferrer">Watch the repository ↗</a>
+        </div>
+      </section>
+      <section id="questions" class="section" aria-labelledby="faq-title">
+        <h2 id="faq-title">A few notes</h2>
+        <div class="faq-list">
+          <details><summary>Windows shows an unknown publisher warning</summary><p>This beta is unsigned. Download the EXE only from the official GitHub release. A SHA-256 checksum is provided alongside it. The C# application source is maintained privately.</p></details>
+          <details><summary>Where are recordings saved?</summary><p>Peak Capture saves WAV files locally, by default in Music/LUFFY/Peak Captures. You can choose another folder in Settings. Preview gain doesn't change the saved audio.</p></details>
+          <details><summary>Can I use it for unattended monitoring?</summary><p>Built-in playback pauses live monitoring, so don't review clips during a measurement you need to keep continuous. This is a beta; check important readings against a trusted reference.</p></details>
+          <details><summary>What if something goes wrong?</summary><p>Keep your previous build so you can go back to it. <a href="https://github.com/userewkrewljkel/luffy/issues/new?template=bug_report.yml">Use the LUFFY bug report form</a> or email me with the version, Windows version, audio device and what happened. GitHub issues are public: do not upload sensitive audio or screenshots.</p></details>
+        </div>
+      </section>
+      <section id="privacy" class="section privacy-section" aria-labelledby="privacy-title">
+        <h2 id="privacy-title">Privacy and local files</h2>
+        <p class="section-intro">LUFFY has optional capture features. Know what they save before switching them on.</p>
+        <dl class="measurements privacy-details">
+          <div><dt>WAV clips</dt><dd>When enabled, Peak Capture saves audio from your selected Windows source locally (by default in <code>Music/LUFFY/Peak Captures</code>). Recordings may include other audio heard on that source.</dd></div>
+          <div><dt>Screenshots</dt><dd>When enabled, True Peak screenshots are saved locally (by default in <code>Pictures/LUFFY/Peak Screenshots</code>). They capture the full virtual desktop, including all connected displays, and may include private content.</dd></div>
+          <div><dt>Your choice</dt><dd>Both capture features are disabled by default and have separate switches. You can choose where recordings go and use the separate Recycle Bin cleanup actions in Settings.</dd></div>
+          <div><dt>This website</dt><dd>The LUFFY site has no added analytics scripts, advertising trackers or newsletter signup. It is hosted by GitHub Pages, which processes normal service traffic according to GitHub's own policies.</dd></div>
+          <div><dt>Bug reports</dt><dd>GitHub issues are public. Please remove private details before sharing logs, audio files or screenshots. For sensitive reports, <a href="mailto:contact@andreasbusk.com">contact me by email</a> instead.</dd></div>
+        </dl>
+      </section>
+      <section id="developer" class="section developer-section" aria-labelledby="developer-title">
+        <div class="developer-layout">
+          <img class="developer-photo" src="data:image/webp;base64,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" width="112" height="112" loading="lazy" alt="Andreas Busk outdoors playing a small string instrument">
+          <div class="developer-content">
+            <p class="developer-eyebrow">About the developer</p>
+            <h2 id="developer-title">Made by Andreas Busk</h2>
+            <p>I'm a Denmark-based game composer, sound designer and audio implementer. I built LUFFY as a small, practical tool for my own audio workflow.</p>
+            <p>My game credits include <em>Winter Burrow</em> and <em>Welcome to Elk</em>.</p>
+            <a class="developer-link" href="https://play.reelcrafter.com/andreasbusk/PortfolioFullReelLink" target="_blank" rel="noopener noreferrer">Listen to my full reel <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </section>
+      <section id="support" class="section contact-section" aria-labelledby="support-title">
+        <h2 id="support-title">Feedback</h2>
+        <p>If you try LUFFY, I'd like to hear how it works with your setup. For reproducible bugs, please <a href="https://github.com/userewkrewljkel/luffy/issues/new?template=bug_report.yml">use the structured bug report form</a>.</p>
+        <a href="mailto:contact@andreasbusk.com">contact@andreasbusk.com</a>
+        <a id="donation-button" class="button donation is-unavailable" aria-disabled="true">Support development</a><p id="donation-message" role="status" hidden></p>
+      </section>
+    </main>
+    <footer class="footer"><p>LUFFY by <a href="https://andreasbusk.com" target="_blank" rel="noopener noreferrer">Andreas Busk</a></p><span>© 2026</span></footer>
+  </div>
+</body>
+</html>
