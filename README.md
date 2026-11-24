@@ -3,7 +3,7 @@
 This repository is for the **public LUFFY website and executable distribution**, not the Windows application's source code.
 
 - Website: https://userewkrewljkel.github.io/luffy/ (after the public-repository migration)
-- Windows beta: https://github.com/userewkrewljkel/luffy-site/releases
+- Windows beta: https://github.com/userewkrewljkel/luffy/releases
 - Support: contact@andreasbusk.com
 
 The site is built with HTML, CSS, SVG and vanilla JavaScript.
